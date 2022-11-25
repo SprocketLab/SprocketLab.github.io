@@ -1,7 +1,7 @@
 ---
 title: 'Blog Post number 1'
 date: 2022-11-28
-permalink: /posts/2022/11/autows-bench-101/
+permalink: /posts/2022/11/ws-structured-prediction/
 tags:
   - Research
   - Weak Supervision
@@ -9,7 +9,7 @@ tags:
   - Diverse Tasks
 ---
 
-TEMPORARY PLACEHOLDER
+TEMPORARY PLACEHOLDER WS SP
 
 This is a sample blog post. Lorem ipsum I can't remember the rest of lorem ipsum and don't have an internet connection right now. Testing testing testing this blog post. Blog posts are cool.
 
