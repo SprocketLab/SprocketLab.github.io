@@ -33,17 +33,18 @@ First, our roadmap. We will
 # Aggregation Fundamentals
 Let's take the example in the figure above. We are performing a basic email classification task, where we want to categorize each message as spam or not. We repeatedly query the model by varying the prompt, obtaining a number of observations for each email.
 
-Borrowing from the language of weak supervision, we'll refer to each prompting approach as a labeling functions. These labeling functions are just estimates of the ground truth answer for whatever task we're interested in. What can we do with these? First, let's collect the outputs. These are arranged in a matrix as shown in figure \ref{fig:lf-outputs} below. The instances (examples) are the emails. Of course, the column for the ground truth label $Y$ is just a placeholder since we don't get to observe these. 
+Borrowing from the language of weak supervision, we'll refer to each prompting approach as a labeling functions. These labeling functions are just estimates of the ground truth answer for whatever task we're interested in. What can we do with these? First, let's collect the outputs. These are arranged in a matrix as shown in figure below. The instances (examples) are the emails. Of course, the column for the ground truth label $Y$ is just a placeholder since we don't get to observe these. 
 
 ![ This how the data points and LF outputs usually look. \label{fig:lf-outputs}](/images/blogposts/lifting-ws/ws-example-table.png "Data points and LF outputs.")
 
 After observing the outputs of labeling functions, **the goal of aggregeation is to estimate the ground truth label---and hopefully more accurately than any source (labeling function) by itself**! A naive but reasonable way to aggregate is to take the *majority vote* of the outputs for each point. This approach will work well when the LFs are independent and have similar qualities. However, some LFs could be more accurate and some more noisy. They might also be correlated. This can make majority vote less effective. 
 
-How can we model these possibilities? [Weak supervision approaches]([Ratner et al. 2016, ](https://dawn.cs.stanford.edu/pubs/snorkel-nips2016.pdf)[2018](https://arxiv.org/pdf/1810.02840.pdf)) often take the joint distribution of $Y,\lambda_1, \ldots \lambda_m$  as a probabilistic graphical model, such as the Ising model:
- $$P_{\theta}(\lambda_1,\lambda_2,\ldots \lambda_m,Y) = \frac{1}{Z}\exp \Big( \theta_Y Y + \sum_{i=1}^m \theta_i \lambda_i Y + \sum_{(i,j)\in E} \theta_{ij}\lambda_i \lambda_j \Big)$$
+How can we model these possibilities? [Weak supervision approaches](https://dawn.cs.stanford.edu/pubs/snorkel-nips2016.pdf) often take the joint distribution of $Y,\lambda_1, \ldots \lambda_m$  as a probabilistic graphical model, such as the Ising model:
+
+ $$ P_{\theta}(\lambda_1,\lambda_2,\ldots \lambda_m,Y) = \frac{1}{Z}\exp \Big( \theta_Y Y + \sum_{i=1}^m \theta_i \lambda_i Y + \sum_{(i,j)\in E} \theta_{ij}\lambda_i \lambda_j \Big) $$
 
 What does this do for us? First, we can now think of learning the accuracies and correlations described above as learning the parameters of this model. Note that unlike conventional learning for graphical models, we have a *latent* variable problem, as we do not observe $Y$. If we have learned these parameters, we can rely on the estimated model to infer the true labels. The resulting pipeline looks like.
-![Standard weak supervision pipeline \label{fig:std-ws-pipeline}](/images/blogposts/lifting-ws/ws-pipeline.png "Standard weak supervision pipeline")
+![Standard weak supervision pipeline \label{fig:lf-outputs}](/images/blogposts/lifting-ws/ws-pipeline.png "Standard weak supervision pipeline")
 
 The $\theta$ parameters above encode how accurate each of the labeling functions are, with a large $\theta_i$ indicating that the $i$th noisy estimate frequently agrees with $Y$, the ground truth. How do we estimate these? We'll need a few technical pieces from the graphical model literature. It turns out that we need only estimate the *mean parameters*---terms like $\mathbb{E}[\lambda_i Y]$ and  $\mathbb{E}[\lambda_i \lambda_j]$! The correlation terms  $\mathbb{E}[\lambda_i \lambda_j]$ do not involve $Y$. How can we learn these? As long as we know the structure (the edge set E), the rest is easy, since these terms are observed. 
 
@@ -60,19 +61,19 @@ This system of three equations can be solved analytically for $\mathbb{E}[\lambd
 $$|\mathbb{E}[\lambda_1 Y]| = \sqrt{\frac{\mathbb{E}[\lambda_1\lambda_2] \mathbb{E}[\lambda_3\lambda_1] }{\mathbb{E}[\lambda_2\lambda_3]}}, |\mathbb{E}[\lambda_2 Y] |= \sqrt{\frac{\mathbb{E}[\lambda_1\lambda_2] \mathbb{E}[\lambda_2\lambda_3] }{\mathbb{E}[\lambda_3\lambda_1]}}, |\mathbb{E}[\lambda_3 Y]| = \sqrt{\frac{\mathbb{E}[\lambda_2\lambda_3] \mathbb{E}[\lambda_3\lambda_1] }{\mathbb{E}[\lambda_1\lambda_2]}}$$ 
 This analytical solution is easy to obtain for the binary classification setting. All that is left is to figure out the signs of the above, in order to break symmetry. As long as our sources are better than random on average, this can be done. 
 
-This basic idea can also be extended easily to multi-class settings by solving multiple one vs rest binary classification problems. This method enjoys nice theoretical guarantees and works pretty well for classification settings especially when the number of classes is small---and when the model has special kinds of symmetry. More details about Flying Squid can be found in the [blog post]() and [paper](). 
+This basic idea can also be extended easily to multi-class settings by solving multiple one vs rest binary classification problems. This method enjoys nice theoretical guarantees and works pretty well for classification settings especially when the number of classes is small---and when the model has special kinds of symmetry. More details about Flying Squid can be found in the [blog post](https://hazyresearch.stanford.edu/blog/2020-02-28-flyingsquid) and [paper](https://arxiv.org/abs/2002.11955). 
 
 
 # Stronger Aggregation with Tensor Decomposition
 As we saw, the main challenge in WS is to estimate the accuracies $\theta_i$ of the labeling functions without having access to the ground truth. While approaches like FlyingSquid are simple and efficient, they make pretty strong assumptions. If we want to handle outputs that have high-cardinality or special structure, we may need a more powerful tool.
 
-[Tensor decompositions](https://arxiv.org/abs/1408.0553) are a great candidate for this---having already been used for learning many kinds of mixtures. Before we proceed, let's see how we can adapt this class of algorithms to our aggregation setting. 
+[Tensor decompositions](https://arxiv.org/abs/1408.0553) are a great candidate for this---having already been used for solving latent variable problems. Before we proceed, let's see how we can adapt this class of algorithms to our aggregation setting. 
 
 We will first discuss the classical multi-view mixture model learning using tensor decomposition and see that it works on-par with existing methods like Flying Squid when there are small number of classes and we use 1-hot encodings to represent them. We will see that this approach doesn't scale well when the labels live higher-cardinality scenarios with structure. To make tensor decomposition work in such general settings we first embed the labels in a special geometric space called pseudo-Euclidean and then perform tensor decomposition on these vectors. 
 
 ##  Multi-View Mixture and Tensor Decomposition
 We can think of the observed labeling functions outputs as the observations from a multi-view mixture model i.e., each LF $\lambda_a$ is a *view* of the true label $Y$. In a multi-view mixture model, multiple views $$\{\lambda_{a}\}_{a=1}^m$$ of a latent variable $Y$ are observed. These views are independent when conditioned on $Y$. 
-i.e. $\lambda_{a}|Y=y$ is conditionally independent of $\lambda_{b}|Y=y$ for all $a,b$ . This mixture model is depicted as a graphical model in the figure \ref{fig:mixture-model}.
+i.e. $\lambda_{a}|Y=y$ is conditionally independent of $\lambda_{b}|Y=y$ for all $a,b$ . This mixture model is depicted as a graphical model in the figure below.
 <img width="300" style="float:right" src="/images/blogposts/lifting-ws/multi-view-mixture-fig.png " />
 
 Now, suppose we have a cardinality $k$ problem (the true label $Y$ takes $k$ values). We use one-hot vector representations of the labels ( denoted in bold-face ). Let $$\mathbb{E}[{\mathbf{\lambda}}_a|Y=y] = {\mathbf{\mu}}_{ay}$$ denote the mean of $\mathbf{\lambda}_a$ conditioned on the true label $y$ (for all $a$ and $y$). Then it is easy to see the following for the tensor product (third order moment)  
@@ -110,7 +111,7 @@ Working directly with the discrete metric spaces is challenging---we can't use o
 
 We use a classical method called [Pseudo-Euclidean Embeddings (PSE)](https://en.wikipedia.org/wiki/Pseudo-Euclidean_space). It is itself a generalization of another classical method called [Multi-Dimensional Scaling(MDS)](https://en.wikipedia.org/wiki/Multidimensional_scaling). The main benefit of PSE over MDS is that it can isometrically embed metric spaces that cannot be isometrically embeddable in Euclidean space. 
    
-To understand the utility of PSE better, consider the following examples of two graphs below ( see figure \ref{fig:pse-examples}) and learning their node embeddings using MDS, PSE and 1-hot encoding. Clearly, 1-hot encoding is not a scalable solution as the embedding dimension will be the same as the number of nodes, which will quickly be prohibitively large. On the other hand, MDS gives low dimensional embeddings but cannot give isometric embeddings for general metric spaces. In the below example, the best the MDS can give is 2-D embeddings which have high distortion ( not isometric). 
+To understand the utility of PSE better, consider the following examples of two graphs in the below figure and learning their node embeddings using MDS, PSE and 1-hot encoding. Clearly, 1-hot encoding is not a scalable solution as the embedding dimension will be the same as the number of nodes, which will quickly be prohibitively large. On the other hand, MDS gives low dimensional embeddings but cannot give isometric embeddings for general metric spaces. In the below example, the best the MDS can give is 2-D embeddings which have high distortion ( not isometric). 
    In contrast, PSE gives 3-D embeddings with nearly 0 distortion (isometric). For the tree example we can also see that the dimension of PSE doesn't increase with more nodes.
 
 
@@ -146,9 +147,12 @@ While highly effective, they require access to high quality explanations (CoT) w
 
 ![ Expressions CoT. \label{fig:exp-cot}](/images/blogposts/lifting-ws/expressions-cot-2.jpg "Expressions CoT.")
 
+<img width="300" style="float:right" src="/images/blogposts/lifting-ws/bar_plot_with_error_bars.png " />
+ 
 Indeed, our method for WS on structured prediction can help here and we demonstrate its effectiveness with the help of an example for Chain of Thought reasoning. In particular, we consider the Game of 24 which is a complex reasoning puzzle with 4 numbers from 1 to 13 as input and the expected output is an expression using the given numbers and basic arithmetic operations (+,-,x,/) so that the expression evaluates to 24. Note that this task can be easily solved by enumerating all possible expressions and selecting the ones that evaluate to 24. However, we  are interested in solving this task using LLMs by providing it some in-context examples with chain of thought reasoning. Here the CoT steps could be an expression broken down into multiple steps. 
-We use the same 1362 puzzles as in paper \cite{ToT paper} and simulate 3 sources with different noise levels ( $\theta= [4,0.6,0.5]$ ) that can provide noisy expressions (CoTs). We then apply our procedure based on pseudo-euclidean embeddings and tensor decomposition to recover the true expressions. We observe that our method achieves accuracy around 60% outperforming the common baseline i.e. majority vote by about 20\% on multiple trials. 
-
+We use the same 1362 puzzles as in the [Tree of Thought paper](https://arxiv.org/abs/2305.10601)  and simulate 3 sources with different noise levels $\theta= [5,0.6,0.5]$ that can provide noisy expressions (CoTs). We then apply our procedure based on pseudo-euclidean embeddings and tensor decomposition to recover the true expressions and evaluate the recovered expressions for the correctness. We run this procedure 10 times with different random seeds and report the mean accuracies in the above bar chart. We can clearly see that our method based on tensor decompositions output performs a naive majority vote. 
+ 
+ 
 Although on a small scale setup, these findings are quite exciting and demonstrate the potential of weak supervision in structured predictions settings such as CoT, ToT, GoT reasoning with LLMs.   
 
 # Takeaways and Future Work
