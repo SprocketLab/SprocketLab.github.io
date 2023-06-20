@@ -33,7 +33,7 @@ Let's dive in!
 # Aggregation Fundamentals
 Let's take the example in the figure above. We are performing a basic email classification task, where we want to categorize each message as *spam* or *not spam*. We repeatedly query the model by varying the prompt, obtaining a number of observations for each email.
 
-We'll refer to each prompting approach as an **object source (OS)**. These sources are just estimates of the ground truth answer for whatever task we're interested in. What can we do with these? First, let's collect the outputs. These are arranged in a matrix as shown in figure \ref{fig:lf-outputs} below. The instances (examples) are the emails. Of course, the column for the ground truth label $Y$ is just a placeholder since we don't get to see it. 
+We'll refer to each prompting approach as an **object source (OS)**. These sources are just estimates of the ground truth answer for whatever task we're interested in. What can we do with these? First, let's collect the outputs. These are arranged in a matrix as shown in figure below. The instances (examples) are the emails. Of course, the column for the ground truth label $Y$ is just a placeholder since we don't get to see it. 
 
 ![ Example of data points and LF outputs. \label{fig:lf-outputs}](/images/blogposts/lifting-ws/ws-example-table.png "Data points and LF outputs.")
 
