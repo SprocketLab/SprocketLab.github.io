@@ -1,6 +1,6 @@
 ---
 title: 'Aggregating Foundation Model Objects'
-date: 2023-06-15
+date: 2023-06-26
 permalink: /posts/2023/06/lifting-ws/
 tags:
   - Language Models
@@ -9,9 +9,9 @@ tags:
   - Tensor Decomposition
   - Non-Euclidean ML
 excerpt: ''
-authors: "<a href=https://harit7.github.io/'>Harit Vishwakarma</a> and <a href='https://pages.cs.wisc.edu/~fredsala/'> Fred Sala </a>" 
+authors: "<a href='https://harit7.github.io/'>Harit Vishwakarma</a> and <a href='https://pages.cs.wisc.edu/~fredsala/'> Fred Sala </a>" 
 ---
-One exciting aspect of large pretrained 'foundation' models is that it is easy to obtain *multiple observations* by repeatedly querying. The most straightforward example is to obtain multiple answers to a question by varying the prompt, as shown below. Naturally, we'd like to **aggregate** these outputs in such a way that we obtain a better estimate of the ground truth than any single answer on its own. Ideally, this aggregation should  
+One exciting aspect of large pretrained 'foundation' models is that it is easy to obtain *multiple observations* by repeatedly querying. The most straightforward example is to obtain multiple answers to a question by varying the prompt, as shown below. These outputs could be noisy and naturally, we'd like to **aggregate** these outputs in such a way that we obtain a better estimate of the ground truth than any single answer on its own. Ideally, this aggregation should  
 * Take into account that some estimated objects are closer to the ground truth than others, i.e., are **more accurate, and upweight** these, 
 * Be fully unsupervised---so that we have no access to the ground truth and can be **fully zero-shot**, 
 * Work with **structured objects**---not just model outputs, but chains, trees, and other intermediate structures used in techniques like [chain-of-thought](https://arxiv.org/abs/2201.11903) (CoT) prompting and other reasoning approaches. 
@@ -39,7 +39,7 @@ We'll refer to each prompting approach as an **object source (OS)**. These sourc
 
 After observing the outputs of the sources, **the goal of aggregation is to estimate the ground truth object---and hopefully more accurately than any single source by itself**! A naive but reasonable first-cut way to aggregate is to take the *majority vote* of the outputs for each point. This approach will work well when the OSs are independent and have similar qualities. However, some OSs could be more accurate and some more noisy. They might also be correlated. This can make majority vote less effective. Imagine, for example, that one source is right 95% of the time, while the others are right only 51% of the time. Clearly aggregation will help, but we'd like to dramatically upweight the accurate source.
 
-How can we model these possibilities? [Weak supervision approaches](https://dawn.cs.stanford.edu/pubs/snorkel-nips2016.pdf) often take the joint distribution of $Y,\lambda_1, \ldots \lambda_m$ (the true object and the source outputs) to be a probabilistic graphical model, such as the Ising model:
+How can we model these possibilities? [Weak supervision approaches](https://dawn.cs.stanford.edu/pubs/snorkel-nips2016.pdf) often model the distribution of the unobserved ground truth $Y$ and source outputs $\lambda_1, \ldots \lambda_m$ as a probabilistic graphical model with parameters $\theta$, for example the Ising model:
 
  $$ P_{\theta}(\lambda_1,\lambda_2,\ldots \lambda_m,Y) = \frac{1}{Z}\exp \Big( \theta_Y Y + \sum_{i=1}^m \theta_i \lambda_i Y + \sum_{(i,j)\in E} \theta_{ij}\lambda_i \lambda_j \Big) $$
 
@@ -57,7 +57,7 @@ $$ \mathbb{E}[\lambda_2\lambda_3] = \mathbb{E}[\lambda_2 Y]\mathbb{E}[\lambda_3 
 
 $$ \mathbb{E}[\lambda_3\lambda_1] = \mathbb{E}[\lambda_3 Y]\mathbb{E}[\lambda_1 Y]$$
 
-This system of three equations can be solved directly for $\mathbb{E}[\lambda_i Y]$. 
+This system of three equations can be solved directly for $\mathbb{E}[\lambda_i Y]$ without observing $Y$, as follows. 
 $$|\mathbb{E}[\lambda_1 Y]| = \sqrt{\frac{\mathbb{E}[\lambda_1\lambda_2] \mathbb{E}[\lambda_3\lambda_1] }{\mathbb{E}[\lambda_2\lambda_3]}}, |\mathbb{E}[\lambda_2 Y] |= \sqrt{\frac{\mathbb{E}[\lambda_1\lambda_2] \mathbb{E}[\lambda_2\lambda_3] }{\mathbb{E}[\lambda_3\lambda_1]}}, |\mathbb{E}[\lambda_3 Y]| = \sqrt{\frac{\mathbb{E}[\lambda_2\lambda_3] \mathbb{E}[\lambda_3\lambda_1] }{\mathbb{E}[\lambda_1\lambda_2]}}$$ 
 This analytical solution is easy to obtain for the binary classification setting. All that is left is to figure out the signs of the above, in order to break symmetry. As long as our sources are better than random on average, this can be done. 
 
@@ -67,9 +67,9 @@ This basic idea can also be extended easily to multi-class settings by solving m
 
 
 # Aggregation with Tensor Decompositions
-As we saw, the main challenge in WS is to estimate the accuracies $\theta_i$ of the object sources without having access to the ground truth object. While approaches like FlyingSquid are simple and efficient, they make some strong assumptions. If we want to handle outputs that have high-cardinality or special structure, we may need a more powerful tool. [Tensor decompositions](https://arxiv.org/abs/1408.0553) are a great candidate for this---having already been used for learning many kinds of mixtures. Before we proceed, let's see how we can adapt this class of algorithms to our aggregation setting. 
+As we saw, the main challenge in WS is to estimate the accuracies $\theta_i$ of the object sources without having access to the ground truth object. While approaches like FlyingSquid are simple and efficient, they make some strong assumptions. If we want to handle outputs that have high-cardinality or special structure (e.g. parse trees, rankings, math expressions etc.), we may need a more powerful tool. [Tensor decompositions](https://arxiv.org/abs/1408.0553) are a great candidate for this---having already been used for learning many kinds of mixtures. Before we proceed, let's see how we can adapt this class of algorithms to our aggregation setting. 
 
-We'll start with some quick background on *classical multi-view mixture model learning*. Our first task is **to understand if it is suitable for aggregating more complicated foundation model objects**. As a first step, we ask if it works on par with existing methods for simple settings? If so, does it directly scale up to more challenging objects, such as those that take on many possible values?
+We'll start with some quick background on *classical multi-view mixture model learning*. Our first task is **to understand if it is suitable for aggregating more complicated foundation model objects**. As a first step, we ask if it works on par with existing methods for simple settings like binary classification? If so, does it directly scale up to more challenging objects, such as those that take on many possible values?
 
 We'll see that tensor methods are competitive for simple cases, but that this approach doesn't scale well when the objects live in higher-cardinality spaces with structure. To make it possible to use tensor decomposition approaches for such scenarios, we'll have to make some careful adjustments. 
 
@@ -77,23 +77,25 @@ We'll see that tensor methods are competitive for simple cases, but that this ap
 We can think of source outputs as observations from a multi-view mixture model i.e., each source $\lambda_a$ is a *view* of the true object $Y$. In a multi-view mixture model, multiple views $$\{\lambda_{a}\}_{a=1}^m$$ of a latent variable $Y$ are observed. These views are independent when conditioned on $Y$. 
 i.e. $\lambda_{a}\vert Y=y$ is conditionally independent of $\lambda_{b}\vert Y=y$ for all $a,b$. This mixture model is depicted as a graphical model in the below figure. <img width="250" style="float:right" src="/images/blogposts/lifting-ws/multi-view-mixture-fig.png " /> 
 
-Now, suppose we have a cardinality $k$ problem (the true object $Y$ takes $k$ values). We use *one-hot vector representations of the objects* ( denoted in bold-face ). Let $$\mathbb{E}[{\bf{\lambda}}_a|Y=y] = {\bf{\mu}}_{ay}$$ denote the mean of $$\bf{\lambda}_a$$ conditioned on the true object $y$ (for all $a$ and $y$). Then it is easy to see the following for the tensor product (third order moment) 
- of any three conditionally independent ${\bf{\lambda}}_a,{\bf{\lambda}}_b,{\bf{\lambda}}_c$,
+Now, suppose we have a cardinality $k$ problem (the true object $Y$ takes $k$ values). We use *one-hot vector representations of the objects* ( denoted in bold-face ). Let $$\mathbb{E}[{\boldsymbol{\lambda}}_a|Y=y] = {\boldsymbol{\mu}}_{ay}$$ denote the mean of $$\boldsymbol{\lambda}_a$$ conditioned on the true object $y$ (for all $a$ and $y$). Then it is easy to see the following for the tensor product (third order moment) 
+ of any three conditionally independent ${\boldsymbol{\lambda}}_a,{\boldsymbol{\lambda}}_b,{\boldsymbol{\lambda}}_c$,
 
-$$ {\bf{T}} = \mathbb{E}_{\lambda_a,\lambda_b,\lambda_c,y}[{\bf{\lambda}}_a \otimes {\bf{\lambda}}_b \otimes {\bf{\lambda}}_c] = \sum_{y\in[k]} w_y {\bf{\mu}}_{a,y} \otimes {\bf{\mu}}_{b,y} \otimes {\bf{\mu}}_{c,y} $$ 
+$$ {\bf{T}} = \mathbb{E}_{\lambda_a,\lambda_b,\lambda_c,y}[{\boldsymbol{\lambda}}_a \otimes {\boldsymbol{\lambda}}_b \otimes {\boldsymbol{\lambda}}_c] = \sum_{y\in[k]} w_y {\boldsymbol{\mu}}_{a,y} \otimes {\boldsymbol{\mu}}_{b,y} \otimes {\boldsymbol{\mu}}_{c,y} $$ 
 
  i.e. $\bf{T}$ can be written as a sum of $k$ rank-1 tensors Note that we do not know the true distribution of $\lambda,y$. Instead we have $n$ i.i.d. observations 
-$$\{ {\bf{\lambda}}_{a,i}\}_{a\in[m],i\in[n]}$$. Using these we can produce an empirical estimate of $\bf{T}$:
+$$\{ {\boldsymbol{\lambda}}_{a,i}\}_{a\in[m],i\in[n]}$$. Using these we can produce an empirical estimate of $\bf{T}$:
 
-$$ \hat{\bf{T}} =\hat{\mathbb{E}}[{\bf{\lambda}}_a \otimes {\bf{\lambda}}_b \otimes {\bf{\lambda}}_c] = \frac{1}{n}\sum_{i\in[n]}  {\bf{\lambda}}_{a,i} \otimes {\bf{\lambda}}_{b,i} \otimes {\bf{\lambda}}_{c,i} $$
+$$ \hat{\bf{T}} =\hat{\mathbb{E}}[{\boldsymbol{\lambda}}_a \otimes {\boldsymbol{\lambda}}_b \otimes {\boldsymbol{\lambda}}_c] = \frac{1}{n}\sum_{i\in[n]}  {\boldsymbol{\lambda}}_{a,i} \otimes {\boldsymbol{\lambda}}_{b,i} \otimes {\boldsymbol{\lambda}}_{c,i} $$
 
-Suppose $$\tilde{\bf{T}} = \sum_{y\in[k]} \hat{w}_y \hat{\bf{\mu}}_{a,y}\otimes \hat{\bf{\mu}}_{b,y} \otimes\hat{\bf{\mu}}_{c,y}$$ is a rank-k factorization of the empirical tensor $\hat{\bf{T}}$. If $\hat{\bf{T}}$ is a good approximation of the true tensor ${\bf{T}}$ and  $\tilde{\bf{T}}$ is a good approximation of $\hat{\bf{T}}$ then we have that $$\hat{\bf{\mu}}_{a,y}$$ is good approximation of the true mean parameters ${\bf{\mu}}_{a,y}$. 
+Suppose $$\tilde{\bf{T}} = \sum_{y\in[k]} \hat{w}_y \hat{\boldsymbol{\mu}}_{a,y}\otimes \hat{\boldsymbol{\mu}}_{b,y} \otimes\hat{\boldsymbol{\mu}}_{c,y}$$ is a rank-k factorization of the empirical tensor $\hat{\bf{T}}$. If $\hat{\bf{T}}$ is a good approximation of the true tensor ${\bf{T}}$ and  $\tilde{\bf{T}}$ is a good approximation of $\hat{\bf{T}}$ then we have that $$\hat{\boldsymbol{\mu}}_{a,y}$$ is good approximation of the true mean parameters ${\boldsymbol{\mu}}_{a,y}$. 
 This idea is developed in the fantastic [Anandkumar et al. 2012,](https://arxiv.org/abs/1210.7559)[ 2014]( https://arxiv.org/abs/1408.0553) and lots of follow-up work.
 
-Using the estimates $\hat{\bf{\mu}}_{a,y}$ we obtain estimates of our canonical $\theta$ parameters, and so we'll have the accuracies, just as with FlyingSquid or other weak supervision methods. We'll call this procedure the tensor aggregation model.
+Using the estimates $\hat{\boldsymbol{\mu}}_{a,y}$ we obtain estimates of our canonical $\theta$ parameters, and so we'll have the accuracies, just as with FlyingSquid or other weak supervision methods. We'll call this procedure the tensor aggregation model.
 
 ## Tensor Aggregation Model is Competitive in Basic Settings... But We Need More
 The big question---how well does this work? We run a simple experiment on simulated sources to show that this method is competitive. For this we simulate three object sources outputting multiclass values with $\theta=[4,0.5,0.5]$. We run tensor aggregation on the 1-hot encodings of the outputs and **compare the accuracy of the aggregated object** against FlyingSquid and majority vote baselines. The results are shown in figure below (averaged over 100 trials). Tensor aggregation offers competitive performance but due to the use of 1-hot encodings---leading to high dimensionality---its performance also degrades when we increase the cardinality of the object space.
+
+<img width="400" style="float:right" src="/images/blogposts/lifting-ws/figure_mean_acc_cg_all.jpg" /> 
 
 Note that we used the simplest one-versus-all approach to multiclass FlyingSquid. There are much more powerful variants that would likely out-compete (as is the case for binary)---but for simplicity, we won't include all of these. 
 
@@ -130,15 +132,13 @@ How do these pseudo-Euclidean spaces work? Basically, their metrics are no longe
 Let's see some technical details: a vector ${\bf{u}}$ in a pseudo-Euclidean space $\mathbb{R}^{d^+,d^-}$ has two parts: ${\bf{u}}^+ \in \mathbb{R}^{d^+}$ and ${\bf{u}}^- \in \mathbb{R}^{d^-}$. The dot product and the squared distance between any two vectors ${\bf{u}},{\bf{v}}$ are $\langle {\bf{u}}, {\bf{v}}\rangle_{\phi} = \langle {\bf{u}}^+,{\bf{v}}^+ \rangle - \langle {\bf{u}}^-,{\bf{v}}^- \rangle$ and $d^2_{\phi}({\bf{u}},{\bf{v}}) = \lVert{\bf{u}}^{+}-{\bf{v}}^{+}\rVert_2^2 - \lVert {\bf{u}}^{-}-{\bf{v}}^{-}\rVert_2^2$.  These properties enable isometric embeddings: the distance can be decomposed into two components that are individually induced from p.s.d. inner products---and can thus be embedded via MDS. Indeed, pseudo-Euclidean embeddings effectively run MDS for each component. To recover the original distance, we obtain $\lVert {\bf{u}}^{+}-{\bf{v}}^{+}\rVert_2^2$ and $\lVert{\bf{u}}^{-}-{\bf{v}}^{-}\rVert_2^2$ and subtract. More details on these embeddings can be found in a  [classic treatise](https://www.researchgate.net/publication/233408916_A_new_approach_to_pattern_recognition).
 
 ## Upgrading Structured Aggregation with PSE
-Armed with the powerful PSE technique, we first obtain isometric representations of the objects in a PSE space and solve the parameter estimation problem using tensor decomposition. The original tensor decomposition algorithm was designed for Euclidean vectors so we cannot apply it off-the-shelf for PSE points. We overcome this issue by using the fact that the two parts of any vector in PSE are individually in Euclidean spaces $\mathbb{R}^{d^+},\mathbb{R}^{d-}$ . This allows us to treat the positive and negative components $${\bf{\lambda}}_{a}^+ \in \mathbb{R}^{d^+}$$ and $${\bf{\lambda}}_{a}^{-} \in \mathbb{R}^{d^-}$$ of our pseudo-Euclidean embedding as separate multi-view mixtures. We apply tensor decomposition on them separately, which gives us mean parameters $$\hat{\bf{\mu}}^+_{a,y}$$ and  $$\hat{\bf{\mu}}^-_{a,y}$$ for each $a,y$. Using these we obtain our estimates of the canonical parameters $$\hat{\bf{\theta}}$$.    
+Armed with the powerful PSE technique, we first obtain isometric representations of the objects in a PSE space and solve the parameter estimation problem using tensor decomposition. The original tensor decomposition algorithm was designed for Euclidean vectors so we cannot apply it off-the-shelf for PSE points. We overcome this issue by using the fact that the two parts of any vector in PSE are individually in Euclidean spaces $\mathbb{R}^{d^+},\mathbb{R}^{d-}$ . This allows us to treat the positive and negative components $${\boldsymbol{\lambda}}_{a}^+ \in \mathbb{R}^{d^+}$$ and $${\boldsymbol{\lambda}}_{a}^{-} \in \mathbb{R}^{d^-}$$ of our pseudo-Euclidean embedding as separate multi-view mixtures. We apply tensor decomposition on them separately, which gives us mean parameters $$\hat{\boldsymbol{\mu}}^+_{a,y}$$ and  $$\hat{\boldsymbol{\mu}}^-_{a,y}$$ for each $a,y$. Using these we obtain our estimates of the canonical parameters $$\hat{\bf{\theta}}$$.    
 
+<img width="400" style="float:right" src="/images/blogposts/lifting-ws/figure_mean_acc_tree_all.png" /> 
 With this adaptation, we retain the nice theoretical guarantees of tensor decomposition for parameter recovery while working with any finite metric space. We can also see the benefit of our approach on a simple synthetic data experiment on the tree metric we saw earlier. In this experiment, we simulate three sources on the tree metric with three branches with $b$ number of nodes in each branch. We use $\theta=[4,0.5,0.5]$ i.e. first source is highly accurate and the other two are somewhat noisy. We run two variations of our method one with PSE embeddings and the other with 1-hot embeddings of the labels. We keep the number of samples $n=1000$ fixed and vary the number nodes $b$ to increase the cardinality of the label space. The results can be seen in figure below. 
 
 As expected, **using PSE embeddings we can achieve much better accuracy of the aggregated objects** and unlike other methods this performance **does not degrade with higher cardinality**, as this metric space is isometrically embeddable in 3-dimensional PSE space.
 
-![](/images/blogposts/lifting-ws/figure_mean_acc_cg_all.jpg)  |  ![](/images/blogposts/lifting-ws/figure_mean_acc_tree_all.png)
-: ------------------------- : | : ------------------------- :
-Performance with 0-1 metric   |   Performance on Tree Space
 
 <!--- 
 ![  Mean accuracies of methods when the label space is the tree in figure \ref{fig:pse-examples} \label{fig:mean_acc_pse}](/images/blogposts/lifting-ws/figure_mean_acc_tree_all.png){width=250}
