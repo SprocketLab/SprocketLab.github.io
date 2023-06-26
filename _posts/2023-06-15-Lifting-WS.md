@@ -44,6 +44,7 @@ How can we model these possibilities? [Weak supervision approaches](https://dawn
  $$ P_{\theta}(\lambda_1,\lambda_2,\ldots \lambda_m,Y) = \frac{1}{Z}\exp \Big( \theta_Y Y + \sum_{i=1}^m \theta_i \lambda_i Y + \sum_{(i,j)\in E} \theta_{ij}\lambda_i \lambda_j \Big) $$
 
 What does this do for us? First, we can now think of learning the accuracies and correlations described above as learning the parameters of this model. These are the $\theta$'s, also known as [canonical parameters in the PGM literature](https://people.eecs.berkeley.edu/~wainwrig/Papers/WaiJor08_FTML.pdf). Note that unlike conventional learning for graphical models, we have a *latent* variable problem, as we do not observe $Y$. If we have learned these parameters, we can rely on the estimated model to perform aggregations. The resulting pipeline looks like:
+
 ![Standard weak supervision pipeline \label{fig:std-ws-pipeline}](/images/blogposts/lifting-ws/ws-pipeline.png "Standard weak supervision pipeline")
 
 The $\theta$ parameters above encode how accurate each of the OSes are, with a large $\theta_i$ indicating that the $i$th noisy estimate frequently agrees with $Y$, the ground truth. How do we estimate these? We'll need a few technical pieces from the graphical model literature. It turns out that we need only estimate the *mean parameters*---terms like $\mathbb{E}[\lambda_i Y]$ and  $\mathbb{E}[\lambda_i \lambda_j]$! Note that the correlation terms  $\mathbb{E}[\lambda_i \lambda_j]$ do not involve $Y$ --- so that as long as we know the structure (the edge set E), the rest is easy, since these terms are observed. 
@@ -82,7 +83,7 @@ Now, suppose we have a cardinality $k$ problem (the true object $Y$ takes $k$ va
 
 $$ {\bf{T}} = \mathbb{E}_{\lambda_a,\lambda_b,\lambda_c,y}[{\boldsymbol{\lambda}}_a \otimes {\boldsymbol{\lambda}}_b \otimes {\boldsymbol{\lambda}}_c] = \sum_{y\in[k]} w_y {\boldsymbol{\mu}}_{a,y} \otimes {\boldsymbol{\mu}}_{b,y} \otimes {\boldsymbol{\mu}}_{c,y} $$ 
 
- i.e. $\bf{T}$ can be written as a sum of $k$ rank-1 tensors Note that we do not know the true distribution of $\lambda,y$. Instead we have $n$ i.i.d. observations 
+ i.e. $\bf{T}$ can be written as a sum of $k$ rank-1 tensors. Here $w_y \in [0,1]$ are the prior probabilities of label $Y=y$. Note that we do not know the true distribution of $\lambda,y$. Instead we have $n$ i.i.d. observations 
 $$\{ {\boldsymbol{\lambda}}_{a,i}\}_{a\in[m],i\in[n]}$$. Using these we can produce an empirical estimate of $\bf{T}$:
 
 $$ \hat{\bf{T}} =\hat{\mathbb{E}}[{\boldsymbol{\lambda}}_a \otimes {\boldsymbol{\lambda}}_b \otimes {\boldsymbol{\lambda}}_c] = \frac{1}{n}\sum_{i\in[n]}  {\boldsymbol{\lambda}}_{a,i} \otimes {\boldsymbol{\lambda}}_{b,i} \otimes {\boldsymbol{\lambda}}_{c,i} $$
