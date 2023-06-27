@@ -150,6 +150,8 @@ This aggregation approach is quite general and can be applied in any setting whe
 
 We'll show off its potential in a toy CoT example. We consider in-context learning for language models. The in-context examples typically consist of paired input and output data, which effectively guide LLMs in comprehending the task at hand and generating accurate predictions. Recent advancements in this area have shed light on the effectiveness of prompts that incorporate explicit steps known as Chain of Thoughts (CoT). These step-by-step instructions facilitate LLMs in making precise predictions while providing detailed reasoning steps. Building upon this concept, more nuanced variations such as Tree of Thought (ToT) and Graph of Thought (GoT) have emerged. These expanded frameworks have demonstrated impressive efficacy when tackling complex reasoning problems with LLMs.
 
+![ Expressions CoT. \label{fig:exp-cot}](/images/blogposts/lifting-ws/expressions-cot-2.jpg "Expressions CoT.")
+
 While highly effective, they require access to high quality explanations which can be a bottleneck in broad applicability of these methods. Nevertheless, one can always come up with many self-obtained, or heuristic, or otherwise inexpensive sources that can provide potentially noisy reasoning steps. How can we use these to construct accurate chains or trees or graphs of thoughts? 
 
 <img width="300" style="float:right" src="/images/blogposts/lifting-ws/bar_plot_with_error_bars.png " />
