@@ -17,14 +17,14 @@ author_profile: true
   </div>
 
   <div class="person-card">
-    <img src="/images/lab_members/default.jpg" alt="Nick Roberts" onerror="this.src='/images/lab_members/default.jpg'">
+    <img src="/images/lab_members/default.png" alt="Nick Roberts" onerror="this.src='/images/lab_members/default.png'">
     <h3><a href="https://nick11roberts.github.io/">Nick Roberts</a></h3>
     <p class="position">PhD Student</p>
     <p class="research-interests">Research Interests: Machine Learning</p>
   </div>
   
   <div class="person-card">
-    <img src="/images/lab_members/default.jpg" alt="Harit Vishwakarma" onerror="this.src='/images/lab_members/default.jpg'">
+    <img src="/images/lab_members/default.png" alt="Harit Vishwakarma" onerror="this.src='/images/lab_members/default.png'">
     <h3><a href="https://harit7.github.io/">Harit Vishwakarma</a></h3>
     <p class="position">PhD Student</p>
     <p class="research-interests">Research Interests: Machine Learning</p>
@@ -59,7 +59,7 @@ author_profile: true
   </div>
   
   <div class="person-card">
-    <img src="/images/lab_members/default.jpg" alt="Jitian Zhao" onerror="this.src='/images/lab_members/default.jpg'">
+    <img src="/images/lab_members/default.png" alt="Jitian Zhao" onerror="this.src='/images/lab_members/default.png'">
     <h3><a href="https://jzhao326.github.io/">Jitian Zhao</a></h3>
     <p class="position">PhD Student</p>
     <p class="research-interests">Research Interests: Machine Learning</p>
@@ -80,12 +80,18 @@ author_profile: true
   </div>
 
   <div class="person-card">
-    <img src="/images/lab_members/default.jpg" alt="Albert Ge" onerror="this.src='/images/lab_members/default.jpg'">
+    <img src="/images/lab_members/default.png" alt="Albert Ge" onerror="this.src='/images/lab_members/default.png'">
     <h3><a href="https://www.albertge.com/">Albert Ge</a></h3>
     <p class="position">PhD Student</p>
     <p class="research-interests">Research Interests: Machine Learning</p>
   </div>
 
+  <div class="person-card">
+    <img src="/images/lab_members/default.png" alt="Samuel Guo" onerror="this.src='/images/lab_members/default.png'">
+    <h3><a href="https://www.linkedin.com/in/samuel-guo-03570b148/">Samuel Guo</a></h3>
+    <p class="position">PhD Student</p>
+    <p class="research-interests">Research Interests: Machine Learning</p>
+  </div>
 </div>
 
 <style>
@@ -112,6 +118,7 @@ author_profile: true
   width: 100%;
   height: 250px;
   object-fit: cover;
+  object-position: top; /* This ensures images display from the top */
 }
 
 .person-card h3 {
