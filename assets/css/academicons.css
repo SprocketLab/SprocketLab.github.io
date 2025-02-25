@@ -251,7 +251,7 @@
 .ai-border {
   padding: .2em .25em .15em;
   border: solid 0.08em #eeeeee;
-  border-radius: .1em;
+  border-radius: 0em;
 }
 .ai-pull-left {
   float: left;
@@ -311,7 +311,7 @@
 .fa-border {
   padding: .2em .25em .15em;
   border: solid 0.08em #eeeeee;
-  border-radius: .1em;
+  border-radius: 0em;
 }
 .fa-pull-left {
   float: left;
