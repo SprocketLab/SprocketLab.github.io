@@ -102,11 +102,42 @@ author_profile: true
 
   <div class="person-card">
     <img src="/images/lab_members/default.png" alt="Gabe Orlanski" onerror="this.src='/images/lab_members/default.png'">
-    <h3><a href="https://sc782.github.io/">Gabe Orlanski</a></h3>
+    <h3><a href="https://sprocketlab.github.io/">Gabe Orlanski</a></h3>
+    <p class="position">PhD Student</p>
+    <p class="research-interests">Research Interests: Machine Learning</p>
+  </div>
+
+  <div class="person-card">
+    <img src="/images/lab_members/default.png" alt="Gabe Orlanski" onerror="this.src='/images/lab_members/default.png'">
+    <h3><a href="https://gabeorlanski.github.io/">Gabe Orlanski</a></h3>
+    <p class="position">PhD Student</p>
+    <p class="research-interests">Research Interests: Machine Learning</p>
+  </div>
+
+  <div class="person-card">
+    <img src="/images/lab_members/default.png" alt="Jiayu (Mila Wang)" onerror="this.src='/images/lab_members/default.png'">
+    <h3><a href="https://jiayuww.github.io/">Jiayu (Mila Wang)</a></h3>
     <p class="position">PhD Student</p>
     <p class="research-interests">Research Interests: Machine Learning</p>
   </div>
 </div>
+
+<div class="person-card">
+    <img src="/images/lab_members/default.png" alt="John Cooper" onerror="this.src='/images/lab_members/default.png'">
+    <h3><a href="https://www.linkedin.com/in/john-cooper-99a348213/">John Cooper</a></h3>
+    <p class="position">PhD Student</p>
+    <p class="research-interests">Research Interests: Machine Learning</p>
+  </div>
+</div>
+
+<div class="person-card">
+    <img src="/images/lab_members/default.png" alt="Kendall Park" onerror="this.src='/images/lab_members/default.png'">
+    <h3><a href="https://www.linkedin.com/in/kendallpark/">Kendall Park</a></h3>
+    <p class="position">PhD Student</p>
+    <p class="research-interests">Research Interests: Machine Learning</p>
+  </div>
+</div>
+
 
 <style>
 .people-container {
