@@ -17,10 +17,10 @@ author_profile: true
   </div>
 
   <div class="person-card">
-    <img src="/images/lab_members/default.png" alt="Nick Roberts" onerror="this.src='/images/lab_members/default.png'">
+    <img src="/images/lab_members/nick.png" alt="Nick Roberts" onerror="this.src='/images/lab_members/nick.png'">
     <h3><a href="https://nick11roberts.github.io/">Nick Roberts</a></h3>
     <p class="position">PhD Student</p>
-    <p class="research-interests">Research Interests: Machine Learning</p>
+    <p class="research-interests">Research Interests: Scaling lLws</p>
   </div>
   
   <div class="person-card">
@@ -34,49 +34,49 @@ author_profile: true
     <img src="/images/lab_members/dyah.jpg" alt="Dyah Adila" onerror="this.src='/images/lab_members/dyah.jpg'">
     <h3><a href="https://dyahadila.github.io/">Dyah Adila</a></h3>
     <p class="position">PhD Student</p>
-    <p class="research-interests">Research Interests: Foundation Model adaptation, inference-time algorithms</p>
+    <p class="research-interests">Research Interests: Foundation Model Adaptation; Reasoning</p>
   </div>
   
   <div class="person-card">
     <img src="/images/lab_members/sonia.jpeg" alt="Sonia Cromp" onerror="this.src='/images/lab_members/sonia.jpeg'">
     <h3><a href="https://socromp.github.io/">Sonia Cromp</a></h3>
     <p class="position">PhD Student</p>
-    <p class="research-interests">Research Interests: Machine Learning</p>
+    <p class="research-interests">Research Interests: Foundation Models for Scientific, Structured and Low-data Regimes</p>
   </div>
   
   <div class="person-card">
     <img src="/images/lab_members/brian.jpg" alt="Brian Huang" onerror="this.src='/images/lab_members/brian.jpg'">
     <h3><a href="https://zihengh1.github.io/">Brian Huang</a></h3>
     <p class="position">PhD Student</p>
-    <p class="research-interests">Research Interests: Machine Learning</p>
+    <p class="research-interests">Research Interests: Data-centric AI; Multimodal Models </p>
   </div>
   
   <div class="person-card">
     <img src="/images/lab_members/cshin.jpg" alt="Changho Shin" onerror="this.src='/images/lab_members/cshin.jpg'">
     <h3><a href="https://ch-shin.github.io/">Changho Shin</a></h3>
     <p class="position">PhD Student</p>
-    <p class="research-interests">Research Interests: Machine Learning</p>
+    <p class="research-interests">Research Interests: Data-centric AI</p>
   </div>
   
   <div class="person-card">
-    <img src="/images/lab_members/default.png" alt="Jitian Zhao" onerror="this.src='/images/lab_members/default.png'">
+    <img src="/images/lab_members/default.png" alt="Jitian Zhao" onerror="this.src='/images/lab_members/jitian.jpg'">
     <h3><a href="https://jzhao326.github.io/">Jitian Zhao</a></h3>
     <p class="position">PhD Student</p>
-    <p class="research-interests">Research Interests: Machine Learning</p>
+    <p class="research-interests">Research Interests: Social Network Analysis; LLM</p>
   </div>
 
   <div class="person-card">
     <img src="/images/lab_members/avi.jpg" alt="Avi Trost" onerror="this.src='/images/lab_members/avi.jpg'">
-    <h3><a href="https://scholar.google.com/citations?user=exZPwQoAAAAJ&hl=en">Avi Trost</a></h3>
+    <h3><a href="https://avitrost.github.io/">Avi Trost</a></h3>
     <p class="position">PhD Student</p>
-    <p class="research-interests">Research Interests: Machine Learning</p>
+    <p class="research-interests">Research Interests: Synthetic Data; Data-centric ML; Reasoning</p>
   </div>
 
   <div class="person-card">
     <img src="/images/lab_members/zhiqi.jpg" alt="Zhiqi Gao" onerror="this.src='/images/lab_members/zhiqi.png'">
     <h3><a href="https://zhiqigao2001.github.io/">Zhiqi Gao</a></h3>
     <p class="position">PhD Student</p>
-    <p class="research-interests">Research Interests: Machine Learning</p>
+    <p class="research-interests">Research Interests: Foundation Model Interpretability; Reasoning</p>
   </div>
 
   <div class="person-card">
@@ -87,10 +87,17 @@ author_profile: true
   </div>
 
   <div class="person-card">
-    <img src="/images/lab_members/default.png" alt="Samuel Guo" onerror="this.src='/images/lab_members/default.png'">
+    <img src="/images/lab_members/sam.jpeg" alt="Samuel Guo" onerror="this.src='/images/lab_members/sam.jpeg'">
     <h3><a href="https://www.linkedin.com/in/samuel-guo-03570b148/">Samuel Guo</a></h3>
     <p class="position">PhD Student</p>
-    <p class="research-interests">Research Interests: Machine Learning</p>
+    <p class="research-interests">Research Interests: Neural Architecture Search; Hybrid Models</p>
+  </div>
+
+  <div class="person-card">
+    <img src="/images/lab_members/june.jpeg" alt="June Cho" onerror="this.src='/images/lab_members/june.jpeg'">
+    <h3><a href="https://sc782.github.io/">Samuel Guo</a></h3>
+    <p class="position">PhD Student</p>
+    <p class="research-interests">Research Interests: Machine (Un)learning; Time-Series Forecasting; Geometric Deep Learning</p>
   </div>
 </div>
 
