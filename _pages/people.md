@@ -1,4 +1,4 @@
----
+ß---
 permalink: /people/
 title: "People"
 excerpt: "Sprocket Lab Team Members"
