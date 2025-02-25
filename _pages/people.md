@@ -1,4 +1,4 @@
-ß---
+---
 permalink: /people/
 title: "People"
 excerpt: "Sprocket Lab Team Members"
@@ -24,10 +24,10 @@ author_profile: true
   </div>
   
   <div class="person-card">
-    <img src="/images/lab_members/default.png" alt="Harit Vishwakarma" onerror="this.src='/images/lab_members/default.png'">
+    <img src="/images/lab_members/harit.jpg" alt="Harit Vishwakarma" onerror="this.src='/images/lab_members/harit.jpg'">
     <h3><a href="https://harit7.github.io/">Harit Vishwakarma</a></h3>
     <p class="position">PhD Student</p>
-    <p class="research-interests">Research Interests: Machine Learning</p>
+    <p class="research-interests">Research Interests: Data-efficient Learning; Uncertainty and Safety.</p>
   </div>
   
   <div class="person-card">
