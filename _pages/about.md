@@ -15,51 +15,41 @@ Welcome to Sprocket Lab!
 <div class="research-topics-grid">
   <div class="research-topic-card">
     <div class="research-topic-image">
-      <img src="/images/research-causality.jpg" alt="Causality Research" onerror="this.src='/images/sprocket-logo.png'">
+      <img src="/images/research-causality.jpg" alt="Data-centric AI" onerror="this.src='/images/sprocket-logo.png'">
     </div>
-    <h3><a href="/research/causality">Causality</a></h3>
+    <h3><a href="/research/causality">Data-centric AI</a></h3>
   </div>
   
   <div class="research-topic-card">
     <div class="research-topic-image">
-      <img src="/images/research-deep-learning.jpg" alt="Deep Learning Research" onerror="this.src='/images/sprocket-logo.png'">
+      <img src="/images/research-deep-learning.jpg" alt="Data- and Compute- Efficient Foundation Models" onerror="this.src='/images/profile.png'">
     </div>
-    <h3><a href="/research/deep-learning">Deep Learning</a></h3>
+    <h3><a href="/research/deep-learning">Data- and Compute- Efficient Foundation Models</a></h3>
   </div>
   
   <div class="research-topic-card">
     <div class="research-topic-image">
-      <img src="/images/research-fairness.jpg" alt="Fairness/Accountability Research" onerror="this.src='/images/sprocket-logo.png'">
+      <img src="/images/research-fairness.jpg" alt="Data-Efficient Learning" onerror="this.src='/images/profile.png'">
     </div>
-    <h3><a href="/research/fairness">Fairness/Accountability</a></h3>
+    <h3><a href="/research/fairness">Data-Efficient Learning</a></h3>
   </div>
   
   <div class="research-topic-card">
     <div class="research-topic-image">
-      <img src="/images/research-healthcare.jpg" alt="Healthcare Research" onerror="this.src='/images/sprocket-logo.png'">
+      <img src="/images/research-healthcare.jpg" alt="Weak Supervision" onerror="this.src='/images/profile.png'">
     </div>
-    <h3><a href="/research/healthcare">Healthcare</a></h3>
+    <h3><a href="/research/healthcare">Weak Supervision</a></h3>
   </div>
-  
-  <div class="research-topic-card">
-    <div class="research-topic-image">
-      <img src="/images/research-nlp.jpg" alt="Natural Language Processing Research" onerror="this.src='/images/sprocket-logo.png'">
-    </div>
-    <h3><a href="/research/nlp">Natural Language Processing</a></h3>
-  </div>
-  
-  <div class="research-topic-card">
-    <div class="research-topic-image">
-      <img src="/images/research-robustness.jpg" alt="Robustness Research" onerror="this.src='/images/sprocket-logo.png'">
-    </div>
-    <h3><a href="/research/robustness">Robustness</a></h3>
-  </div>
-</div>
 
 # News
-- **February 2025**: New paper on robust learning accepted at ICML 2025
-- **January 2025**: Sprocket Lab welcomes two new PhD students
-- **December 2024**: Dr. Sala gives invited talk at the ML Symposium
+- **February 2025**: New papers accepted to start the year!
+  - ICLR 2025: Changho and John explain how [weak-to-strong generalization works](https://arxiv.org/pdf/2412.03881?)---and how to do more of it!
+  - NAACL 2025: Jane, Dyah, and Changho introduced an ultra-efficient way to personalize language models.
+- **December 2024**: Four new papers accepted at NeurIPS 2024!
+  - Brian, Cathy, and Vaishnavi show how to get rid of the LLM in LLM-based annotation. How? [Distill LLMs into programs](https://arxiv.org/pdf/2407.11004) (spotlight)!
+  - Harit gets a huge boost in auto-labeling by [learning confidence functions](https://arxiv.org/pdf/2404.16188).
+  - Changho, Jitian, and Sonia show how to [adjust zero-shot model predictions quickly and easily](https://arxiv.org/pdf/2404.08461)
+  - Chris and Jack introduce a new benchmark showcasing [how valueable weak supervision can be](https://arxiv.org/pdf/2501.07727)
 
 # How to Join
 Interested in joining our lab as a UW-Madison undergraduate? Please complete our [application form](https://forms.gle/8dxCSvtiBYdB3EGDA). We'll contact promising candidates directly when opportunities align with your background and interests. Note: We strongly recommend using the form rather than email, as email inquiries may go unnoticed due to high volume.
@@ -67,7 +57,7 @@ Interested in joining our lab as a UW-Madison undergraduate? Please complete our
 <style>
 .research-topics-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(3, 1fr); /* Exactly 3 columns */
   gap: 20px;
   margin: 30px 0;
 }
@@ -109,5 +99,18 @@ Interested in joining our lab as a UW-Madison undergraduate? Please complete our
 
 .research-topic-card h3 a:hover {
   text-decoration: underline;
+}
+
+/* Make sure it's responsive on smaller screens */
+@media (max-width: 900px) {
+  .research-topics-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
+  }
+}
+
+@media (max-width: 600px) {
+  .research-topics-grid {
+    grid-template-columns: 1fr; /* 1 column on small screens */
+  }
 }
 </style>
