@@ -20,7 +20,7 @@ author_profile: true
     <img src="/images/lab_members/nick.png" alt="Nick Roberts" onerror="this.src='/images/lab_members/nick.png'">
     <h3><a href="https://nick11roberts.github.io/">Nick Roberts</a></h3>
     <p class="position">PhD Student</p>
-    <p class="research-interests">Research Interests: Scaling lLws</p>
+    <p class="research-interests">Research Interests: Scaling Laws</p>
   </div>
   
   <div class="person-card">
