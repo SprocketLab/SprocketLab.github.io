@@ -108,14 +108,14 @@ author_profile: true
   </div>
 
   <div class="person-card">
-    <img src="/images/lab_members/default.png" alt="Jiayu (Mila Wang)" onerror="this.src='/images/lab_members/default.png'">
+    <img src="/images/lab_members/mila.jpeg" alt="Jiayu (Mila Wang)" onerror="this.src='/images/lab_members/mila.jpeg'">
     <h3><a href="https://jiayuww.github.io/">Jiayu (Mila Wang)</a></h3>
     <p class="position">PhD Student</p>
     <p class="research-interests">Research Interests: Machine Learning</p>
   </div>
 
   <div class="person-card">
-    <img src="/images/lab_members/default.png" alt="John Cooper" onerror="this.src='/images/lab_members/default.png'">
+    <img src="/images/lab_members/john.png" alt="John Cooper" onerror="this.src='/images/lab_members/john.jpg'">
     <h3><a href="https://www.linkedin.com/in/john-cooper-99a348213/">John Cooper</a></h3>
     <p class="position">PhD Student</p>
     <p class="research-interests">Research Interests: Machine Learning</p>
