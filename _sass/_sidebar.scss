@@ -83,8 +83,9 @@
   }
 
   img {
-    max-width: 175px;
-    border-radius: 50%;
+    border-radius: 0 !important; /* Remove the circular cropping */
+    object-fit: contain !important; /* Show the whole image */
+    padding: 5px; /* Add some space around the logo */
 
     @include breakpoint($large) {
       padding: 5px;
