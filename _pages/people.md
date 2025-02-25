@@ -34,7 +34,7 @@ author_profile: true
     <img src="/images/lab_members/dyah.jpg" alt="Dyah Adila" onerror="this.src='/images/lab_members/dyah.jpg'">
     <h3><a href="https://dyahadila.github.io/">Dyah Adila</a></h3>
     <p class="position">PhD Student</p>
-    <p class="research-interests">Research Interests: Foundation Model Adaptation; Reasoning</p>
+    <p class="research-interests">Research Interests: Data- and compute-efficient LLMs; Reasoning</p>
   </div>
   
   <div class="person-card">
@@ -108,10 +108,10 @@ author_profile: true
   </div>
 
   <div class="person-card">
-    <img src="/images/lab_members/mila.jpeg" alt="Jiayu (Mila Wang)" onerror="this.src='/images/lab_members/mila.jpeg'">
+    <img src="/images/lab_members/mila.jpeg" alt="Jiayu (Mila) Wang" onerror="this.src='/images/lab_members/mila.jpeg'">
     <h3><a href="https://jiayuww.github.io/">Jiayu (Mila Wang)</a></h3>
     <p class="position">PhD Student</p>
-    <p class="research-interests">Research Interests: Machine Learning</p>
+    <p class="research-interests">Research Interests: Data- and compute-efficient LLMs & MLLMs; Reasoning</p>
   </div>
 
   <div class="person-card">
