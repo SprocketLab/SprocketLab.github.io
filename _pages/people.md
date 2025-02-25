@@ -10,7 +10,7 @@ author_profile: true
 
 <div class="people-container">
 
-  <div class="person-card faculty-card">
+  <div class="person-card">
     <img src="/images/fred-sala.jpg" alt="Fred Sala" onerror="this.src='/images/sprocket-logo.png'">
     <h3><a href="https://pages.cs.wisc.edu/~fredsala/">Fred Sala</a></h3>
     <p class="position">Assistant Professor</p>
@@ -102,7 +102,7 @@ author_profile: true
 }
 
 .person-card h3 a {
-  color: #b31b1b; 
+  color: #2b94e7; /* Changed to match original site's blue */
   text-decoration: none;
 }
 
@@ -125,38 +125,5 @@ author_profile: true
   font-size: 0.9em;
 }
 
-.faculty-card {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: 300px 1fr;
-}
-
-.faculty-card img {
-  height: 300px;
-  width: 300px;
-}
-
-.faculty-card h3,
-.faculty-card .position,
-.faculty-card .research-interests,
-.faculty-card .links {
-  grid-column: 2;
-}
-
-@media (max-width: 768px) {
-  .faculty-card {
-    grid-template-columns: 1fr;
-  }
-  
-  .faculty-card img {
-    width: 100%;
-  }
-  
-  .faculty-card h3,
-  .faculty-card .position,
-  .faculty-card .research-interests,
-  .faculty-card .links {
-    grid-column: 1;
-  }
-}
+/* Faculty specific styles removed, all cards now use the same styling */
 </style>
