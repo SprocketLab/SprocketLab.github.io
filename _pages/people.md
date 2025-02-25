@@ -59,7 +59,7 @@ author_profile: true
   </div>
   
   <div class="person-card">
-    <img src="/images/lab_members/default.png" alt="Jitian Zhao" onerror="this.src='/images/lab_members/jitian.jpg'">
+    <img src="/images/lab_members/jitian.jpg" alt="Jitian Zhao" onerror="this.src='/images/lab_members/jitian.jpg'">
     <h3><a href="https://jzhao326.github.io/">Jitian Zhao</a></h3>
     <p class="position">PhD Student</p>
     <p class="research-interests">Research Interests: Social Network Analysis; LLM</p>
@@ -95,9 +95,16 @@ author_profile: true
 
   <div class="person-card">
     <img src="/images/lab_members/june.jpeg" alt="June Cho" onerror="this.src='/images/lab_members/june.jpeg'">
-    <h3><a href="https://sc782.github.io/">Samuel Guo</a></h3>
+    <h3><a href="https://sc782.github.io/">June Cho</a></h3>
     <p class="position">PhD Student</p>
     <p class="research-interests">Research Interests: Machine (Un)learning; Time-Series Forecasting; Geometric Deep Learning</p>
+  </div>
+
+  <div class="person-card">
+    <img src="/images/lab_members/default.png" alt="Gabe Orlanski" onerror="this.src='/images/lab_members/default.png'">
+    <h3><a href="https://sc782.github.io/">Gabe Orlanski</a></h3>
+    <p class="position">PhD Student</p>
+    <p class="research-interests">Research Interests: Machine Learning</p>
   </div>
 </div>
 
