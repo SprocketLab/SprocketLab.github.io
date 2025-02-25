@@ -6,86 +6,157 @@ layout: archive
 author_profile: true
 ---
 
-# People
+# Current Lab Members
 
-## Faculty
+<div class="people-container">
 
-<div class="faculty-profile">
-  <div class="faculty-image">
-    <img src="/images/fred-sala.jpg" alt="Fred Sala" onerror="this.src='/images/profile.png'">
+  <div class="person-card faculty-card">
+    <img src="/images/fred-sala.jpg" alt="Fred Sala" onerror="this.src='/images/sprocket-logo.png'">
+    <h3><a href="https://pages.cs.wisc.edu/~fredsala/">Fred Sala</a></h3>
+    <p class="position">Assistant Professor</p>
+    <p class="research-interests">Department of Computer Sciences<br>
+    University of Wisconsin-Madison</p>
+    <p class="links"><a href="https://pages.cs.wisc.edu/~fredsala/">Personal Website</a> | <a href="mailto:fredsala@cs.wisc.edu">Email</a></p>
   </div>
-  <div class="faculty-info">
-    <h3>Fred Sala</h3>
-    <p class="faculty-title">Assistant Professor</p>
-    <p>Department of Computer Sciences</p>
-    <p>University of Wisconsin-Madison</p>
-    <p><a href="https://pages.cs.wisc.edu/~fredsala/" target="_blank">Personal Website</a> | <a href="mailto:fredsala@cs.wisc.edu">Email</a></p>
+
+  <div class="person-card">
+    <img src="/images/profile.png" alt="Nick Roberts" onerror="this.src='/images/sprocket-logo.png'">
+    <h3><a href="https://nick11roberts.github.io/">Nick Roberts</a></h3>
+    <p class="position">PhD Student</p>
+    <p class="research-interests">Research Interests: Machine Learning, Data Science</p>
   </div>
+  
+  <div class="person-card">
+    <img src="/images/profile.png" alt="Harit Vishwakarma" onerror="this.src='/images/sprocket-logo.png'">
+    <h3><a href="https://harit7.github.io/">Harit Vishwakarma</a></h3>
+    <p class="position">PhD Student</p>
+    <p class="research-interests">Research Interests: Machine Learning Theory</p>
+  </div>
+  
+  <div class="person-card">
+    <img src="/images/profile.png" alt="Dyah Adila" onerror="this.src='/images/sprocket-logo.png'">
+    <h3><a href="https://dyahadila.github.io/">Dyah Adila</a></h3>
+    <p class="position">PhD Student</p>
+    <p class="research-interests">Research Interests: AI, Machine Learning</p>
+  </div>
+  
+  <div class="person-card">
+    <img src="/images/profile.png" alt="Sonia Cromp" onerror="this.src='/images/sprocket-logo.png'">
+    <h3><a href="https://socromp.github.io/">Sonia Cromp</a></h3>
+    <p class="position">PhD Student</p>
+    <p class="research-interests">Research Interests: Data Science, ML</p>
+  </div>
+  
+  <div class="person-card">
+    <img src="/images/profile.png" alt="Brian Huang" onerror="this.src='/images/sprocket-logo.png'">
+    <h3><a href="https://zihengh1.github.io/">Brian Huang</a></h3>
+    <p class="position">PhD Student</p>
+    <p class="research-interests">Research Interests: Machine Learning</p>
+  </div>
+  
+  <div class="person-card">
+    <img src="/images/profile.png" alt="Changho Shin" onerror="this.src='/images/sprocket-logo.png'">
+    <h3><a href="https://ch-shin.github.io/">Changho Shin</a></h3>
+    <p class="position">PhD Student</p>
+    <p class="research-interests">Research Interests: ML Systems</p>
+  </div>
+  
+  <div class="person-card">
+    <img src="/images/profile.png" alt="Jitian Zhao" onerror="this.src='/images/sprocket-logo.png'">
+    <h3><a href="https://jzhao326.github.io/">Jitian Zhao</a></h3>
+    <p class="position">PhD Student</p>
+    <p class="research-interests">Research Interests: Data Science</p>
+  </div>
+
 </div>
 
-## Graduate Students
+<style>
+.people-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
 
-<div class="people-grid">
-  <div class="person">
-    <img src="/images/profile.png" alt="Nick Roberts">
-    <h3>Nick Roberts</h3>
-    <p>PhD Student</p>
-    <p><a href="https://nick11roberts.github.io/" target="_blank">Website</a></p>
-  </div>
-  
-  <div class="person">
-    <img src="/images/profile.png" alt="Harit Vishwakarma">
-    <h3>Harit Vishwakarma</h3>
-    <p>PhD Student</p>
-    <p><a href="https://harit7.github.io/" target="_blank">Website</a></p>
-  </div>
-  
-  <div class="person">
-    <img src="/images/profile.png" alt="Dyah Adila">
-    <h3>Dyah Adila</h3>
-    <p>PhD Student</p>
-    <p><a href="https://dyahadila.github.io/" target="_blank">Website</a></p>
-  </div>
-  
-  <div class="person">
-    <img src="/images/profile.png" alt="Sonia Cromp">
-    <h3>Sonia Cromp</h3>
-    <p>PhD Student</p>
-    <p><a href="https://socromp.github.io/" target="_blank">Website</a></p>
-  </div>
-  
-  <div class="person">
-    <img src="/images/profile.png" alt="Brian Huang">
-    <h3>Brian Huang</h3>
-    <p>PhD Student</p>
-    <p><a href="https://zihengh1.github.io/" target="_blank">Website</a></p>
-  </div>
-  
-  <div class="person">
-    <img src="/images/profile.png" alt="Changho Shin">
-    <h3>Changho Shin</h3>
-    <p>PhD Student</p>
-    <p><a href="https://ch-shin.github.io/" target="_blank">Website</a></p>
-  </div>
-  
-  <div class="person">
-    <img src="/images/profile.png" alt="Jitian Zhao">
-    <h3>Jitian Zhao</h3>
-    <p>PhD Student</p>
-    <p><a href="https://jzhao326.github.io/" target="_blank">Website</a></p>
-  </div>
-</div>
+.person-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s;
+}
 
-## Alumni
+.person-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
 
-<div class="alumni-section">
-  <p>Our program is still growing! Check back for alumni information soon.</p>
-</div>
+.person-card img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
 
-## Join Us
+.person-card h3 {
+  margin: 15px 15px 5px;
+  font-size: 1.2em;
+}
 
-We're always looking for talented students and researchers interested in machine learning, data science, and related areas. If you're interested in joining our lab:
+.person-card h3 a {
+  color: #b31b1b; 
+  text-decoration: none;
+}
 
-- **Prospective PhD Students**: Please apply to the UW-Madison Computer Science PhD program and mention Prof. Sala in your application.
-- **Current UW-Madison Students**: Email Prof. Sala with your CV and research interests.
-- **Postdoc Positions**: Check this page for open positions or contact Prof. Sala directly.
+.person-card h3 a:hover {
+  text-decoration: underline;
+}
+
+.person-card .position {
+  margin: 0 15px 5px;
+  font-weight: bold;
+}
+
+.person-card .research-interests {
+  margin: 0 15px 15px;
+  font-size: 0.9em;
+}
+
+.person-card .links {
+  margin: 0 15px 15px;
+  font-size: 0.9em;
+}
+
+.faculty-card {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+}
+
+.faculty-card img {
+  height: 300px;
+  width: 300px;
+}
+
+.faculty-card h3,
+.faculty-card .position,
+.faculty-card .research-interests,
+.faculty-card .links {
+  grid-column: 2;
+}
+
+@media (max-width: 768px) {
+  .faculty-card {
+    grid-template-columns: 1fr;
+  }
+  
+  .faculty-card img {
+    width: 100%;
+  }
+  
+  .faculty-card h3,
+  .faculty-card .position,
+  .faculty-card .research-interests,
+  .faculty-card .links {
+    grid-column: 1;
+  }
+}
+</style>
