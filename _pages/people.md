@@ -6,66 +6,84 @@ layout: archive
 author_profile: true
 ---
 
-# Current Lab Members
-
 <div class="people-container">
 
   <div class="person-card">
-    <img src="/images/fred-sala.jpg" alt="Fred Sala" onerror="this.src='/images/sprocket-logo.png'">
+    <img src="/images/lab_members/fred.jpg" alt="Fred Sala" onerror="this.src='/images/lab_members/fred.jpg'">
     <h3><a href="https://pages.cs.wisc.edu/~fredsala/">Fred Sala</a></h3>
-    <p class="position">Assistant Professor</p>
+    <p class="position">PI</p>
     <p class="research-interests">Department of Computer Sciences<br>
     University of Wisconsin-Madison</p>
-    <p class="links"><a href="https://pages.cs.wisc.edu/~fredsala/">Personal Website</a> | <a href="mailto:fredsala@cs.wisc.edu">Email</a></p>
   </div>
 
   <div class="person-card">
-    <img src="/images/profile.png" alt="Nick Roberts" onerror="this.src='/images/sprocket-logo.png'">
+    <img src="/images/lab_members/default.jpg" alt="Nick Roberts" onerror="this.src='/images/lab_members/default.jpg'">
     <h3><a href="https://nick11roberts.github.io/">Nick Roberts</a></h3>
     <p class="position">PhD Student</p>
-    <p class="research-interests">Research Interests: Machine Learning, Data Science</p>
+    <p class="research-interests">Research Interests: Machine Learning</p>
   </div>
   
   <div class="person-card">
-    <img src="/images/profile.png" alt="Harit Vishwakarma" onerror="this.src='/images/sprocket-logo.png'">
+    <img src="/images/lab_members/default.jpg" alt="Harit Vishwakarma" onerror="this.src='/images/lab_members/default.jpg'">
     <h3><a href="https://harit7.github.io/">Harit Vishwakarma</a></h3>
     <p class="position">PhD Student</p>
-    <p class="research-interests">Research Interests: Machine Learning Theory</p>
+    <p class="research-interests">Research Interests: Machine Learning</p>
   </div>
   
   <div class="person-card">
-    <img src="/images/profile.png" alt="Dyah Adila" onerror="this.src='/images/sprocket-logo.png'">
+    <img src="/images/lab_members/dyah.jpg" alt="Dyah Adila" onerror="this.src='/images/lab_members/dyah.jpg'">
     <h3><a href="https://dyahadila.github.io/">Dyah Adila</a></h3>
     <p class="position">PhD Student</p>
-    <p class="research-interests">Research Interests: AI, Machine Learning</p>
+    <p class="research-interests">Research Interests: Foundation Model adaptation, inference-time algorithms</p>
   </div>
   
   <div class="person-card">
-    <img src="/images/profile.png" alt="Sonia Cromp" onerror="this.src='/images/sprocket-logo.png'">
+    <img src="/images/lab_members/sonia.jpeg" alt="Sonia Cromp" onerror="this.src='/images/lab_members/sonia.jpeg'">
     <h3><a href="https://socromp.github.io/">Sonia Cromp</a></h3>
     <p class="position">PhD Student</p>
-    <p class="research-interests">Research Interests: Data Science, ML</p>
+    <p class="research-interests">Research Interests: Machine Learning</p>
   </div>
   
   <div class="person-card">
-    <img src="/images/profile.png" alt="Brian Huang" onerror="this.src='/images/sprocket-logo.png'">
+    <img src="/images/lab_members/brian.jpg" alt="Brian Huang" onerror="this.src='/images/lab_members/brian.jpg'">
     <h3><a href="https://zihengh1.github.io/">Brian Huang</a></h3>
     <p class="position">PhD Student</p>
     <p class="research-interests">Research Interests: Machine Learning</p>
   </div>
   
   <div class="person-card">
-    <img src="/images/profile.png" alt="Changho Shin" onerror="this.src='/images/sprocket-logo.png'">
+    <img src="/images/lab_members/cshin.jpg" alt="Changho Shin" onerror="this.src='/images/lab_members/cshin.jpg'">
     <h3><a href="https://ch-shin.github.io/">Changho Shin</a></h3>
     <p class="position">PhD Student</p>
-    <p class="research-interests">Research Interests: ML Systems</p>
+    <p class="research-interests">Research Interests: Machine Learning</p>
   </div>
   
   <div class="person-card">
-    <img src="/images/profile.png" alt="Jitian Zhao" onerror="this.src='/images/sprocket-logo.png'">
+    <img src="/images/lab_members/default.jpg" alt="Jitian Zhao" onerror="this.src='/images/lab_members/default.jpg'">
     <h3><a href="https://jzhao326.github.io/">Jitian Zhao</a></h3>
     <p class="position">PhD Student</p>
-    <p class="research-interests">Research Interests: Data Science</p>
+    <p class="research-interests">Research Interests: Machine Learning</p>
+  </div>
+
+  <div class="person-card">
+    <img src="/images/lab_members/avi.jpg" alt="Avi Trost" onerror="this.src='/images/lab_members/avi.jpg'">
+    <h3><a href="https://scholar.google.com/citations?user=exZPwQoAAAAJ&hl=en">Avi Trost</a></h3>
+    <p class="position">PhD Student</p>
+    <p class="research-interests">Research Interests: Machine Learning</p>
+  </div>
+
+  <div class="person-card">
+    <img src="/images/lab_members/zhiqi.jpg" alt="Zhiqi Gao" onerror="this.src='/images/lab_members/zhiqi.jpg'">
+    <h3><a href="https://zhiqigao2001.github.io/">Zhiqi Gao</a></h3>
+    <p class="position">PhD Student</p>
+    <p class="research-interests">Research Interests: Machine Learning</p>
+  </div>
+
+  <div class="person-card">
+    <img src="/images/lab_members/default.jpg" alt="Albert Ge" onerror="this.src='/images/lab_members/default.jpg'">
+    <h3><a href="https://www.albertge.com/">Albert Ge</a></h3>
+    <p class="position">PhD Student</p>
+    <p class="research-interests">Research Interests: Machine Learning</p>
   </div>
 
 </div>
@@ -102,7 +120,7 @@ author_profile: true
 }
 
 .person-card h3 a {
-  color: #2b94e7; /* Changed to match original site's blue */
+  color: #4682B4; /* Changed to a softer blue that matches typical hyperlinks */
   text-decoration: none;
 }
 
