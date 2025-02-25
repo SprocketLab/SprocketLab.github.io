@@ -73,7 +73,7 @@ author_profile: true
   </div>
 
   <div class="person-card">
-    <img src="/images/lab_members/zhiqi.jpg" alt="Zhiqi Gao" onerror="this.src='/images/lab_members/zhiqi.jpg'">
+    <img src="/images/lab_members/zhiqi.jpg" alt="Zhiqi Gao" onerror="this.src='/images/lab_members/zhiqi.png'">
     <h3><a href="https://zhiqigao2001.github.io/">Zhiqi Gao</a></h3>
     <p class="position">PhD Student</p>
     <p class="research-interests">Research Interests: Machine Learning</p>
