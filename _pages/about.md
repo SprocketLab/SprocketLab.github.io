@@ -40,6 +40,7 @@ Welcome to Sprocket Lab!
     </div>
     <h3><a href="/research/healthcare">Weak Supervision</a></h3>
   </div>
+</div>
 
 # News
 - **February 2025**: New papers accepted to start the year!
