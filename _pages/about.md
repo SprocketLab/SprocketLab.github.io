@@ -9,7 +9,7 @@ redirect_from:
 ---
 
 <div style="margin-bottom: 15px;">
-  <p>A research group at the University of Wisconsin-Madison focused on machine learning, data science, and AI.</p>
+  <p>Hello! We are a research group at the University of Wisconsin-Madison focused on machine learning, LLMs and Foundation Models, and data-centric AI.</p>
 </div>
 
 <h2 style="margin-top: 20px; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px;">Research Topics</h2>
