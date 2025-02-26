@@ -22,9 +22,9 @@ Welcome to Sprocket Lab!
   
   <div class="research-topic-card">
     <div class="research-topic-image">
-      <img src="/images/research-fairness.jpg" alt="Data- and Compute-Efficient Learning and Adaptation" onerror="this.src='/images/profile.png'">
+      <img src="/images/research-fairness.jpg" alt="Data- and Compute-Efficient Learning" onerror="this.src='/images/profile.png'">
     </div>
-    <h3><a href="/research/fairness">Data- and Compute-Efficient Learning and Adaptation</a></h3>
+    <h3><a href="/research/fairness">Data- and Compute-Efficient Learning</a></h3>
   </div>
   
   <div class="research-topic-card">
