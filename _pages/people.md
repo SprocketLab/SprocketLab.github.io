@@ -101,10 +101,10 @@ author_profile: true
   </div>
 
   <div class="person-card">
-    <img src="/images/lab_members/default.png" alt="Gabe Orlanski" onerror="this.src='/images/lab_members/default.png'">
+    <img src="/images/lab_members/gabe.jpg" alt="Gabe Orlanski" onerror="this.src='/images/lab_members/gabe.jpg'">
     <h3><a href="https://gabeorlanski.github.io/">Gabe Orlanski</a></h3>
     <p class="position">PhD Student</p>
-    <p class="research-interests">Research Interests: Machine Learning</p>
+    <p class="research-interests">Research Interests: Machine Learning for code intelligence</p>
   </div>
 
   <div class="person-card">
