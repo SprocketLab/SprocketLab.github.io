@@ -15,21 +15,29 @@ Welcome to Sprocket Lab!
 <div class="research-topics-grid">
   <div class="research-topic-card">
     <div class="research-topic-image">
-      <img src="/images/research-causality.jpg" alt="Data-centric AI" onerror="this.src='/images/sprocket-logo.png'">
+      <img src="/images/profile.png" alt="Data-centric AI" onerror="this.src='/images/profile.png'">
     </div>
     <h3><a href="/research/causality">Data-centric AI</a></h3>
   </div>
   
   <div class="research-topic-card">
     <div class="research-topic-image">
-      <img src="/images/research-fairness.jpg" alt="Data- and Compute-Efficient Learning" onerror="this.src='/images/profile.png'">
+      <img src="/images/profile.png" alt="Data- and Compute-Efficient Learning" onerror="this.src='/images/profile.png'">
     </div>
     <h3><a href="/research/fairness">Data- and Compute-Efficient Learning</a></h3>
+  </div>
+
+  <div class="research-topics-grid">
+  <div class="research-topic-card">
+    <div class="research-topic-image">
+      <img src="/images/profile.png" alt="Foundation Models" onerror="this.src='/images/profile.png'">
+    </div>
+    <h3><a href="/research/causality">Foundation Models</a></h3>
   </div>
   
   <div class="research-topic-card">
     <div class="research-topic-image">
-      <img src="/images/research-healthcare.jpg" alt="Weak Supervision" onerror="this.src='/images/profile.png'">
+      <img src="/images/profile.png" alt="Weak Supervision" onerror="this.src='/images/profile.png'">
     </div>
     <h3><a href="/research/healthcare">Weak Supervision</a></h3>
   </div>
