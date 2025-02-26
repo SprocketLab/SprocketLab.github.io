@@ -83,7 +83,7 @@ author_profile: true
     <img src="/images/lab_members/default.png" alt="Albert Ge" onerror="this.src='/images/lab_members/default.png'">
     <h3><a href="https://www.albertge.com/">Albert Ge</a></h3>
     <p class="position">PhD Student</p>
-    <p class="research-interests">Research Interests: Machine Learning</p>
+    <p class="research-interests">Research Interests: Language Model Adaptation; Compute Efficient Learning</p>
   </div>
 
   <div class="person-card">
