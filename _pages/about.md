@@ -27,7 +27,6 @@ Welcome to Sprocket Lab!
     <h3><a href="/research/fairness">Data- and Compute-Efficient Learning</a></h3>
   </div>
 
-  <div class="research-topics-grid">
   <div class="research-topic-card">
     <div class="research-topic-image">
       <img src="/images/profile.png" alt="Foundation Models" onerror="this.src='/images/profile.png'">
@@ -41,8 +40,8 @@ Welcome to Sprocket Lab!
     </div>
     <h3><a href="/research/healthcare">Weak Supervision</a></h3>
   </div>
+</div>
 
-  
 # News
 - **February 2025**: New papers accepted to start the year!
   - ICLR 2025: Changho and John explain how [weak-to-strong generalization works](https://arxiv.org/pdf/2412.03881?)---and how to do more of it!
