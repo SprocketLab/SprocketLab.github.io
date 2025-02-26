@@ -41,8 +41,8 @@ Welcome to Sprocket Lab!
     </div>
     <h3><a href="/research/healthcare">Weak Supervision</a></h3>
   </div>
-</div>
 
+  
 # News
 - **February 2025**: New papers accepted to start the year!
   - ICLR 2025: Changho and John explain how [weak-to-strong generalization works](https://arxiv.org/pdf/2412.03881?)---and how to do more of it!
