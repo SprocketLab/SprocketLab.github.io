@@ -8,128 +8,86 @@ redirect_from:
   - /about.html
 ---
 
-<div class="intro-section">
-  <h1>Welcome to Sprocket Lab!</h1>
+<div style="margin-bottom: 15px;">
   <p>A research group at the University of Wisconsin-Madison focused on machine learning, data science, and AI.</p>
 </div>
 
-<section class="content-section">
-  <h2 class="section-heading">Research Topics</h2>
+<h2 style="margin-top: 20px; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px;">Research Topics</h2>
 
-  <div class="research-topics-grid">
-    <div class="research-topic-card">
-      <div class="research-topic-image">
-        <img src="/images/research_illustration/datacentric.png" alt="Data-centric AI" onerror="this.src='/images/research_illustration/datacentric.png'">
-      </div>
-      <h3><a href="/">Data-centric AI</a></h3>
+<div class="research-topics-grid">
+  <div class="research-topic-card">
+    <div class="research-topic-image">
+      <img src="/images/research_illustration/datacentric.png" alt="Data-centric AI" onerror="this.src='/images/research_illustration/datacentric.png'">
     </div>
-    
-    <div class="research-topic-card">
-      <div class="research-topic-image">
-        <img src="/images/research_illustration/efficient-learning.png" alt="Data- and Compute-Efficient Learning" onerror="this.src='/images/research_illustration/efficient-learning.png'">
-      </div>
-      <h3><a href="/">Data- and Compute-Efficient Learning</a></h3>
-    </div>
-
-    <div class="research-topic-card">
-      <div class="research-topic-image">
-        <img src="/images/research_illustration/foundation-models.png" alt="Foundation Models" onerror="this.src='/images/research_illustration/foundation-models.png'">
-      </div>
-      <h3><a href="/">Foundation Models</a></h3>
-    </div>
-    
-    <div class="research-topic-card">
-      <div class="research-topic-image">
-        <img src="/images/research_illustration/weak-supervision.png" alt="Weak Supervision" onerror="this.src='/images/research_illustration/weak-supervision.png'">
-      </div>
-      <h3><a href="/">Weak Supervision</a></h3>
-    </div>
-  </div>
-</section>
-
-<section class="content-section alt-background">
-  <h2 class="section-heading">News</h2>
-  
-  <div class="news-item">
-    <h3 class="news-date">February 2025</h3>
-    <p class="news-content">New papers accepted to start the year!</p>
-    <ul>
-      <li>ICLR 2025: Changho and John explain how <a href="https://arxiv.org/pdf/2412.03881?" target="_blank">weak-to-strong generalization works</a>—and how to do more of it!</li>
-      <li>NAACL 2025: Jane, Dyah, and Changho introduced an ultra-efficient way to personalize language models.</li>
-    </ul>
+    <h3><a href="/">Data-centric AI</a></h3>
   </div>
   
-  <div class="news-item">
-    <h3 class="news-date">December 2024</h3>
-    <p class="news-content">Four new papers accepted at NeurIPS 2024!</p>
-    <ul>
-      <li>Brian, Cathy, and Vaishnavi show how to get rid of the LLM in LLM-based annotation. How? <a href="https://arxiv.org/pdf/2407.11004" target="_blank">Distill LLMs into programs</a> (spotlight)!</li>
-      <li>Harit gets a huge boost in auto-labeling by <a href="https://arxiv.org/pdf/2404.16188" target="_blank">learning confidence functions</a>.</li>
-      <li>Changho, Jitian, and Sonia show how to <a href="https://arxiv.org/pdf/2404.08461" target="_blank">adjust zero-shot model predictions quickly and easily</a></li>
-      <li>Chris and Jack introduce a new benchmark showcasing <a href="https://arxiv.org/pdf/2501.07727" target="_blank">how valuable weak supervision can be</a></li>
-    </ul>
+  <div class="research-topic-card">
+    <div class="research-topic-image">
+      <img src="/images/research_illustration/efficient-learning.png" alt="Data- and Compute-Efficient Learning" onerror="this.src='/images/research_illustration/efficient-learning.png'">
+    </div>
+    <h3><a href="/">Data- and Compute-Efficient Learning</a></h3>
   </div>
-</section>
 
-<section class="content-section">
-  <h2 class="section-heading">How to Join</h2>
-  <p>Interested in joining our lab as a UW-Madison undergraduate? Please complete our application form. We'll contact promising candidates directly when opportunities align with your background and interests.</p>
-  <p>Note: We strongly recommend using the form rather than email, as email inquiries may go unnoticed due to high volume.</p>
+  <div class="research-topic-card">
+    <div class="research-topic-image">
+      <img src="/images/research_illustration/foundation-models.png" alt="Foundation Models" onerror="this.src='/images/research_illustration/foundation-models.png'">
+    </div>
+    <h3><a href="/">Foundation Models</a></h3>
+  </div>
   
-  <a href="https://forms.gle/8dxCSvtiBYdB3EGDA" class="cta-button" target="_blank">Apply to Join Our Lab</a>
-</section>
+  <div class="research-topic-card">
+    <div class="research-topic-image">
+      <img src="/images/research_illustration/weak-supervision.png" alt="Weak Supervision" onerror="this.src='/images/research_illustration/weak-supervision.png'">
+    </div>
+    <h3><a href="/">Weak Supervision</a></h3>
+  </div>
+</div>
+
+<h2 style="margin-top: 20px; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px;">News</h2>
+
+<div style="margin-bottom: 15px;">
+  <h3 style="color: #4682B4; margin-bottom: 8px; font-size: 1.2em;">February 2025</h3>
+  <p style="font-weight: 600; margin-bottom: 5px;">New papers accepted to start the year!</p>
+  <ul style="padding-left: 20px; margin-top: 5px;">
+    <li style="margin-bottom: 5px;">ICLR 2025: Changho and John explain how <a href="https://arxiv.org/pdf/2412.03881?" target="_blank">weak-to-strong generalization works</a>—and how to do more of it!</li>
+    <li style="margin-bottom: 5px;">NAACL 2025: Jane, Dyah, and Changho introduced an ultra-efficient way to personalize language models.</li>
+  </ul>
+</div>
+
+<div style="margin-bottom: 15px;">
+  <h3 style="color: #4682B4; margin-bottom: 8px; font-size: 1.2em;">December 2024</h3>
+  <p style="font-weight: 600; margin-bottom: 5px;">Four new papers accepted at NeurIPS 2024!</p>
+  <ul style="padding-left: 20px; margin-top: 5px;">
+    <li style="margin-bottom: 5px;">Brian, Cathy, and Vaishnavi show how to get rid of the LLM in LLM-based annotation. How? <a href="https://arxiv.org/pdf/2407.11004" target="_blank">Distill LLMs into programs</a> (spotlight)!</li>
+    <li style="margin-bottom: 5px;">Harit gets a huge boost in auto-labeling by <a href="https://arxiv.org/pdf/2404.16188" target="_blank">learning confidence functions</a>.</li>
+    <li style="margin-bottom: 5px;">Changho, Jitian, and Sonia show how to <a href="https://arxiv.org/pdf/2404.08461" target="_blank">adjust zero-shot model predictions quickly and easily</a></li>
+    <li style="margin-bottom: 5px;">Chris and Jack introduce a new benchmark showcasing <a href="https://arxiv.org/pdf/2501.07727" target="_blank">how valuable weak supervision can be</a></li>
+  </ul>
+</div>
+
+<h2 style="margin-top: 20px; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px;">How to Join</h2>
+
+<p>Interested in joining our lab as a UW-Madison undergraduate? Please complete our <a href="https://forms.gle/8dxCSvtiBYdB3EGDA" style="font-weight: bold; color: #4682B4;">application form</a>. We'll contact promising candidates directly when opportunities align with your background and interests.</p>
 
 <style>
-/* General section styling */
-.intro-section {
-  margin-bottom: 25px;
-}
-
-.intro-section h1 {
-  margin-bottom: 10px;
-  font-size: 2em;
-}
-
-.intro-section p {
-  font-size: 1.1em;
-  line-height: 1.5;
-}
-
-.content-section {
-  margin: 30px 0;
-  padding: 20px;
-  border-radius: 8px;
-}
-
-.alt-background {
-  background-color: #f8f9fa;
-}
-
-.section-heading {
-  margin-bottom: 20px;
-  font-size: 1.8em;
-  border-bottom: 2px solid #eaeaea;
-  padding-bottom: 8px;
-}
-
-/* Research Topics Grid */
 .research-topics-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 25px;
-  margin: 25px 0;
+  gap: 15px;
+  margin: 10px 0;
 }
 
 .research-topic-card {
   border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: 5px;
   overflow: hidden;
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .research-topic-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 10px rgba(0,0,0,0.1);
 }
 
 .research-topic-image {
@@ -145,7 +103,7 @@ redirect_from:
 }
 
 .research-topic-card h3 {
-  padding: 15px;
+  padding: 10px;
   margin: 0;
   text-align: center;
 }
@@ -159,68 +117,15 @@ redirect_from:
   text-decoration: underline;
 }
 
-/* News Items */
-.news-item {
-  margin-bottom: 40px;
-}
-
-.news-date {
-  font-size: 1.4em;
-  color: #4682B4;
-  margin-bottom: 10px;
-  font-weight: 600;
-}
-
-.news-content {
-  font-weight: 600;
-  margin-bottom: 10px;
-}
-
-.news-item ul {
-  padding-left: 20px;
-}
-
-.news-item ul li {
-  margin-bottom: 8px;
-  line-height: 1.5;
-}
-
-/* CTA Button */
-.cta-button {
-  display: inline-block;
-  background-color: #4682B4;
-  color: white;
-  padding: 12px 25px;
-  border-radius: 5px;
-  text-decoration: none;
-  font-weight: 600;
-  margin-top: 20px;
-  transition: background-color 0.3s;
-}
-
-.cta-button:hover {
-  background-color: #3a6d99;
-  text-decoration: none;
-}
-
-/* Make sure it's responsive on smaller screens */
 @media (max-width: 900px) {
   .research-topics-grid {
-    grid-template-columns: 1fr; /* 1 column on medium and small screens */
-  }
-  
-  .content-section {
-    padding: 20px;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 600px) {
-  .section-heading {
-    font-size: 1.5em;
-  }
-  
-  .news-date {
-    font-size: 1.2em;
+  .research-topics-grid {
+    grid-template-columns: 1fr;
   }
 }
 </style>
