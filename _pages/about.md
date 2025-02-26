@@ -1,6 +1,6 @@
 ---
 permalink: /
-title: "Sprocket Lab"
+title: ""
 excerpt: "About us"
 author_profile: true
 redirect_from:
