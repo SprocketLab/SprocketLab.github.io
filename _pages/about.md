@@ -10,40 +10,40 @@ redirect_from:
 
 <div class="intro-section">
   <h1>Welcome to Sprocket Lab!</h1>
-  <p>A research group at the University of Wisconsin-Madison broadly focused on machine learning, LLMs, and data-centric AI.</p>
+  <p>A research group at the University of Wisconsin-Madison focused on machine learning, data science, and AI.</p>
 </div>
 
 <section class="content-section">
   <h2 class="section-heading">Research Topics</h2>
 
   <div class="research-topics-grid">
-    <a href="/" class="research-topic-card">
+    <div class="research-topic-card">
       <div class="research-topic-image">
         <img src="/images/research_illustration/datacentric.png" alt="Data-centric AI" onerror="this.src='/images/research_illustration/datacentric.png'">
       </div>
-      <h3>Data-centric AI</h3>
-    </a>
+      <h3><a href="/">Data-centric AI</a></h3>
+    </div>
     
-    <a href="/" class="research-topic-card">
+    <div class="research-topic-card">
       <div class="research-topic-image">
         <img src="/images/research_illustration/efficient-learning.png" alt="Data- and Compute-Efficient Learning" onerror="this.src='/images/research_illustration/efficient-learning.png'">
       </div>
-      <h3>Data- and Compute-Efficient Learning</h3>
-    </a>
+      <h3><a href="/">Data- and Compute-Efficient Learning</a></h3>
+    </div>
 
-    <a href="/" class="research-topic-card">
+    <div class="research-topic-card">
       <div class="research-topic-image">
         <img src="/images/research_illustration/foundation-models.png" alt="Foundation Models" onerror="this.src='/images/research_illustration/foundation-models.png'">
       </div>
-      <h3>Foundation Models</h3>
-    </a>
+      <h3><a href="/">Foundation Models</a></h3>
+    </div>
     
-    <a href="/" class="research-topic-card">
+    <div class="research-topic-card">
       <div class="research-topic-image">
         <img src="/images/research_illustration/weak-supervision.png" alt="Weak Supervision" onerror="this.src='/images/research_illustration/weak-supervision.png'">
       </div>
-      <h3>Weak Supervision</h3>
-    </a>
+      <h3><a href="/">Weak Supervision</a></h3>
+    </div>
   </div>
 </section>
 
@@ -82,11 +82,11 @@ redirect_from:
 <style>
 /* General section styling */
 .intro-section {
-  margin-bottom: 40px;
+  margin-bottom: 25px;
 }
 
 .intro-section h1 {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   font-size: 2em;
 }
 
@@ -96,8 +96,8 @@ redirect_from:
 }
 
 .content-section {
-  margin: 60px 0;
-  padding: 30px;
+  margin: 30px 0;
+  padding: 20px;
   border-radius: 8px;
 }
 
@@ -106,18 +106,18 @@ redirect_from:
 }
 
 .section-heading {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   font-size: 1.8em;
   border-bottom: 2px solid #eaeaea;
-  padding-bottom: 10px;
+  padding-bottom: 8px;
 }
 
 /* Research Topics Grid */
 .research-topics-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Updated to 2 columns for better sizing */
+  grid-template-columns: repeat(2, 1fr);
   gap: 25px;
-  margin: 30px 0;
+  margin: 25px 0;
 }
 
 .research-topic-card {
@@ -125,9 +125,6 @@ redirect_from:
   border-radius: 8px;
   overflow: hidden;
   transition: transform 0.3s, box-shadow 0.3s;
-  text-decoration: none;
-  color: inherit;
-  display: block;
 }
 
 .research-topic-card:hover {
@@ -148,11 +145,18 @@ redirect_from:
 }
 
 .research-topic-card h3 {
-  padding: 20px;
+  padding: 15px;
   margin: 0;
   text-align: center;
+}
+
+.research-topic-card h3 a {
   color: #4682B4;
-  font-size: 1.2em;
+  text-decoration: none;
+}
+
+.research-topic-card h3 a:hover {
+  text-decoration: underline;
 }
 
 /* News Items */
