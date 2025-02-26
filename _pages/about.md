@@ -15,28 +15,28 @@ Welcome to Sprocket Lab!
 <div class="research-topics-grid">
   <div class="research-topic-card">
     <div class="research-topic-image">
-      <img src="/images/profile.png" alt="Data-centric AI" onerror="this.src='/images/profile.png'">
+      <img src="/images/research_illustration/datacentric.png" alt="Data-centric AI" onerror="this.src='/images/research_illustration/datacentric.png'">
     </div>
     <h3><a href="/research/causality">Data-centric AI</a></h3>
   </div>
   
   <div class="research-topic-card">
     <div class="research-topic-image">
-      <img src="/images/profile.png" alt="Data- and Compute-Efficient Learning" onerror="this.src='/images/profile.png'">
+      <img src="/images/research_illustration/efficient-learning.png" alt="Data- and Compute-Efficient Learning" onerror="this.src='/images/research_illustration/efficient-learning.png'">
     </div>
     <h3><a href="/research/fairness">Data- and Compute-Efficient Learning</a></h3>
   </div>
 
   <div class="research-topic-card">
     <div class="research-topic-image">
-      <img src="/images/profile.png" alt="Foundation Models" onerror="this.src='/images/profile.png'">
+      <img src="/images/research_illustration/foundation-models.png" alt="Foundation Models" onerror="this.src='/images/research_illustration/foundation-models.png'">
     </div>
     <h3><a href="/research/causality">Foundation Models</a></h3>
   </div>
   
   <div class="research-topic-card">
     <div class="research-topic-image">
-      <img src="/images/profile.png" alt="Weak Supervision" onerror="this.src='/images/profile.png'">
+      <img src="/images/research_illustration/weak-supervision.png" alt="Weak Supervision" onerror="this.src='/images/research_illustration/weak-supervision.png'">
     </div>
     <h3><a href="/research/healthcare">Weak Supervision</a></h3>
   </div>
