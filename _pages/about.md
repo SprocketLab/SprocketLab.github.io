@@ -129,7 +129,7 @@ redirect_from:
   right: 0;
   width: 35%;
   height: 100%;
-  background-image: url('/images/network.png'); /* Update this path to your network image */
+  background-image: url('/images/nn_side.png'); /* Update this path to your network image */
   background-size: contain;
   background-repeat: no-repeat;
   background-position: right top;
