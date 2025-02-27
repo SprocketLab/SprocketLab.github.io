@@ -156,6 +156,7 @@ h2 {
   color: #2a2a2a;
   margin-top: 60px !important; /* Increase this value to add more space (was 20px) */
   margin-bottom: 25px !important; /* Slightly increased from 15px */
+  padding-bottom: 12px !important; /* Increase from 5px to 12px */
 }
 
 h3 {
