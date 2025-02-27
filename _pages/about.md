@@ -117,9 +117,9 @@ redirect_from:
   </ul>
 </div>
 
-<h2 style="margin-top: 20px; margin-bottom: 15px; border-bottom: 2px solid #4682B4; padding-bottom: 5px; font-weight: 700; letter-spacing: 0.5px;">How to Join</h2>
+<!-- <h2 style="margin-top: 20px; margin-bottom: 15px; border-bottom: 2px solid #4682B4; padding-bottom: 5px; font-weight: 700; letter-spacing: 0.5px;">How to Join</h2> -->
 
-<p>Interested in joining our lab as a UW-Madison undergraduate? Please complete our <a href="https://forms.gle/8dxCSvtiBYdB3EGDA" style="font-weight: bold; color: #4682B4;">application form</a>. We'll contact promising candidates directly when opportunities align with your background and interests.</p>
+<!-- <p>Interested in joining our lab as a UW-Madison undergraduate? Please complete our <a href="https://forms.gle/8dxCSvtiBYdB3EGDA" style="font-weight: bold; color: #4682B4;">application form</a>. We'll contact promising candidates directly when opportunities align with your background and interests.</p> -->
 
 <style>
 /* Network background styling - extremely minimal impact */
@@ -362,7 +362,7 @@ div[style*="background-color: #f8f9fa"] {
 
 /* List items in news section */
 div[style*="background-color: #f8f9fa"] li {
-  font-size: 0.8rem !important; /* Adjust as needed */
+  font-size: 0.85rem !important; /* Adjust as needed */
   margin-bottom: 8px !important; /* Add more spacing between list items */
   line-height: 1.5 !important;
 }
