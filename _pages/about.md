@@ -12,18 +12,14 @@ redirect_from:
   <p>Hello! We are a research group at the University of Wisconsin-Madison focused on machine learning, LLMs and Foundation Models, and data-centric AI.</p>
 </div>
 
-<!-- Added improved typography for section headers -->
 <h2 style="margin-top: 20px; margin-bottom: 15px; border-bottom: 2px solid #4682B4; padding-bottom: 5px; font-weight: 700; letter-spacing: 0.5px;">Research Topics</h2>
 
 <div class="research-topics-grid">
-
-
   <!-- Card 1: Data-centric AI -->
   <a href="https://sprocketlab.github.io/publications/" class="research-topic-link">
-    <div class="research-topic-card" data-topic="data">
+    <div class="research-topic-card">
       <!-- This is the text content that shows by default -->
       <div class="card-text-content">
-        <div class="topic-accent"></div>
         <h3>Data-centric AI</h3>
         <p>Improving learning through better data quality and understanding.</p>
         <div class="click-indicator">
@@ -44,10 +40,9 @@ redirect_from:
   
   <!-- Card 2: Data- and Compute-Efficient Learning -->
   <a href="https://sprocketlab.github.io/publications/" class="research-topic-link">
-    <div class="research-topic-card" data-topic="efficient">
+    <div class="research-topic-card">
       <!-- This is the text content that shows by default -->
       <div class="card-text-content">
-        <div class="topic-accent"></div>
         <h3>Data- and Compute-Efficient Learning</h3>
         <p>Building models that require less data and computational resources.</p>
         <div class="click-indicator">
@@ -68,10 +63,9 @@ redirect_from:
 
   <!-- Card 3: Foundation Models -->
   <a href="https://sprocketlab.github.io/publications/" class="research-topic-link">
-    <div class="research-topic-card" data-topic="foundation">
+    <div class="research-topic-card">
       <!-- This is the text content that shows by default -->
       <div class="card-text-content">
-        <div class="topic-accent"></div>
         <h3>Foundation Models</h3>
         <p>Foundation models and their applications to scientific problems.</p>
         <div class="click-indicator">
@@ -92,10 +86,9 @@ redirect_from:
   
   <!-- Card 4: Weak Supervision -->
   <a href="https://sprocketlab.github.io/publications/" class="research-topic-link">
-    <div class="research-topic-card" data-topic="supervision">
+    <div class="research-topic-card">
       <!-- This is the text content that shows by default -->
       <div class="card-text-content">
-        <div class="topic-accent"></div>
         <h3>Weak Supervision</h3>
         <p>Learning with limited or noisy supervision.</p>
         <div class="click-indicator">
@@ -113,8 +106,8 @@ redirect_from:
       </div>
     </div>
   </a>
+</div>
 
-<!-- Improved section header with consistent styling -->
 <h2 style="margin-top: 20px; margin-bottom: 15px; border-bottom: 2px solid #4682B4; padding-bottom: 5px; font-weight: 700; letter-spacing: 0.5px;">News</h2>
 
 <div style="margin-bottom: 15px; background-color: #f8f9fa; padding: 15px; border-radius: 5px;">
@@ -137,7 +130,6 @@ redirect_from:
   </ul>
 </div>
 
-<!-- Improved section header -->
 <h2 style="margin-top: 20px; margin-bottom: 15px; border-bottom: 2px solid #4682B4; padding-bottom: 5px; font-weight: 700; letter-spacing: 0.5px;">How to Join</h2>
 
 <p>Interested in joining our lab as a UW-Madison undergraduate? Please complete our <a href="https://forms.gle/8dxCSvtiBYdB3EGDA" style="font-weight: bold; color: #4682B4;">application form</a>. We'll contact promising candidates directly when opportunities align with your background and interests.</p>
@@ -167,48 +159,39 @@ h3 {
   color: #333;
 }
 
-/* Keeping your original grid layout */
+/* Grid layout */
 .research-topics-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 20px; /* Increased gap for better separation */
-  margin: 15px 0; /* Increased margin */
+  gap: 20px;
+  margin: 15px 0;
 }
 
-/* Modified card styling to support the text/image swap on hover */
+/* Styling for the entire clickable card */
+.research-topic-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  cursor: pointer;
+}
+
+/* Card styling */
 .research-topic-card {
   border: 1px solid #ddd;
-  border-radius: 8px; /* Increased border radius */
+  border-radius: 8px;
   overflow: hidden;
   transition: all 0.3s ease;
-  position: relative; /* Added for absolute positioning of contents */
-  height: 220px; /* Fixed height for consistency */
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Subtle shadow by default */
-}
-
-/* Added color accents for each topic */
-/* Added color accents for each topic - more academic color scheme */
-.research-topic-card[data-topic="data"] .topic-accent {
-  background-color: #5B8FB9; /* Muted blue */
-}
-
-.research-topic-card[data-topic="efficient"] .topic-accent {
-  background-color: #6B9080; /* Sage green */ 
-}
-
-.research-topic-card[data-topic="foundation"] .topic-accent {
-  background-color: #7D5BA6; /* Soft purple */
-}
-
-.research-topic-card[data-topic="supervision"] .topic-accent {
-  background-color: #A57548; /* Warm brown */
+  position: relative;
+  height: 220px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  cursor: pointer;
 }
 
 /* Enhanced hover effects */
 .research-topic-card:hover {
-  transform: translateY(-5px); /* Increased lift effect */
-  box-shadow: 0 8px 16px rgba(0,0,0,0.1); /* More pronounced shadow */
-  border-color: #bbb; /* Darker border on hover */
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  border-color: #bbb;
 }
 
 /* TEXT CONTENT - visible by default */
@@ -222,35 +205,54 @@ h3 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 30px; /* Increased padding */
+  padding: 30px;
   background: white;
   transition: all 0.3s ease;
   z-index: 2;
   text-align: center;
 }
 
-/* Added accent bar at top of cards */
-.topic-accent {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  background-color: #4682B4; /* Default color, overridden by data-topic specific colors */
-}
-
 .card-text-content h3 {
-  margin-bottom: 16px; /* Increased spacing */
-  font-weight: 600; /* Semi-bold */
-  letter-spacing: 0.3px; /* Subtle letter spacing */
-  font-size: 1.25rem; /* Slightly larger */
+  margin-bottom: 16px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  font-size: 1.25rem;
+  color: #4682B4;
 }
 
 .card-text-content p {
   margin: 5px 0;
   color: #555;
   line-height: 1.5;
-  font-size: 0.95rem; /* Slightly smaller for better hierarchy */
+  font-size: 0.95rem;
+}
+
+/* Click indicator styling */
+.click-indicator {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  padding: 5px 12px;
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+  color: #555;
+  opacity: 0;
+  transform: translateY(5px);
+  transition: all 0.3s ease;
+  border: 1px solid #eee;
+}
+
+.click-indicator svg {
+  margin-left: 5px;
+}
+
+/* Show indicator on hover */
+.research-topic-card:hover .click-indicator {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* IMAGE CONTENT - hidden by default, shown on hover */
@@ -260,7 +262,7 @@ h3 {
   left: 0;
   width: 100%;
   height: 100%;
-  opacity: 0; /* Hidden by default */
+  opacity: 0;
   transition: all 0.3s ease;
   z-index: 1;
 }
@@ -274,9 +276,9 @@ h3 {
   opacity: 1;
 }
 
-/* Keep your existing image styling */
+/* Image styling */
 .research-topic-image {
-  height: 170px; /* Reduced to make room for the title below */
+  height: 170px;
   overflow: hidden;
 }
 
@@ -289,23 +291,27 @@ h3 {
 
 /* Title styling on the image card */
 .card-image-content h3 {
-  padding: 12px; /* Increased padding */
+  padding: 12px;
   margin: 0;
   text-align: center;
-  background: white; /* Ensures text is readable on any image */
+  background: white;
   font-weight: 600;
   letter-spacing: 0.3px;
-}
-
-.research-topic-card h3 a {
   color: #4682B4;
-  text-decoration: none;
-  transition: color 0.2s ease;
 }
 
-.research-topic-card h3 a:hover {
-  color: #2a5a8a; /* Darker shade on hover */
-  text-decoration: none; /* Removed underline on hover for cleaner look */
+/* Add a subtle indicator on the image view too */
+.card-image-content::after {
+  content: "Click to explore";
+  position: absolute;
+  bottom: 50px;
+  right: 15px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-size: 0.8rem;
+  color: #555;
+  border: 1px solid #eee;
 }
 
 /* Enhanced link styling throughout the page */
@@ -332,7 +338,7 @@ a:hover {
   }
   
   .research-topic-card {
-    height: 200px; /* Slightly reduced height for mobile */
+    height: 200px;
   }
 }
 </style>
