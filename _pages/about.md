@@ -15,11 +15,13 @@ redirect_from:
 <h2 style="margin-top: 20px; margin-bottom: 15px; border-bottom: 2px solid #4682B4; padding-bottom: 5px; font-weight: 700; letter-spacing: 0.5px;">Research Topics</h2>
 
 <div class="research-topics-grid">
-  <!-- Card 1: Data-centric AI -->
+
+<!-- Card 1: Data-centric AI -->
   <a href="https://sprocketlab.github.io/publications/" class="research-topic-link">
     <div class="research-topic-card">
       <!-- This is the text content that shows by default -->
       <div class="card-text-content">
+        <div class="topic-accent"></div>
         <h3>Data-centric AI</h3>
         <p>Improving learning through better data quality and understanding.</p>
         <div class="click-indicator">
@@ -43,6 +45,7 @@ redirect_from:
     <div class="research-topic-card">
       <!-- This is the text content that shows by default -->
       <div class="card-text-content">
+        <div class="topic-accent"></div>
         <h3>Data- and Compute-Efficient Learning</h3>
         <p>Building models that require less data and computational resources.</p>
         <div class="click-indicator">
@@ -66,6 +69,7 @@ redirect_from:
     <div class="research-topic-card">
       <!-- This is the text content that shows by default -->
       <div class="card-text-content">
+        <div class="topic-accent"></div>
         <h3>Foundation Models</h3>
         <p>Foundation models and their applications to scientific problems.</p>
         <div class="click-indicator">
@@ -89,6 +93,7 @@ redirect_from:
     <div class="research-topic-card">
       <!-- This is the text content that shows by default -->
       <div class="card-text-content">
+        <div class="topic-accent"></div>
         <h3>Weak Supervision</h3>
         <p>Learning with limited or noisy supervision.</p>
         <div class="click-indicator">
@@ -106,7 +111,6 @@ redirect_from:
       </div>
     </div>
   </a>
-</div>
 
 <h2 style="margin-top: 20px; margin-bottom: 15px; border-bottom: 2px solid #4682B4; padding-bottom: 5px; font-weight: 700; letter-spacing: 0.5px;">News</h2>
 
