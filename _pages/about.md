@@ -15,32 +15,76 @@ redirect_from:
 <h2 style="margin-top: 20px; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px;">Research Topics</h2>
 
 <div class="research-topics-grid">
+  <!-- Card 1: Data-centric AI -->
   <div class="research-topic-card">
-    <div class="research-topic-image">
-      <img src="/images/research_illustration/datacentric.png" alt="Data-centric AI" onerror="this.src='/images/research_illustration/datacentric.png'">
+    <!-- This is the text content that shows by default -->
+    <div class="card-text-content">
+      <h3><a href="/">Data-centric AI</a></h3>
+      <p>Improving machine learning through better data quality and understanding.</p>
+      <p class="card-stats">4 Publications • 2 Active Projects</p>
     </div>
-    <h3><a href="/">Data-centric AI</a></h3>
+    
+    <!-- This is the image content that shows on hover -->
+    <div class="card-image-content">
+      <div class="research-topic-image">
+        <img src="/images/research_illustration/datacentric.png" alt="Data-centric AI" onerror="this.src='/images/research_illustration/datacentric.png'">
+      </div>
+      <h3><a href="/">Data-centric AI</a></h3>
+    </div>
   </div>
   
+  <!-- Card 2: Data- and Compute-Efficient Learning -->
   <div class="research-topic-card">
-    <div class="research-topic-image">
-      <img src="/images/research_illustration/efficient-learning.png" alt="Data- and Compute-Efficient Learning" onerror="this.src='/images/research_illustration/efficient-learning.png'">
+    <!-- This is the text content that shows by default -->
+    <div class="card-text-content">
+      <h3><a href="/">Data- and Compute-Efficient Learning</a></h3>
+      <p>Building models that require less data and computational resources.</p>
+      <p class="card-stats">6 Publications • 3 Active Projects</p>
     </div>
-    <h3><a href="/">Data- and Compute-Efficient Learning</a></h3>
+    
+    <!-- This is the image content that shows on hover -->
+    <div class="card-image-content">
+      <div class="research-topic-image">
+        <img src="/images/research_illustration/efficient-learning.png" alt="Data- and Compute-Efficient Learning" onerror="this.src='/images/research_illustration/efficient-learning.png'">
+      </div>
+      <h3><a href="/">Data- and Compute-Efficient Learning</a></h3>
+    </div>
   </div>
 
+  <!-- Card 3: Foundation Models -->
   <div class="research-topic-card">
-    <div class="research-topic-image">
-      <img src="/images/research_illustration/foundation-models.png" alt="Foundation Models" onerror="this.src='/images/research_illustration/foundation-models.png'">
+    <!-- This is the text content that shows by default -->
+    <div class="card-text-content">
+      <h3><a href="/">Foundation Models</a></h3>
+      <p>Research on large language models and their applications.</p>
+      <p class="card-stats">5 Publications • 4 Active Projects</p>
     </div>
-    <h3><a href="/">Foundation Models</a></h3>
+    
+    <!-- This is the image content that shows on hover -->
+    <div class="card-image-content">
+      <div class="research-topic-image">
+        <img src="/images/research_illustration/foundation-models.png" alt="Foundation Models" onerror="this.src='/images/research_illustration/foundation-models.png'">
+      </div>
+      <h3><a href="/">Foundation Models</a></h3>
+    </div>
   </div>
   
+  <!-- Card 4: Weak Supervision -->
   <div class="research-topic-card">
-    <div class="research-topic-image">
-      <img src="/images/research_illustration/weak-supervision.png" alt="Weak Supervision" onerror="this.src='/images/research_illustration/weak-supervision.png'">
+    <!-- This is the text content that shows by default -->
+    <div class="card-text-content">
+      <h3><a href="/">Weak Supervision</a></h3>
+      <p>Methods for training models with limited or noisy labels.</p>
+      <p class="card-stats">3 Publications • 2 Active Projects</p>
     </div>
-    <h3><a href="/">Weak Supervision</a></h3>
+    
+    <!-- This is the image content that shows on hover -->
+    <div class="card-image-content">
+      <div class="research-topic-image">
+        <img src="/images/research_illustration/weak-supervision.png" alt="Weak Supervision" onerror="this.src='/images/research_illustration/weak-supervision.png'">
+      </div>
+      <h3><a href="/">Weak Supervision</a></h3>
+    </div>
   </div>
 </div>
 
@@ -71,6 +115,7 @@ redirect_from:
 <p>Interested in joining our lab as a UW-Madison undergraduate? Please complete our <a href="https://forms.gle/8dxCSvtiBYdB3EGDA" style="font-weight: bold; color: #4682B4;">application form</a>. We'll contact promising candidates directly when opportunities align with your background and interests.</p>
 
 <style>
+/* Keeping your original grid layout */
 .research-topics-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -78,11 +123,14 @@ redirect_from:
   margin: 10px 0;
 }
 
+/* Modified card styling to support the text/image swap on hover */
 .research-topic-card {
   border: 1px solid #ddd;
   border-radius: 5px;
   overflow: hidden;
   transition: transform 0.3s, box-shadow 0.3s;
+  position: relative; /* Added for absolute positioning of contents */
+  height: 220px; /* Fixed height for consistency */
 }
 
 .research-topic-card:hover {
@@ -90,8 +138,64 @@ redirect_from:
   box-shadow: 0 5px 10px rgba(0,0,0,0.1);
 }
 
+/* TEXT CONTENT - visible by default */
+.card-text-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background: white;
+  transition: opacity 0.3s ease;
+  z-index: 2;
+  text-align: center;
+}
+
+.card-text-content h3 {
+  margin-bottom: 15px;
+}
+
+.card-text-content p {
+  margin: 5px 0;
+  color: #555;
+}
+
+.card-stats {
+  margin-top: 10px;
+  font-size: 0.9em;
+  color: #4682B4;
+  font-weight: 500;
+}
+
+/* IMAGE CONTENT - hidden by default, shown on hover */
+.card-image-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0; /* Hidden by default */
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+/* The hover effect to swap visibility */
+.research-topic-card:hover .card-text-content {
+  opacity: 0;
+}
+
+.research-topic-card:hover .card-image-content {
+  opacity: 1;
+}
+
+/* Keep your existing image styling */
 .research-topic-image {
-  height: 220px;
+  height: 170px; /* Reduced to make room for the title below */
   overflow: hidden;
 }
 
@@ -102,10 +206,12 @@ redirect_from:
   object-position: center;
 }
 
-.research-topic-card h3 {
+/* Title styling on the image card */
+.card-image-content h3 {
   padding: 10px;
   margin: 0;
   text-align: center;
+  background: white; /* Ensures text is readable on any image */
 }
 
 .research-topic-card h3 a {
@@ -117,6 +223,7 @@ redirect_from:
   text-decoration: underline;
 }
 
+/* Responsive adjustments */
 @media (max-width: 900px) {
   .research-topics-grid {
     grid-template-columns: repeat(2, 1fr);
