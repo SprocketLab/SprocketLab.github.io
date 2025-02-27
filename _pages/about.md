@@ -16,78 +16,103 @@ redirect_from:
 <h2 style="margin-top: 20px; margin-bottom: 15px; border-bottom: 2px solid #4682B4; padding-bottom: 5px; font-weight: 700; letter-spacing: 0.5px;">Research Topics</h2>
 
 <div class="research-topics-grid">
+
+
   <!-- Card 1: Data-centric AI -->
-  <div class="research-topic-card" data-topic="data">
-    <!-- This is the text content that shows by default -->
-    <div class="card-text-content">
-      <div class="topic-accent"></div>
-      <h3><a href="/">Data-centric AI</a></h3>
-      <p>Improving machine learning through better data quality and understanding.</p>
-    </div>
-    
-    <!-- This is the image content that shows on hover -->
-    <div class="card-image-content">
-      <div class="research-topic-image">
-        <img src="/images/research_illustration/datacentric.png" alt="Data-centric AI" onerror="this.src='/images/research_illustration/datacentric.png'">
+  <a href="https://sprocketlab.github.io/publications/" class="research-topic-link">
+    <div class="research-topic-card" data-topic="data">
+      <!-- This is the text content that shows by default -->
+      <div class="card-text-content">
+        <div class="topic-accent"></div>
+        <h3>Data-centric AI</h3>
+        <p>Improving learning through better data quality and understanding.</p>
+        <div class="click-indicator">
+          <span>View Research</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </div>
       </div>
-      <h3><a href="/">Data-centric AI</a></h3>
+      
+      <!-- This is the image content that shows on hover -->
+      <div class="card-image-content">
+        <div class="research-topic-image">
+          <img src="/images/research_illustration/datacentric.png" alt="Data-centric AI" onerror="this.src='/images/research_illustration/datacentric.png'">
+        </div>
+        <h3>Data-centric AI</h3>
+      </div>
     </div>
-  </div>
+  </a>
   
   <!-- Card 2: Data- and Compute-Efficient Learning -->
-  <div class="research-topic-card" data-topic="efficient">
-    <!-- This is the text content that shows by default -->
-    <div class="card-text-content">
-      <div class="topic-accent"></div>
-      <h3><a href="/">Data- and Compute-Efficient Learning</a></h3>
-      <p>Building models that require less data and computational resources.</p>
-    </div>
-    
-    <!-- This is the image content that shows on hover -->
-    <div class="card-image-content">
-      <div class="research-topic-image">
-        <img src="/images/research_illustration/efficient-learning.png" alt="Data- and Compute-Efficient Learning" onerror="this.src='/images/research_illustration/efficient-learning.png'">
+  <a href="https://sprocketlab.github.io/publications/" class="research-topic-link">
+    <div class="research-topic-card" data-topic="efficient">
+      <!-- This is the text content that shows by default -->
+      <div class="card-text-content">
+        <div class="topic-accent"></div>
+        <h3>Data- and Compute-Efficient Learning</h3>
+        <p>Building models that require less data and computational resources.</p>
+        <div class="click-indicator">
+          <span>View Research</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </div>
       </div>
-      <h3><a href="/">Data- and Compute-Efficient Learning</a></h3>
+      
+      <!-- This is the image content that shows on hover -->
+      <div class="card-image-content">
+        <div class="research-topic-image">
+          <img src="/images/research_illustration/efficient-learning.png" alt="Data- and Compute-Efficient Learning" onerror="this.src='/images/research_illustration/efficient-learning.png'">
+        </div>
+        <h3>Data- and Compute-Efficient Learning</h3>
+      </div>
     </div>
-  </div>
+  </a>
 
   <!-- Card 3: Foundation Models -->
-  <div class="research-topic-card" data-topic="foundation">
-    <!-- This is the text content that shows by default -->
-    <div class="card-text-content">
-      <div class="topic-accent"></div>
-      <h3><a href="/">Foundation Models</a></h3>
-      <p>Research on large language models and their applications.</p>
-    </div>
-    
-    <!-- This is the image content that shows on hover -->
-    <div class="card-image-content">
-      <div class="research-topic-image">
-        <img src="/images/research_illustration/foundation-models.png" alt="Foundation Models" onerror="this.src='/images/research_illustration/foundation-models.png'">
+  <a href="https://sprocketlab.github.io/publications/" class="research-topic-link">
+    <div class="research-topic-card" data-topic="foundation">
+      <!-- This is the text content that shows by default -->
+      <div class="card-text-content">
+        <div class="topic-accent"></div>
+        <h3>Foundation Models</h3>
+        <p>Foundation models and their applications to scientific problems.</p>
+        <div class="click-indicator">
+          <span>View Research</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </div>
       </div>
-      <h3><a href="/">Foundation Models</a></h3>
+      
+      <!-- This is the image content that shows on hover -->
+      <div class="card-image-content">
+        <div class="research-topic-image">
+          <img src="/images/research_illustration/foundation-models.png" alt="Foundation Models" onerror="this.src='/images/research_illustration/foundation-models.png'">
+        </div>
+        <h3>Foundation Models</h3>
+      </div>
     </div>
-  </div>
+  </a>
   
   <!-- Card 4: Weak Supervision -->
-  <div class="research-topic-card" data-topic="supervision">
-    <!-- This is the text content that shows by default -->
-    <div class="card-text-content">
-      <div class="topic-accent"></div>
-      <h3><a href="/">Weak Supervision</a></h3>
-      <p>Methods for training models with limited or noisy labels.</p>
-    </div>
-    
-    <!-- This is the image content that shows on hover -->
-    <div class="card-image-content">
-      <div class="research-topic-image">
-        <img src="/images/research_illustration/weak-supervision.png" alt="Weak Supervision" onerror="this.src='/images/research_illustration/weak-supervision.png'">
+  <a href="https://sprocketlab.github.io/publications/" class="research-topic-link">
+    <div class="research-topic-card" data-topic="supervision">
+      <!-- This is the text content that shows by default -->
+      <div class="card-text-content">
+        <div class="topic-accent"></div>
+        <h3>Weak Supervision</h3>
+        <p>Learning with limited or noisy supervision.</p>
+        <div class="click-indicator">
+          <span>View Research</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </div>
       </div>
-      <h3><a href="/">Weak Supervision</a></h3>
+      
+      <!-- This is the image content that shows on hover -->
+      <div class="card-image-content">
+        <div class="research-topic-image">
+          <img src="/images/research_illustration/weak-supervision.png" alt="Weak Supervision" onerror="this.src='/images/research_illustration/weak-supervision.png'">
+        </div>
+        <h3>Weak Supervision</h3>
+      </div>
     </div>
-  </div>
-</div>
+  </a>
 
 <!-- Improved section header with consistent styling -->
 <h2 style="margin-top: 20px; margin-bottom: 15px; border-bottom: 2px solid #4682B4; padding-bottom: 5px; font-weight: 700; letter-spacing: 0.5px;">News</h2>
@@ -162,20 +187,21 @@ h3 {
 }
 
 /* Added color accents for each topic */
+/* Added color accents for each topic - more academic color scheme */
 .research-topic-card[data-topic="data"] .topic-accent {
-  background-color: #4285F4;
+  background-color: #5B8FB9; /* Muted blue */
 }
 
 .research-topic-card[data-topic="efficient"] .topic-accent {
-  background-color: #34A853; 
+  background-color: #6B9080; /* Sage green */ 
 }
 
 .research-topic-card[data-topic="foundation"] .topic-accent {
-  background-color: #EA4335;
+  background-color: #7D5BA6; /* Soft purple */
 }
 
 .research-topic-card[data-topic="supervision"] .topic-accent {
-  background-color: #FBBC05;
+  background-color: #A57548; /* Warm brown */
 }
 
 /* Enhanced hover effects */
