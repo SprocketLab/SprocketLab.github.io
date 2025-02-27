@@ -141,14 +141,14 @@ redirect_from:
   position: fixed;
   top: 0;
   right: 0;
-  width: 50%;
+  width: 30%;
   height: 100%;
-  background-image: url('/images/nn_side.png'); /* Update this path to your network image */
+  background-image: url('/images/network.png');
   background-size: cover;
   background-position: left center;
   z-index: -1;
-  opacity: 0.8;
-  pointer-events: none; /* Makes the div non-interactive */
+  opacity: 0.15; /* Very low opacity */
+  pointer-events: none;
 }
 
 /* Main content with appropriate margin to accommodate the background */
