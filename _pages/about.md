@@ -21,7 +21,6 @@ redirect_from:
     <div class="card-text-content">
       <h3><a href="/">Data-centric AI</a></h3>
       <p>Improving machine learning through better data quality and understanding.</p>
-      <p class="card-stats">4 Publications • 2 Active Projects</p>
     </div>
     
     <!-- This is the image content that shows on hover -->
@@ -39,7 +38,6 @@ redirect_from:
     <div class="card-text-content">
       <h3><a href="/">Data- and Compute-Efficient Learning</a></h3>
       <p>Building models that require less data and computational resources.</p>
-      <p class="card-stats">6 Publications • 3 Active Projects</p>
     </div>
     
     <!-- This is the image content that shows on hover -->
@@ -57,7 +55,6 @@ redirect_from:
     <div class="card-text-content">
       <h3><a href="/">Foundation Models</a></h3>
       <p>Research on large language models and their applications.</p>
-      <p class="card-stats">5 Publications • 4 Active Projects</p>
     </div>
     
     <!-- This is the image content that shows on hover -->
@@ -75,7 +72,6 @@ redirect_from:
     <div class="card-text-content">
       <h3><a href="/">Weak Supervision</a></h3>
       <p>Methods for training models with limited or noisy labels.</p>
-      <p class="card-stats">3 Publications • 2 Active Projects</p>
     </div>
     
     <!-- This is the image content that shows on hover -->
@@ -163,13 +159,6 @@ redirect_from:
 .card-text-content p {
   margin: 5px 0;
   color: #555;
-}
-
-.card-stats {
-  margin-top: 10px;
-  font-size: 0.9em;
-  color: #4682B4;
-  font-weight: 500;
 }
 
 /* IMAGE CONTENT - hidden by default, shown on hover */
