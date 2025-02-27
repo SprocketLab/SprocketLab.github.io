@@ -154,6 +154,8 @@ h2 {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   font-weight: 700;
   color: #2a2a2a;
+  margin-top: 60px !important; /* Increase this value to add more space (was 20px) */
+  margin-bottom: 25px !important; /* Slightly increased from 15px */
 }
 
 h3 {
