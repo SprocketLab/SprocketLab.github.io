@@ -25,9 +25,6 @@ redirect_from:
       <div class="card-text-content">
         <h3>Data-centric AI</h3>
         <p>Improving learning through better data quality and understanding.</p>
-        <div class="view-research-button">
-          View Research <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-        </div>
       </div>
       
       <!-- This is the image content that shows on hover -->
@@ -47,9 +44,6 @@ redirect_from:
       <div class="card-text-content">
         <h3>Data- and Compute-Efficient Learning</h3>
         <p>Building models that require less data and computational resources.</p>
-        <div class="view-research-button">
-          View Research <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-        </div>
       </div>
       
       <!-- This is the image content that shows on hover -->
@@ -69,9 +63,6 @@ redirect_from:
       <div class="card-text-content">
         <h3>Foundation Models</h3>
         <p>Foundation models and their applications to scientific problems.</p>
-        <div class="view-research-button">
-          View Research <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-        </div>
       </div>
       
       <!-- This is the image content that shows on hover -->
@@ -91,9 +82,6 @@ redirect_from:
       <div class="card-text-content">
         <h3>Weak Supervision</h3>
         <p>Learning with limited or noisy supervision.</p>
-        <div class="view-research-button">
-          View Research <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-        </div>
       </div>
       
       <!-- This is the image content that shows on hover -->
