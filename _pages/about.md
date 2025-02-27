@@ -359,4 +359,12 @@ div[style*="background-color: #f8f9fa"] {
     display: none; /* Hide on very small screens */
   }
 }
+
+/* List items in news section */
+div[style*="background-color: #f8f9fa"] li {
+  font-size: 0.95rem !important; /* Adjust as needed */
+  margin-bottom: 8px !important; /* Add more spacing between list items */
+  line-height: 1.5 !important;
+}
+
 </style>
