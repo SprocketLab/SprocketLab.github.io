@@ -38,14 +38,15 @@ author_profile: true
   }
 
   .filter-btn.active {
-    background-color: #e8f0e9;
-    border-color: #c0d6ca;
-    color: #333;
+    background-color: #f0f8ff; /* Light background */
+    color: #79b8cc; /* Matching the blue-teal color of your publication titles */
+    border-color: #79b8cc;
   }
-
   /* Make "Show all" button match screenshot */
   .filter-btn[data-filter="all"] {
-    background-color: #c0d6ca;
+    background-color: #f0f8ff;
+    color: #79b8cc;
+    border-color: #79b8cc;
   }
 </style>
 
