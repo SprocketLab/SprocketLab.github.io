@@ -2,59 +2,69 @@
 layout: default
 ---
 
+{% include base_path %}
+
+<div class="main-content" id="main">
+  <div class="inner-container">
+    <h1>{{ page.title }}</h1>
+    
+    <div class="filter-buttons">
+      <button class="filter-btn active" data-filter="all">Show all</button>
+      <button class="filter-btn" data-filter="nlp">NLP</button>
+      <button class="filter-btn" data-filter="llm">LLM</button>
+      <button class="filter-btn" data-filter="alignment">Alignment</button>
+      <button class="filter-btn" data-filter="robotics">Robotics</button>
+    </div>
+
+    <div class="publications-list">
+      {% for post in site.publications reversed %}
+        <div class="publication" data-categories="{{ post.categories | join: ',' }}">
+          {% include archive-single.html %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
 <style>
+  /* Only include styling for the filter buttons themselves */
   .filter-buttons {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-bottom: 30px;
+    margin: 20px 0 30px 0;
   }
 
   .filter-btn {
-    padding: 8px 16px;
+    padding: 10px 15px;
     background-color: white;
-    border: 1px solid #ccc;
+    border: 1px solid #ddd;
+    border-radius: 3px;
     cursor: pointer;
     font-size: 16px;
     transition: all 0.3s ease;
+    min-width: 80px;
+    text-align: center;
   }
 
   .filter-btn:hover {
-    background-color: #f0f0f0;
+    background-color: #f5f5f5;
   }
 
   .filter-btn.active {
-    background-color: #c0d6ca;
+    background-color: #e8f0e9;
+    border-color: #c0d6ca;
     color: #333;
   }
 
-  .publication {
-    transition: opacity 0.3s ease;
+  /* Make "Show all" button match screenshot */
+  .filter-btn[data-filter="all"] {
+    background-color: #c0d6ca;
   }
 </style>
 
-<div class="container">
-  <h1>{{ page.title }}</h1>
-  
-  <div class="filter-buttons">
-    <button class="filter-btn active" data-filter="all">Show all</button>
-    <button class="filter-btn" data-filter="nlp">NLP</button>
-    <button class="filter-btn" data-filter="llm">LLM</button>
-    <button class="filter-btn" data-filter="alignment">Alignment</button>
-    <button class="filter-btn" data-filter="robotics">Robotics</button>
-    <!-- Add more buttons as needed -->
-  </div>
-
-  <div class="publications-list">
-    {% for post in site.publications reversed %}
-      <div class="publication" data-categories="{{ post.categories | join: ',' }}">
-        {% include archive-single.html %}
-      </div>
-    {% endfor %}
-  </div>
-</div>
-
 <script>
+  // JavaScript for filtering (same as before)
   document.addEventListener('DOMContentLoaded', function() {
     const filterButtons = document.querySelectorAll('.filter-btn');
     const publications = document.querySelectorAll('.publication');
