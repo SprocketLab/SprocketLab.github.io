@@ -1,33 +1,26 @@
 ---
-layout: default
+layout: single
 ---
 
-{% include base_path %}
+{{ content }}
 
-<div class="main-content" id="main">
-  <div class="inner-container">
-    <h1>{{ page.title }}</h1>
-    
-    <div class="filter-buttons">
-      <button class="filter-btn active" data-filter="all">Show all</button>
-      <button class="filter-btn" data-filter="nlp">NLP</button>
-      <button class="filter-btn" data-filter="llm">LLM</button>
-      <button class="filter-btn" data-filter="alignment">Alignment</button>
-      <button class="filter-btn" data-filter="robotics">Robotics</button>
-    </div>
+<div class="filter-buttons">
+  <button class="filter-btn active" data-filter="all">Show all</button>
+  <button class="filter-btn" data-filter="nlp">NLP</button>
+  <button class="filter-btn" data-filter="llm">LLM</button>
+  <button class="filter-btn" data-filter="alignment">Alignment</button>
+  <button class="filter-btn" data-filter="robotics">Robotics</button>
+</div>
 
-    <div class="publications-list">
-      {% for post in site.publications reversed %}
-        <div class="publication" data-categories="{{ post.categories | join: ',' }}">
-          {% include archive-single.html %}
-        </div>
-      {% endfor %}
+<div class="publications-list">
+  {% for post in site.publications reversed %}
+    <div class="publication" data-categories="{{ post.categories | join: ',' }}">
+      {% include archive-single.html %}
     </div>
-  </div>
+  {% endfor %}
 </div>
 
 <style>
-  /* Only include styling for the filter buttons themselves */
   .filter-buttons {
     display: flex;
     flex-wrap: wrap;
@@ -64,7 +57,6 @@ layout: default
 </style>
 
 <script>
-  // JavaScript for filtering (same as before)
   document.addEventListener('DOMContentLoaded', function() {
     const filterButtons = document.querySelectorAll('.filter-btn');
     const publications = document.querySelectorAll('.publication');
