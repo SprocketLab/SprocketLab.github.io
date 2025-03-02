@@ -65,12 +65,14 @@
       <p>Download <a href=" {{ post.paperurl }} "><u>here</u></a></p>
     {% endif %}
     -->
-
+<!-- 
     {% if include.type == "grid" %}
       <div class="archive__item" data-categories="{{ post.categories | join: ',' }}">
     {% else %}
       <div class="archive__item" data-categories="{{ post.categories | join: ',' }}">
-    {% endif %}
+    {% endif %} -->
+
+    <div class="archive__item" {% if post.categories %}data-categories="{{ post.categories | join: ',' }}"{% endif %}></div>
 
   </article>
 </div>
