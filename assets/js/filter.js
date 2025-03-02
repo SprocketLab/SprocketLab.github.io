@@ -3,6 +3,12 @@ window.onload = function() {
     var buttons = document.querySelectorAll('.filter-btn');
     var publications = document.querySelectorAll('.archive__item');
     
+    // Debug: Log all publications and their categories
+    publications.forEach(function(pub) {
+      console.log('Publication element:', pub);
+      console.log('Categories attribute:', pub.getAttribute('data-categories'));
+    });
+    
     buttons.forEach(function(button) {
       button.addEventListener('click', function() {
         // Remove active class from all buttons
@@ -13,38 +19,42 @@ window.onload = function() {
         // Add active class to clicked button
         this.classList.add('active');
         
-        // Get filter value
-        var filter = this.getAttribute('data-filter');
+        // Get filter value and normalize it
+        var filter = this.getAttribute('data-filter').toLowerCase();
         console.log('Filter selected:', filter);
         
         // Show/hide publications based on filter
+        var visibleCount = 0;
         publications.forEach(function(pub) {
           if (filter === 'all') {
             pub.style.display = 'block';
+            visibleCount++;
             return;
           }
           
+          // The issue might be that we need to get the categories from the data attribute
           var categories = pub.getAttribute('data-categories');
-          console.log('Publication categories:', categories);
+          console.log('Publication categories for', pub.querySelector('.archive__item-title')?.textContent || 'unknown', ':', categories);
           
-          // Handle publications with no categories
+          // If no categories or empty, hide when filtering
           if (!categories) {
             pub.style.display = 'none';
             return;
           }
           
-          // Split the categories string into an array and trim each value
-          categories = categories.split(',').map(function(cat) {
-            return cat.trim().toLowerCase();
-          });
+          // Convert categories to lowercase for comparison
+          categories = categories.toLowerCase();
           
-          // Check if the filter is in the categories array
-          if (categories.includes(filter.toLowerCase())) {
+          // Check if the filter is included in the categories string
+          if (categories.includes(filter)) {
             pub.style.display = 'block';
+            visibleCount++;
           } else {
             pub.style.display = 'none';
           }
         });
+        
+        console.log('Visible publications after filtering:', visibleCount);
       });
     });
   };
