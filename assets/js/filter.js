@@ -2,13 +2,7 @@ window.onload = function() {
     console.log('Filter script loaded!');
     var buttons = document.querySelectorAll('.filter-btn');
     var publications = document.querySelectorAll('.list__item, .grid__item');
-    
-    // Debug: Log all publications and their categories
-    publications.forEach(function(pub) {
-      console.log('Publication element:', pub);
-      console.log('Categories attribute:', pub.getAttribute('data-categories'));
-      console.log('Title:', pub.querySelector('.archive__item-title')?.textContent);
-    });
+    var yearHeadings = document.querySelectorAll('.year-heading');
     
     buttons.forEach(function(button) {
       button.addEventListener('click', function() {
@@ -25,17 +19,25 @@ window.onload = function() {
         console.log('Filter selected:', filter);
         
         // Show/hide publications based on filter
-        var visibleCount = 0;
+        var visibleByYear = {};
+        
         publications.forEach(function(pub) {
+          // Get the year from the year container
+          var yearContainer = pub.closest('.publications-year');
+          var year = yearContainer ? yearContainer.getAttribute('data-year') : null;
+          
+          if (!visibleByYear[year]) {
+            visibleByYear[year] = 0;
+          }
+          
           if (filter === 'all') {
             pub.style.display = 'block';
-            visibleCount++;
+            visibleByYear[year]++;
             return;
           }
           
           // Get categories from the data attribute
           var categories = pub.getAttribute('data-categories');
-          console.log('Publication categories for', pub.querySelector('.archive__item-title')?.textContent || 'unknown', ':', categories);
           
           // If no categories or empty, hide when filtering
           if (!categories) {
@@ -49,13 +51,25 @@ window.onload = function() {
           // Check if the filter is included in the categories string
           if (categories.includes(filter)) {
             pub.style.display = 'block';
-            visibleCount++;
+            visibleByYear[year]++;
           } else {
             pub.style.display = 'none';
           }
         });
         
-        console.log('Visible publications after filtering:', visibleCount);
+        // Show/hide year headings based on visible publications
+        yearHeadings.forEach(function(heading) {
+          var year = heading.textContent.trim();
+          var yearContainer = document.querySelector('.publications-year[data-year="' + year + '"]');
+          
+          if (visibleByYear[year] && visibleByYear[year] > 0) {
+            heading.style.display = 'block';
+            if (yearContainer) yearContainer.style.display = 'block';
+          } else {
+            heading.style.display = 'none';
+            if (yearContainer) yearContainer.style.display = 'none';
+          }
+        });
       });
     });
   };

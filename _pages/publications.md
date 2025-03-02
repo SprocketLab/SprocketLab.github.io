@@ -50,12 +50,28 @@ author_profile: true
     color: #5aabca !important; 
     border-color: #5aabca !important;
   }
+  
+  /* Style for year headings */
+  .year-heading {
+    font-size: 2em;
+    color: #333;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    font-weight: normal;
+  }
 </style>
 
 <script src="{{ site.baseurl }}/assets/js/filter.js"></script>
 
 {% include base_path %}
 
-{% for post in site.publications reversed %}
-  {% include archive-single.html %}
+{% assign grouped_publications = site.publications | group_by_exp: "pub", "pub.date | date: '%Y'" | sort: "name" | reverse %}
+
+{% for year in grouped_publications %}
+  <h2 class="year-heading">{{ year.name }}</h2>
+  <div class="publications-year" data-year="{{ year.name }}">
+    {% for post in year.items %}
+      {% include archive-single.html %}
+    {% endfor %}
+  </div>
 {% endfor %}
