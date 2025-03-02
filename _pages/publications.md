@@ -14,64 +14,65 @@ author_profile: true
 </div>
 
 <style>
+  /* Your CSS styles for the buttons here */
   .filter-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 20px 0 30px 0;
-}
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px 0 30px 0;
+  }
 
-.filter-btn {
-  padding: 10px 15px;
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 3px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: all 0.3s ease;
-  min-width: 80px;
-  text-align: center;
-}
+  .filter-btn {
+    padding: 10px 15px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    min-width: 80px;
+    text-align: center;
+  }
 
-.filter-btn:hover {
-  background-color: #f5f5f5;
-}
+  .filter-btn:hover {
+    background-color: #f5f5f5;
+  }
 
-.filter-btn.active {
-  background-color: #f0f8ff; /* Light background */
-  color: #5aabca; /* Matching the blue color of your publication titles */
-  border-color: #5aabca;
-}
+  .filter-btn.active {
+    background-color: #f0f8ff;
+    color: #5aabca; 
+    border-color: #5aabca;
+  }
 
-/* Make "Show all" button initially active */
-.filter-btn[data-filter="all"] {
-  background-color: #f0f8ff;
-  color: #5aabca;
-  border-color: #5aabca;
-}
+  /* Make "Show all" button initially active */
+  .filter-btn[data-filter="all"] {
+    background-color: #f0f8ff;
+    color: #5aabca;
+    border-color: #5aabca;
+  }
 </style>
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-  const filterButtons = document.querySelectorAll('.filter-btn');
-  
-  // Add event listeners to filter buttons
-  filterButtons.forEach(button => {
-    button.addEventListener('click', function() {
-      // Remove active class from all buttons
-      filterButtons.forEach(btn => btn.classList.remove('active'));
-      
-      // Add active class to clicked button
-      this.classList.add('active');
-      
-      // Get the filter value from the clicked button
-      const filter = this.getAttribute('data-filter');
-      
-      // For now, we're just changing button appearance
-      // We'll add the actual filtering functionality next
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    
+    // Add event listeners to filter buttons
+    filterButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        // Remove active class from all buttons
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        
+        // Add active class to clicked button
+        this.classList.add('active');
+        
+        // Get the filter value from the clicked button
+        const filter = this.getAttribute('data-filter');
+        
+        // For now, we're just changing button appearance
+        // We'll add the actual filtering functionality next
+      });
     });
   });
-});
 </script>
 
 {% include base_path %}
