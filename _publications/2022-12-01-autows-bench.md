@@ -5,7 +5,7 @@ collection: publications
 permalink: /publication/2022-12-01-autows-bench
 excerpt: ''
 date: 2022-12-01
-venue: 'Neural Information Processing Systems (NeurIPS)'
+venue: 'NeurIPS 2022'
 paperurl: 'https://openreview.net/pdf?id=nQZHEunntbJ'
 citation: ''
 categories: [weak supervision, automl]
