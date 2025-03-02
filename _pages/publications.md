@@ -44,30 +44,7 @@ author_profile: true
   }
 </style>
 
-<script type="text/javascript">
-  // Wait for page to load
-  window.onload = function() {
-    console.log('Page loaded');
-    // Get all filter buttons
-    var buttons = document.querySelectorAll('.filter-btn');
-    console.log('Found buttons:', buttons.length);
-    
-    // Add click event to each button
-    buttons.forEach(function(button) {
-      button.addEventListener('click', function() {
-        console.log('Button clicked:', this.textContent);
-        
-        // Remove active class from all buttons
-        buttons.forEach(function(btn) {
-          btn.classList.remove('active');
-        });
-        
-        // Add active class to clicked button
-        this.classList.add('active');
-      });
-    });
-  };
-</script>
+<script src="{{ site.baseurl }}/assets/js/filter.js"></script>
 
 {% include base_path %}
 
