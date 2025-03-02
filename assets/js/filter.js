@@ -19,17 +19,27 @@ window.onload = function() {
         
         // Show/hide publications based on filter
         publications.forEach(function(pub) {
-          var categories = pub.getAttribute('data-categories');
-          
-          // Handle publications with no categories
-          if (!categories) {
-            pub.style.display = (filter === 'all') ? 'block' : 'none';
+          if (filter === 'all') {
+            pub.style.display = 'block';
             return;
           }
           
-          categories = categories.split(',');
+          var categories = pub.getAttribute('data-categories');
+          console.log('Publication categories:', categories);
           
-          if (filter === 'all' || categories.includes(filter)) {
+          // Handle publications with no categories
+          if (!categories) {
+            pub.style.display = 'none';
+            return;
+          }
+          
+          // Split the categories string into an array and trim each value
+          categories = categories.split(',').map(function(cat) {
+            return cat.trim().toLowerCase();
+          });
+          
+          // Check if the filter is in the categories array
+          if (categories.includes(filter.toLowerCase())) {
             pub.style.display = 'block';
           } else {
             pub.style.display = 'none';
