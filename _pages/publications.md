@@ -7,10 +7,18 @@ author_profile: true
 
 <div class="filter-buttons">
   <button class="filter-btn active" data-filter="all">Show all</button>
-  <button class="filter-btn" data-filter="nlp">NLP</button>
-  <button class="filter-btn" data-filter="llm">LLM</button>
-  <button class="filter-btn" data-filter="alignment">Alignment</button>
-  <button class="filter-btn" data-filter="robotics">Robotics</button>
+  
+  {% assign all_categories = "" | split: "" %}
+  {% for post in site.publications %}
+    {% if post.categories %}
+      {% assign all_categories = all_categories | concat: post.categories %}
+    {% endif %}
+  {% endfor %}
+  
+  {% assign unique_categories = all_categories | uniq | sort %}
+  {% for category in unique_categories %}
+    <button class="filter-btn" data-filter="{{ category }}">{{ category | capitalize }}</button>
+  {% endfor %}
 </div>
 
 <style>

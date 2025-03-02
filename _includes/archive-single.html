@@ -66,5 +66,11 @@
     {% endif %}
     -->
 
+    {% if include.type == "grid" %}
+      <div class="archive__item" data-categories="{{ post.categories | join: ',' }}">
+    {% else %}
+      <div class="archive__item" data-categories="{{ post.categories | join: ',' }}">
+    {% endif %}
+
   </article>
 </div>
