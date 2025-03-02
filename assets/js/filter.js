@@ -1,12 +1,13 @@
 window.onload = function() {
     console.log('Filter script loaded!');
     var buttons = document.querySelectorAll('.filter-btn');
-    var publications = document.querySelectorAll('.archive__item');
+    var publications = document.querySelectorAll('.list__item, .grid__item');
     
     // Debug: Log all publications and their categories
     publications.forEach(function(pub) {
       console.log('Publication element:', pub);
       console.log('Categories attribute:', pub.getAttribute('data-categories'));
+      console.log('Title:', pub.querySelector('.archive__item-title')?.textContent);
     });
     
     buttons.forEach(function(button) {
@@ -32,7 +33,7 @@ window.onload = function() {
             return;
           }
           
-          // The issue might be that we need to get the categories from the data attribute
+          // Get categories from the data attribute
           var categories = pub.getAttribute('data-categories');
           console.log('Publication categories for', pub.querySelector('.archive__item-title')?.textContent || 'unknown', ':', categories);
           
