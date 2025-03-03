@@ -166,8 +166,8 @@ redirect_from:
       {% for post in year.items %}
         <article class="post-card">
           <div class="post-thumbnail-container">
-            {% if post.header.teaser %}
-              <img class="post-thumbnail" src="{{ base_path }}{{ post.header.teaser }}" alt="{{ post.title }}">
+            {% if post.thumbnail %}
+              <img class="post-thumbnail" src="{{ base_path }}{{ post.thumbnail }}" alt="{{ post.title }}">
             {% else %}
               <img class="post-thumbnail" src="{{ base_path }}/images/profile.png" alt="{{ post.title }}">
             {% endif %}
@@ -200,29 +200,7 @@ redirect_from:
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                   <circle cx="12" cy="7" r="4"></circle>
                 </svg>
-                {% assign author_text = post.authors %}
-                {% if author_text contains "and" %}
-                  {{ author_text }}
-                {% else %}
-                  {% if author_text contains "<a" %}
-                    {{ author_text }}
-                  {% else %}
-                    {% assign authors_array = author_text | split: "," %}
-                    {% if authors_array.size > 1 %}
-                      {% for author in authors_array %}
-                        {% if forloop.last %}
-                          and {{ author | strip }}
-                        {% elsif forloop.first %}
-                          {{ author | strip }}
-                        {% else %}
-                          , {{ author | strip }}
-                        {% endif %}
-                      {% endfor %}
-                    {% else %}
-                      {{ author_text }}
-                    {% endif %}
-                  {% endif %}
-                {% endif %}
+                {{ post.authors | replace: 'and', ' and ' }}
               </div>
             {% elsif post.author %}
               <div class="post-author">
