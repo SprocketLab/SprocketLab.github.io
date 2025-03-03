@@ -119,6 +119,32 @@ redirect_from:
 
 <h2 style="margin-top: 20px; margin-bottom: 15px; border-bottom: 2px solid #4682B4; padding-bottom: 5px; font-weight: 700; letter-spacing: 0.5px;">Sponsors</h2>
 
+<div style="margin-bottom: 15px;">
+  <h2>Sponsors</h2>
+  <p>We are thankful for the generous funding award and gift from the following</p>
+</div>
+
+<div class="sponsor-container">
+  <div class="sponsor-item">
+    <img src="/images/sponsors/nsf.jpg" alt="Air Force Office of Scientific Research" class="sponsor-logo">
+  </div>
+  <div class="sponsor-item">
+    <img src="/images/sponsors/DARPA.png" alt="National Science Foundation" class="sponsor-logo">
+  </div>
+  <div class="sponsor-item">
+    <img src="/images/sponsors/amfam.webp" alt="Office of Naval Research" class="sponsor-logo">
+  </div>
+
+  <div class="sponsor-item">
+    <img src="/images/sponsors/US_Air_Force.png" alt="Office of Naval Research" class="sponsor-logo">
+  </div>
+
+  <div class="sponsor-item">
+    <img src="/images/sponsors/Warf_logo.png" alt="Office of Naval Research" class="sponsor-logo">
+  </div>
+  <!-- Add more sponsors as needed with the same structure -->
+</div>
+
 
 <style>
 /* Network background styling - extremely minimal impact */
@@ -364,6 +390,47 @@ div[style*="background-color: #f8f9fa"] li {
   font-size: 0.85rem !important; /* Adjust as needed */
   margin-bottom: 8px !important; /* Add more spacing between list items */
   line-height: 1.5 !important;
+}
+
+.sponsor-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+@media (max-width: 768px) {
+  .sponsor-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .sponsor-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.sponsor-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sponsor-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.sponsor-logo {
+  max-width: 100%;
+  max-height: 120px;
+  object-fit: contain;
 }
 
 </style>
