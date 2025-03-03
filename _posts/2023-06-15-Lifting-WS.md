@@ -9,7 +9,8 @@ tags:
   - Tensor Decomposition
   - Non-Euclidean ML
 excerpt: ''
-authors: "<a href='https://harit7.github.io/'>Harit Vishwakarma</a> and <a href='https://pages.cs.wisc.edu/~fredsala/'> Fred Sala </a>" 
+authors: "<a href='https://harit7.github.io/'>Harit Vishwakarma</a>" 
+thumbnail: /images/blogposts/lifting-ws/ws-ama-llm-agg.jpg
 ---
 One exciting aspect of large pretrained 'foundation' models is that it is easy to obtain *multiple observations* by repeatedly querying. The most straightforward example is to obtain multiple answers to a question by varying the prompt, as shown below. These outputs could be noisy and naturally, we'd like to **aggregate** these outputs in such a way that we obtain a better estimate of the ground truth than any single answer on its own. Ideally, this aggregation should  
 * Take into account that some estimated objects are closer to the ground truth than others, i.e., are **more accurate, and upweight** these, 
