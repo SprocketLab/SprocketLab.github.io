@@ -109,7 +109,8 @@ author:
   stackoverflow    : # http://stackoverflow.com/users/123456/username
   steam            :
   tumblr           :
-  twitter          : "sprocket_lab"
+  # twitter          : "sprocket_lab"
+  twitter          :
   vine             :
   weibo            :
   xing             :
