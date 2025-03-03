@@ -14,7 +14,6 @@ author_profile: true
     </div>
     <div class="info-container">
       <h3><a href="https://pages.cs.wisc.edu/~fredsala/">Fred Sala</a></h3>
-      <p class="position">PI</p>
     </div>
   </div>
 
@@ -24,7 +23,6 @@ author_profile: true
     </div>
     <div class="info-container">
       <h3><a href="https://nick11roberts.github.io/">Nick Roberts</a></h3>
-      <p class="position">PhD Student</p>
       <p class="research-interests">Scaling Laws</p>
     </div>
   </div>
@@ -35,7 +33,6 @@ author_profile: true
     </div>
     <div class="info-container">
       <h3><a href="https://harit7.github.io/">Harit Vishwakarma</a></h3>
-      <p class="position">PhD Student</p>
       <p class="research-interests">Data-efficient Learning; Uncertainty and Safety.</p>
     </div>
   </div>
@@ -46,7 +43,6 @@ author_profile: true
     </div>
     <div class="info-container">
       <h3><a href="https://dyahadila.github.io/">Dyah Adila</a></h3>
-      <p class="position">PhD Student</p>
       <p class="research-interests">Data- and compute-efficient LLMs; Reasoning</p>
     </div>
   </div>
@@ -57,7 +53,6 @@ author_profile: true
     </div>
     <div class="info-container">
       <h3><a href="https://socromp.github.io/">Sonia Cromp</a></h3>
-      <p class="position">PhD Student</p>
       <p class="research-interests">Foundation Models for Scientific, Structured and Low-data Regimes</p>
     </div>
   </div>
@@ -68,7 +63,6 @@ author_profile: true
     </div>
     <div class="info-container">
       <h3><a href="https://zihengh1.github.io/">Brian Huang</a></h3>
-      <p class="position">PhD Student</p>
       <p class="research-interests">Data-centric AI; Multimodal Models </p>
     </div>
   </div>
@@ -79,7 +73,6 @@ author_profile: true
     </div>
     <div class="info-container">
       <h3><a href="https://ch-shin.github.io/">Changho Shin</a></h3>
-      <p class="position">PhD Student</p>
       <p class="research-interests">Data-centric AI</p>
     </div>
   </div>
@@ -90,7 +83,6 @@ author_profile: true
     </div>
     <div class="info-container">
       <h3><a href="https://jzhao326.github.io/">Jitian Zhao</a></h3>
-      <p class="position">PhD Student</p>
       <p class="research-interests">Social Network Analysis; LLM</p>
     </div>
   </div>
@@ -101,7 +93,6 @@ author_profile: true
     </div>
     <div class="info-container">
       <h3><a href="https://avitrost.github.io/">Avi Trost</a></h3>
-      <p class="position">PhD Student</p>
       <p class="research-interests">Synthetic Data; Data-centric ML; Reasoning</p>
     </div>
   </div>
@@ -112,7 +103,6 @@ author_profile: true
     </div>
     <div class="info-container">
       <h3><a href="https://zhiqigao2001.github.io/">Zhiqi Gao</a></h3>
-      <p class="position">PhD Student</p>
       <p class="research-interests">Foundation Model Interpretability; Reasoning</p>
     </div>
   </div>
@@ -123,7 +113,6 @@ author_profile: true
     </div>
     <div class="info-container">
       <h3><a href="https://www.albertge.com/">Albert Ge</a></h3>
-      <p class="position">PhD Student</p>
       <p class="research-interests">Language Model Adaptation; Compute Efficient Learning</p>
     </div>
   </div>
@@ -134,7 +123,6 @@ author_profile: true
     </div>
     <div class="info-container">
       <h3><a href="https://www.linkedin.com/in/samuel-guo-03570b148/">Samuel Guo</a></h3>
-      <p class="position">PhD Student</p>
       <p class="research-interests">Neural Architecture Search; Hybrid Models</p>
     </div>
   </div>
@@ -145,7 +133,6 @@ author_profile: true
     </div>
     <div class="info-container">
       <h3><a href="https://sc782.github.io/">June Cho</a></h3>
-      <p class="position">PhD Student</p>
       <p class="research-interests">Machine (Un)learning; Time-Series Forecasting; Geometric Deep Learning</p>
     </div>
   </div>
@@ -156,7 +143,6 @@ author_profile: true
     </div>
     <div class="info-container">
       <h3><a href="https://gabeorlanski.github.io/">Gabe Orlanski</a></h3>
-      <p class="position">PhD Student</p>
       <p class="research-interests">Machine Learning for code intelligence</p>
     </div>
   </div>
@@ -167,7 +153,6 @@ author_profile: true
     </div>
     <div class="info-container">
       <h3><a href="https://jiayuww.github.io/">Jiayu (Mila) Wang</a></h3>
-      <p class="position">PhD Student</p>
       <p class="research-interests">Data- and compute-efficient LLMs & MLLMs; Reasoning</p>
     </div>
   </div>
@@ -178,7 +163,6 @@ author_profile: true
     </div>
     <div class="info-container">
       <h3><a href="https://www.linkedin.com/in/john-cooper-99a348213/">John Cooper</a></h3>
-      <p class="position">PhD Student</p>
       <p class="research-interests">Machine Learning</p>
     </div>
   </div>
@@ -189,7 +173,6 @@ author_profile: true
     </div>
     <div class="info-container">
       <h3><a href="https://www.linkedin.com/in/kendallpark/">Kendall Park</a></h3>
-      <p class="position">PhD Student</p>
       <p class="research-interests">Machine Learning</p>
     </div>
   </div>
