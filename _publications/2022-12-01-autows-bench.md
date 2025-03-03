@@ -8,5 +8,5 @@ date: 2022-12-01
 venue: 'NeurIPS 2022'
 paperurl: 'https://openreview.net/pdf?id=nQZHEunntbJ'
 citation: ''
-categories: [weak supervision]
+categories: [weak supervision, benchmark]
 ---
