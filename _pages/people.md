@@ -142,9 +142,6 @@ author_profile: true
   border-radius: 8px;
   overflow: hidden;
   transition: transform 0.3s;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
 }
 
 .person-card:hover {
@@ -159,16 +156,10 @@ author_profile: true
   object-position: top; /* This ensures images display from the top */
 }
 
-.person-info {
-  padding: 12px;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-}
-
 .person-card h3 {
-  margin: 0 0 8px 0;
+  margin: 0;
   font-size: 1em;
+  padding: 10px 12px 5px 12px;
 }
 
 .person-card h3 a {
@@ -181,19 +172,22 @@ author_profile: true
 }
 
 .person-card .position {
-  margin: 0 0 8px 0;
+  margin: 0;
   font-weight: bold;
   font-size: 0.8em;
+  padding: 0 12px;
 }
 
 .person-card .research-interests {
-  margin: 0;
+  margin: 5px 0 10px 0;
   font-size: 0.8em;
   line-height: 1.4;
+  padding: 0 12px 10px 12px;
 }
 
 .person-card .links {
-  margin: 8px 0 0 0;
+  margin: 0;
   font-size: 0.8em;
+  padding: 0 12px 10px 12px;
 }
 </style>
