@@ -8,28 +8,174 @@ redirect_from:
 ---
 
 <style>
-  /* Style for year headings */
+  /* Main container styles */
+  .posts-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Year headings */
   .year-heading {
     font-size: 2.5em;
     color: #333;
     margin-top: 2em;
-    margin-bottom: 0.8em;
+    margin-bottom: 1em;
     font-weight: 600;
     border-bottom: 1px solid #eaeaea;
     padding-bottom: 8px;
     width: 100%;
   }
+  
+  /* Grid layout for posts */
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  /* Individual post card styling */
+  .post-card {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: white;
+  }
+  
+  .post-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Post thumbnail */
+  .post-thumbnail {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+  }
+  
+  /* Post content wrapper */
+  .post-content {
+    padding: 1.5rem;
+  }
+  
+  /* Post metadata styling */
+  .post-meta {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+    color: #666;
+  }
+  
+  .post-date {
+    margin-right: 0.5rem;
+  }
+  
+  .post-read-time {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Post title styling */
+  .post-title {
+    margin: 0.5rem 0;
+    font-size: 1.25rem;
+    line-height: 1.4;
+  }
+  
+  .post-title a {
+    color: #333;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  
+  .post-title a:hover {
+    color: #0077cc;
+  }
+  
+  /* Post excerpt styling */
+  .post-excerpt {
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+  }
+  
+  /* Author information */
+  .post-author {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .posts-grid {
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .posts-grid {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>
 
 {% include base_path %}
 
-{% assign grouped_posts = site.posts | group_by_exp: "post", "post.date | date: '%Y'" | sort: "name" | reverse %}
-
-{% for year in grouped_posts %}
-  <h2 id="{{ year.name | slugify }}" class="year-heading">{{ year.name }}</h2>
-  <div class="posts-year" data-year="{{ year.name }}">
-    {% for post in year.items %}
-      {% include archive-single.html %}
-    {% endfor %}
-  </div>
-{% endfor %}
+<div class="posts-container">
+  {% assign grouped_posts = site.posts | group_by_exp: "post", "post.date | date: '%Y'" | sort: "name" | reverse %}
+  
+  {% for year in grouped_posts %}
+    <h2 id="{{ year.name | slugify }}" class="year-heading">{{ year.name }}</h2>
+    
+    <div class="posts-grid" data-year="{{ year.name }}">
+      {% for post in year.items %}
+        <article class="post-card">
+          {% if post.header.teaser %}
+            <img class="post-thumbnail" src="{{ base_path }}{{ post.header.teaser }}" alt="{{ post.title }}">
+          {% else %}
+            <img class="post-thumbnail" src="{{ base_path }}/images/profile.png" alt="{{ post.title }}">
+          {% endif %}
+          
+          <div class="post-content">
+            <div class="post-meta">
+              <span class="post-date">
+                <i class="fas fa-calendar-alt" aria-hidden="true"></i> 
+                {{ post.date | date: "%B %d, %Y" }}
+              </span>
+              
+              {% if post.read_time %}
+              <span class="post-read-time">
+                <i class="far fa-clock" aria-hidden="true"></i>
+                {{ post.read_time }} minute read
+              </span>
+              {% endif %}
+            </div>
+            
+            <h3 class="post-title">
+              <a href="{{ base_path }}{{ post.url }}" rel="permalink">{{ post.title }}</a>
+            </h3>
+            
+            {% if post.excerpt %}
+              <p class="post-excerpt">{{ post.excerpt | strip_html | truncate: 120 }}</p>
+            {% endif %}
+            
+            {% if post.author %}
+              <div class="post-author">
+                <i class="fas fa-user" aria-hidden="true"></i> {{ post.author }}
+              </div>
+            {% endif %}
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  {% endfor %}
+</div>
