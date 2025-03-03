@@ -120,7 +120,6 @@ redirect_from:
 <h2 style="margin-top: 20px; margin-bottom: 15px; border-bottom: 2px solid #4682B4; padding-bottom: 5px; font-weight: 700; letter-spacing: 0.5px;">Sponsors</h2>
 
 <div style="margin-bottom: 15px;">
-  <h2>Sponsors</h2>
   <p>We are thankful for the generous funding award and gift from the following</p>
 </div>
 
@@ -419,12 +418,6 @@ div[style*="background-color: #f8f9fa"] li {
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.sponsor-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
 .sponsor-logo {
