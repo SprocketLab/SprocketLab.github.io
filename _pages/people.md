@@ -12,8 +12,6 @@ author_profile: true
     <img src="/images/lab_members/fred.jpg" alt="Fred Sala" onerror="this.src='/images/lab_members/fred.jpg'">
     <h3><a href="https://pages.cs.wisc.edu/~fredsala/">Fred Sala</a></h3>
     <p class="position">PI</p>
-    <p class="research-interests">Department of Computer Sciences<br>
-    University of Wisconsin-Madison</p>
   </div>
 
   <div class="person-card">
