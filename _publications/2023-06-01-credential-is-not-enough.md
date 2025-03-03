@@ -8,5 +8,5 @@ date: 2023-06-01
 venue: "GameSec-23 2023"
 paperurl: 'https://www.springerprofessional.de/en/the-credential-is-not-enough-deception-with-honeypots-and-fake-c/26572224'
 citation: ''
-categories: [cybersecurity, honeypots]
+categories: [cybersecurity]
 ---
