@@ -52,12 +52,16 @@ author_profile: true
   }
   
   /* Style for year headings */
+  /* Style for year headings */
   .year-heading {
-    font-size: 2em;
+    font-size: 2.5em;
     color: #333;
-    margin-top: 1.5em;
-    margin-bottom: 0.5em;
-    font-weight: normal;
+    margin-top: 2em;
+    margin-bottom: 0.8em;
+    font-weight: 600;
+    border-bottom: 1px solid #eaeaea;
+    padding-bottom: 8px;
+    width: 100%;
   }
 </style>
 
