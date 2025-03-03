@@ -109,7 +109,7 @@ author_profile: true
 
   <div class="person-card">
     <img src="/images/lab_members/mila.jpeg" alt="Jiayu (Mila) Wang" onerror="this.src='/images/lab_members/mila.jpeg'">
-    <h3><a href="https://jiayuww.github.io/">Jiayu (Mila Wang)</a></h3>
+    <h3><a href="https://jiayuww.github.io/">Jiayu (Mila) Wang</a></h3>
     <p class="position">PhD Student</p>
     <p class="research-interests">Research Interests: Data- and compute-efficient LLMs & MLLMs; Reasoning</p>
   </div>
