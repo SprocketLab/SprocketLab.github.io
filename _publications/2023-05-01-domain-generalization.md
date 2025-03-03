@@ -8,5 +8,5 @@ date: 2023-05-01
 venue: "CPAL 2023"
 paperurl: 'https://arxiv.org/abs/2303.07527'
 citation: ''
-categories: [domain generalization, regularization]
+categories: [domain generalization]
 ---
