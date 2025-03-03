@@ -132,124 +132,6 @@ author_profile: true
 <style>
 .people-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
-  margin-top: 30px;
-}
-
-.person-card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  overflow: hidden;
-  transition: transform 0.3s;
-}
-
-.person-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.person-card img {
-  width: 100%;
-  height: 250px;
-  object-fit: cover;
-  object-position: top; /* This ensures images display from the top */
-}
-
-.person-card h3 {
-  margin: 15px 15px 5px;
-  font-size: 1.2em;
-}
-
-.person-card h3 a {
-  color: #4682B4; /* Changed to a softer blue that matches typical hyperlinks */
-  text-decoration: none;
-}
-
-.person-card h3 a:hover {
-  text-decoration: underline;
-}
-
-.person-card .position {
-  margin: 0 15px 5px;
-  font-weight: bold;
-}
-
-.person-card .research-interests {
-  margin: 0 15px 15px;
-  font-size: 0.9em;
-}
-
-.person-card .links {
-  margin: 0 15px 15px;
-  font-size: 0.9em;
-}
-
-/* Faculty specific styles removed, all cards now use the same styling */
-</style>a---
-permalink: /people/
-title: "People"
-excerpt: "Sprocket Lab Team Members"
-layout: archive
-author_profile: true
----
-
-<div class="people-container">
-
-  <div class="person-card">
-    <img src="/images/lab_members/fred.jpg" alt="Fred Sala" onerror="this.src='/images/lab_members/fred.jpg'">
-    <div class="person-info">
-      <h3><a href="https://pages.cs.wisc.edu/~fredsala/">Fred Sala</a></h3>
-      <p class="position">PI</p>
-      <p class="research-interests">Department of Computer Sciences<br>
-      University of Wisconsin-Madison</p>
-    </div>
-  </div>
-
-  <div class="person-card">
-    <img src="/images/lab_members/nick.png" alt="Nick Roberts" onerror="this.src='/images/lab_members/nick.png'">
-    <div class="person-info">
-      <h3><a href="https://nick11roberts.github.io/">Nick Roberts</a></h3>
-      <p class="position">PhD Student</p>
-      <p class="research-interests">Research Interests: Scaling Laws</p>
-    </div>
-  </div>
-  
-  <div class="person-card">
-    <img src="/images/lab_members/harit.jpg" alt="Harit Vishwakarma" onerror="this.src='/images/lab_members/harit.jpg'">
-    <div class="person-info">
-      <h3><a href="https://harit7.github.io/">Harit Vishwakarma</a></h3>
-      <p class="position">PhD Student</p>
-      <p class="research-interests">Research Interests: Data-efficient Learning; Uncertainty and Safety.</p>
-    </div>
-  </div>
-  
-  <!-- Repeat for all other person-card divs -->
-  <div class="person-card">
-    <img src="/images/lab_members/dyah.jpg" alt="Dyah Adila" onerror="this.src='/images/lab_members/dyah.jpg'">
-    <div class="person-info">
-      <h3><a href="https://dyahadila.github.io/">Dyah Adila</a></h3>
-      <p class="position">PhD Student</p>
-      <p class="research-interests">Research Interests: Data- and compute-efficient LLMs; Reasoning</p>
-    </div>
-  </div>
-  
-  <!-- Continue with the rest of your person-card divs -->
-  <div class="person-card">
-    <img src="/images/lab_members/sonia.jpeg" alt="Sonia Cromp" onerror="this.src='/images/lab_members/sonia.jpeg'">
-    <div class="person-info">
-      <h3><a href="https://socromp.github.io/">Sonia Cromp</a></h3>
-      <p class="position">PhD Student</p>
-      <p class="research-interests">Research Interests: Foundation Models for Scientific, Structured and Low-data Regimes</p>
-    </div>
-  </div>
-  
-  <!-- Continue with all other person cards -->
-  <!-- ... -->
-
-<style>
-.people-container {
-  display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 15px;
   margin-top: 30px;
@@ -278,14 +160,14 @@ author_profile: true
 }
 
 .person-info {
-  padding: 10px;
+  padding: 12px;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
 }
 
 .person-card h3 {
-  margin: 0 0 5px 0;
+  margin: 0 0 8px 0;
   font-size: 1em;
 }
 
@@ -299,7 +181,7 @@ author_profile: true
 }
 
 .person-card .position {
-  margin: 0 0 5px 0;
+  margin: 0 0 8px 0;
   font-weight: bold;
   font-size: 0.8em;
 }
@@ -307,11 +189,11 @@ author_profile: true
 .person-card .research-interests {
   margin: 0;
   font-size: 0.8em;
-  line-height: 1.3;
+  line-height: 1.4;
 }
 
 .person-card .links {
-  margin: 5px 0 0 0;
+  margin: 8px 0 0 0;
   font-size: 0.8em;
 }
 </style>
