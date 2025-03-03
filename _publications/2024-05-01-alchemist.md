@@ -8,5 +8,5 @@ date: 2024-05-01
 venue: "NeurIPS 2024 (Spotlight)"
 paperurl: 'https://arxiv.org/abs/2407.11004'
 citation: ''
-categories: [weak supervision, llm, data-efficient learning, compute-efficient learning]
+categories: [weak supervision, foundation models, data-efficient learning, compute-efficient learning]
 ---

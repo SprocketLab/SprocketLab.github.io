@@ -8,5 +8,5 @@ date: 2023-01-01
 venue: "ICCV Workshop: Towards the Next Generation of Computer Vision Datasets (TNGCV) 2023"
 paperurl: 'https://arxiv.org/abs/2401.12225'
 citation: ''
-categories: [multimodal, data curation, data-efficient learning, foundation models]
+categories: [data-efficient learning, foundation models]
 ---

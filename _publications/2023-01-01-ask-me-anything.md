@@ -8,5 +8,5 @@ date: 2023-01-01
 venue: "ICLR 2023"
 paperurl: 'https://arxiv.org/abs/2210.02441'
 citation: ''
-categories: [llm]
+categories: [foundation models]
 ---

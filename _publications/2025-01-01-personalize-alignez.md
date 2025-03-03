@@ -8,5 +8,5 @@ date: 2025-01-01
 venue: "NAACL Findings"
 paperurl: 'https://openreview.net/attachment?id=RIrZZGzQdm&name=pdf'
 citation: ''
-categories: [personalization, llm, alignment, data-efficient learning, compute-efficient learning]
+categories: [personalization, data-efficient learning, compute-efficient learning, foundation models]
 ---

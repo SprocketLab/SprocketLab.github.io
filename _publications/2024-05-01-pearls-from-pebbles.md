@@ -8,5 +8,5 @@ date: 2024-05-01
 venue: "NeurIPS 2024"
 paperurl: 'https://arxiv.org/abs/2404.16188'
 citation: ''
-categories: [auto-labeling, confidence functions, weak supervision]
+categories: [auto-labeling, weak supervision]
 ---

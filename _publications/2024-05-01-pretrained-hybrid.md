@@ -8,5 +8,5 @@ date: 2024-05-01
 venue: "Preprint"
 paperurl: 'https://arxiv.org/abs/2406.00894'
 citation: ''
-categories: [llm, hybrid, data-efficient learning, compute-efficient learning]
+categories: [foundation models, data-efficient learning, compute-efficient learning]
 ---

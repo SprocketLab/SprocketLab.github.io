@@ -8,5 +8,5 @@ date: 2023-05-01
 venue: "ICML Workshop for Computational Biology 2023"
 paperurl: 'https://arxiv.org/abs/2401.15478'
 citation: ''
-categories: [manifold, representation learning, biological pathways]
+categories: [representation learning]
 ---

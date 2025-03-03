@@ -8,5 +8,5 @@ date: 2024-06-01
 venue: "EMNLP Findings 2024"
 paperurl: 'https://aclanthology.org/2024.findings-emnlp.971/'
 citation: ''
-categories: [llm, bias]
+categories: [foundation models, robustness]
 ---
