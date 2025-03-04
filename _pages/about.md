@@ -102,7 +102,7 @@ redirect_from:
   <p style="font-weight: 600; margin-bottom: 5px;">New papers accepted to start the year!</p>
   <ul style="padding-left: 20px; margin-top: 5px; margin-bottom: 0;">
     <li style="margin-bottom: 5px;">ICLR 2025: Changho and John explain how <a href="https://arxiv.org/pdf/2412.03881?" target="_blank">weak-to-strong generalization works</a>—and how to do more of it!</li>
-    <li style="margin-bottom: 5px;">NAACL 2025: Jane, Dyah, and Changho introduced an ultra-efficient way to personalize language models.</li>
+    <li style="margin-bottom: 5px;">NAACL 2025: Jane, Dyah, and Changho introduced <a href="https://arxiv.org/abs/2503.01048?" target="_blank">an ultra-efficient way to personalize language models</a>.</li>
   </ul>
 </div>
 
