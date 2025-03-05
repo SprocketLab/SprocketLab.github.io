@@ -7,6 +7,7 @@ tags:
   - Data-Centric AI
   - LLM-as-data-annotators
 authors: "<a href='https://zihengh1.github.io/'>Tzu-Heng Huang</a>"
+thumbnail: /images/blogposts/alchemist/alchemist.jpg
 ---
 
 
