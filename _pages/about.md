@@ -141,6 +141,10 @@ redirect_from:
   <div class="sponsor-item">
     <img src="/images/sponsors/Warf_logo.png" alt="Office of Naval Research" class="sponsor-logo">
   </div>
+
+  <div class="sponsor-item">
+    <img src="/images/sponsors/arl-logo.png" alt="Office of Naval Research" class="sponsor-logo">
+  </div>
   <!-- Add more sponsors as needed with the same structure -->
 </div>
 
