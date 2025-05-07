@@ -1,2 +1,6 @@
 _site/
 
+/.idea
+/node_modules
+Gemfile.lock
+Gemfile
