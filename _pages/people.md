@@ -43,7 +43,7 @@ author_profile: true
     </div>
     <div class="info-container">
       <h3><a href="https://dyahadila.github.io/">Dyah Adila</a></h3>
-      <p class="research-interests">Data- and compute-efficient LLMs; Reasoning</p>
+      <p class="research-interests">Data- and compute-efficient LLMs</p>
     </div>
   </div>
   
@@ -177,6 +177,15 @@ author_profile: true
     </div>
   </div>
 
+ <div class="person-card">
+    <div class="image-container">
+      <img src="/images/lab_members/default.png" alt="Albert Wu" onerror="this.src='/images/lab_members/albert.JPG'">
+    </div>
+    <div class="info-container">
+      <h3><a href="https://andrewwooddev.com/">Albert Wu</a></h3>
+      <p class="research-interests">Undergraduate member</p>
+    </div>
+  </div>
 </div>
 
 <style>
