@@ -179,11 +179,11 @@ author_profile: true
 
  <div class="person-card">
     <div class="image-container">
-      <img src="/images/lab_members/default.png" alt="Albert Wu" onerror="this.src='/images/lab_members/albert.JPG'">
+      <img src="/images/lab_members/default.png" alt="Albert Wu" onerror="this.src='/images/lab_members/albertw.jpg'">
     </div>
     <div class="info-container">
       <h3><a href="https://andrewwooddev.com/">Albert Wu</a></h3>
-      <p class="research-interests">Undergraduate member</p>
+      <p class="research-interests">Undergraduate member. Data-efficient learning, off-policy reinforcement learning</p>
     </div>
   </div>
 </div>
