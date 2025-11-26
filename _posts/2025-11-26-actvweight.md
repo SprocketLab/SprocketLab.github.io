@@ -63,21 +63,33 @@ First, a Transformer model is made transformer blocks. Each block contains an At
 </p>
 
 As for steering, there are 3 main variants we consider. First, pre-MLP steering involves steering attention outputs; most commonly done by steering the output of individual attention heads, *before* skip-connection and normalization. Second, post-MLP steering involves steering the output of the MLP/GLU layer *before* it goes through the skip-connection. Last, post-block steering involves steering the output of each block, which can be seen as equivalently steering the output of the MLP/GLU layer *after* it goes through the skip connection. In our notation, a GLU is represented as 
+
 $$y_{\mathrm{GLU}}(h) = W_d(\sigma(W_g h) \odot W_u h)$$
+
 The matrices $W_d, W_g, W_u$ are called the down-projection, gated, and ungated matrices respectively. When convenient, we will also write
+
 $$ y(h)=W_d m(h), \quad m(h) = \sigma(a_g) \odot a_u, \quad a_g = W_g h, \quad a_u = W_u h $$
 
 For mathematical notation, the hidden state will be represented as a vector $h$ and steering will be represented as $\delta h$. So, steering works by replacing $h$ with $h + \delta h$. Note that $\delta h$, the steering vector, can depend on the input. Sometimes this is written explicitly, but other times it is ommited.
 
 **Fixed-vector:** The simpliest form of steering is by adding a fixed vector $v$ to the hidden state:
+
 $$\delta h = v$$
 
 **Linear/ReFT:** Linear steering involves some matrix $A$ and bias vector $b$, where the steering vector is a linear function of the hidden state. However, the matrix $A$ is usually replaced by a low-rank matrix (usually written as $W_1W_2^\top$ or $AB^\top$). The rank of this matrix is written as $r$ when necessary:
+
 $$\delta h(h) = W_1W_2^\top h + b$$
 
 **Non-linear:** This steering is parameterized by a 1-layer MLP with matrices $W_d, W_u$ as the down- and up-projections with SiLU activation $\phi$:
+
 $$\delta h(h) = W_d\phi(W_u h)$$
 
 **Feeely parametrized/Oracle:** In this case, the steering vector has no explicit parameterization. It can depend on the hidden state $h$ in any way. The oracle specifically will be given by the difference between the hidden states of the base and fine-tuned model
+
 $$\delta h_{\mathrm{oracle}} = h_{\mathrm{FT}} - h_{\mathrm{base}}$$
  
+With notation in place, we are now ready to begin our analysis!
+
+<p align="center">
+<img src="https://sprocketlab.github.io/images/blogposts/actvweight/stay-calm-panic.gif" width="200">
+</p>
