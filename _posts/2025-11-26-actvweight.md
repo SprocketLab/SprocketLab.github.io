@@ -229,7 +229,10 @@ $$
 y_{\mathrm{ReFT}} = y + \textbf{R}^\top (\textbf{W} y + \textbf{b} - \textbf{R}y).
 $$
 
-$\textbf{R}, \textbf{W}, \textbf{b}$ are trainable parameters, where $\textbf{R} \in \mathbb{R}^{r \times d_{\mathrm{model}}}$ has a rank $r$ and orthonormal rows, $\textbf{W} \in \mathbb{R}^{r \times d_{\mathrm{model}}}$, and $\mathbf{b} \in \mathbb{R}^r$. The output shift caused by ReFT is:
+$\textbf{R}, \textbf{W}, \textbf{b}$ are trainable parameters, where $\textbf{R} \in \mathbb{R}^{r \times d_{\mathrm{model}}}$ 
+has a rank $r$ and orthonormal rows, 
+$\textbf{W} \in \mathbb{R}^{r \times d_{\mathrm{model}}}$, and $\mathbf{b} \in \mathbb{R}^r$. 
+The output shift caused by ReFT is:
 
 $$
 & \Delta y_{\mathrm{ReFT}} = y_{\mathrm{ReFT}} - y = (\textbf{R}^\top \textbf{W} - \textbf{R}^\top\textbf{R})y + \textbf{R}^\top b \\
@@ -269,3 +272,17 @@ In fact, if we try and replace the oracle with the best linear approximation of 
 <p align="center">
 <img src="https://sprocketlab.github.io/images/blogposts/actvweight/llama_sequential.png">
 </p>
+
+
+Here, we are taking generations on some prompt and comparing the KL divergence between the fully fine-tunded model's output probabilities and those of the other models. The oracle often deviates further from the fine-tuned model than ReFT does, although not by much.
+
+The best way around this would be to learn a *low-rank, non-linear function* as the map between the hidden states and the steering vectors. What better than a small autoencoder! Its output space would be constrained by the column space of the up-projection, so it will still be low-rank. 
+
+At this point though, it seemed like we understood what would likely work as a steering vector, so we moved away from using the oracle as the gold-standard to match and now worked on training these adapters end-to-end.
+
+### Post-Block Performance
+
+Now, we began learning this steering vectors *without* a guide. Low-rank steering modules were added at the end of each block and trained, similar to LoRA/PEFT except on a module never present in training. Following the above discussion, two major variants were tested: linear and non-linear. In the linear case, the steering was done by a low-rank matrix. In the non-linear case, a non-linearity was placed between the down- and up-projection, making this an autoencoder. This was inspired by possibly needed a non-linearity from above, but we still want to preserve that low-rank structure of the steering vectors.
+
+Here are the results we're currently seeing for 1B-parameter models:
+
