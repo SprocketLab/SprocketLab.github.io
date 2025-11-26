@@ -243,9 +243,11 @@ The output shift caused by ReFT is:
 $$
 \Delta y_{\mathrm{ReFT}} = y_{\mathrm{ReFT}} - y = (\textbf{R}^\top \textbf{W} - \textbf{R}^\top\textbf{R})y + \textbf{R}^\top b
 $$
+
 $$
 =  (\textbf{R}^\top \textbf{W} - \textbf{R}^\top\textbf{R})W_d m + \textbf{R}^\top b 
 $$
+
 $$
 = \delta W_d ^{\mathrm{eff}} m + \textbf{R}^\top \textbf{b}, \quad \quad \delta W_d ^{\mathrm{eff}} =  (\textbf{R}^\top \textbf{W} - \textbf{R}^\top\textbf{R})W_d
 $$
@@ -341,6 +343,7 @@ This tells us:
 Is it the case that post-block steering always can do what post-MLP steering can do? Unfortunately, no, not *always*. After adding back the skip-connection, it isn't necessarially true that this is invertible so that the skip-connection and GLU terms can be distinguished; their subspaces might overlap with each other. In the situation when this isn't true, we *can* match post-MLP steering perfectly.
 
 To gain some intuition, let's restrict ourselves to the linear case, where post-MLP steering is a steering in the style of ReFT. Now, to assure invertibility, assume that the subspace spanned by the skip-connection and the subspace spanned by the MLP outputs have trivial intersection. That is to say that there is a projection map $P$ such that
+
 $$P(h + \mathrm{Attn}(h) + \mathrm{GLU}(h + \mathrm{Attn}(h))) = h + \mathrm{Attn}(h)$$
 
 At this point, the equivalence is easy to see. If $A$ is the rank-$r$ linear projector for post-MLP steering, then $\delta h(h) = A P h$ as a post-block steer will match the post-MLP steering perfectly. It will also be rank-$r$ since $AP$ is a rank-$r$ (or less) matrix.
