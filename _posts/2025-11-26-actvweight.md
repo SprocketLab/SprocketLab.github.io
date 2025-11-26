@@ -140,12 +140,12 @@ $$\boxed{
 }$$
 
 
-#### Let's compare the finetuning and pre-MLP steering output shifts side by side
+### Let's compare the finetuning and pre-MLP steering output shifts side by side
 
-\begin{align*}
-& \Delta y_{\mathrm{FT}} \approx (\delta W_d) m + W_d [ (\sigma'(a_g) \odot a_u) \odot ((\delta W_g) h) + \sigma(a_g) \odot ((\delta W_u) h) \\
-& \Delta y_{\mathrm{pre}} \approx W_d [(\sigma'(a_g) \odot a_u) \odot (W_g \delta h) + \sigma (a_g) \odot (W_u \delta h)].
-\end{align*}
+$$
+\Delta y_{\mathrm{FT}} \approx (\delta W_d) m + W_d [ (\sigma'(a_g) \odot a_u) \odot ((\delta W_g) h) + \sigma(a_g) \odot ((\delta W_u) h) \\
+\Delta y_{\mathrm{pre}} \approx W_d [(\sigma'(a_g) \odot a_u) \odot (W_g \delta h) + \sigma (a_g) \odot (W_u \delta h)].
+$$
 
 Notice that **the 2nd term in $\Delta y_{\mathrm{FT}}$ is structurally similar to $\Delta y_{\mathrm{pre}}$**. What does this imply?
 > In principle, pre-MLP steering can match the shift caused by the updates $\delta W_u$ and $\delta W_g$, **if** there exist a $\delta h$ such that $W_g \delta h \approx (\delta W_g) h$ and $W_u \delta h \approx (\delta W_u) h$. 
@@ -166,5 +166,56 @@ For pre-MLP steering to match fine-tuning MLP shift, we must have: $$(\delta W_d
 - If finetuning pushes $\delta W_d$ to new directions not spanned by $A(h)$, pre-MLP steering cannot match it.
 - Note that as this condition must hold for *every token $h$*, this becomes really restrictive.
 
-#### Bottom line:
+### Bottom line:
 > Pre-MLP steering can partially imitate MLP finetuning (the $\delta W_g$ and $\delta W_u$ effects), but matching the full update is generally very hard, if not impossible.
+
+### Post-MLP steering
+Post-MLP steering directly modifies the **output of the MLP** $y$.  
+Because it acts *after* all the nonlinearities inside the MLP, a sufficiently expressive parameterization could, in principle, reproduce **any** change made by fine-tuning the MLP weights. For example, if we were allowed a fully flexible oracle vector,
+
+$$
+\delta y = y_{\mathrm{FT}} - y,
+$$
+
+then adding this vector would give us the exact fine-tuned model output.
+
+> This already puts post-MLP steering in a much better position than pre-MLP steering when it comes to matching MLP weight updates. **So are we all set with post-MLP steering as the way to go? Not quite.**
+
+### **The missing piece: the skip connection**
+
+Let’s look back at the structure of a Transformer block:
+
+<p align="center">
+<img src="https://sprocketlab.github.io/images/blogposts/actvweight/steering-locations.svg">
+</p>
+
+$$
+\text{TransformerLayer}(\text{I}) = \text{I}' + \underbrace{\text{MLP}(\text{Norm}^{\text{MLP}}(\text{I}'))}_{\text{covered by post-MLP}}, \\
+\text{I}' = \text{I} + \text{MHA}(\text{Norm}^{\text{MHA}}(\text{I}))
+$$
+
+Post-MLP steering only modifies the **MLP term**.  
+But the block output is the **sum** of:
+
+1. the MLP contribution (which we *can* steer), and  
+2. the skip-connected input \(I'\) (which remains **unchanged** under post-MLP steering).
+
+So even if post-MLP steering perfectly matches the MLP shift, it **cannot modify the skip-connection term**, which is half of the block output.
+
+
+### **How big is this mismatch?**
+
+<p align="center">
+<img src="https://sprocketlab.github.io/images/blogposts/actvweight/norm.svg">
+</p>
+
+Across layers, post-MLP steering covers **at most ~70%** of the block output that fine-tuning changes, and in some layers, as little as **~40%**.  
+The rest remains untouched, meaning post-MLP steering cannot fully replicate the effect of fine-tuning at that block.
+
+---
+
+### **Summary**
+
+- Post-MLP steering is **more expressive** than pre-MLP steering because it can match arbitrary MLP updates.  
+- **However**, it still misses all the changes happening through the skip-connection.  
+- Matching MLP behavior is not enough, we also need a way to account for the skip path.
