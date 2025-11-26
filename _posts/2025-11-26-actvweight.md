@@ -219,3 +219,53 @@ The rest remains untouched, meaning post-MLP steering cannot fully replicate the
 - Post-MLP steering is **more expressive** than pre-MLP steering because it can match arbitrary MLP updates.  
 - **However**, it still misses all the changes happening through the skip-connection.  
 - Matching MLP behavior is not enough, we also need a way to account for the skip path.
+
+
+Now that we've sorted out “where to steer” part of the story, the next piece of the puzzle is how much steering can actually do. In other words: how expressive can activation steering be? Since ReFT is the most widely used steering method today, and represents the strongest linear steering baseline, it’s the right place to begin.
+
+ReFT do a post-MLP steering and parameterize it as
+
+$$
+y_{\mathrm{ReFT}} = y + \textbf{R}^\top (\textbf{W} y + \textbf{b} - \textbf{R}y).
+$$
+
+$\textbf{R}, \textbf{W}, \textbf{b}$ are trainable parameters, where $\textbf{R} \in \mathbb{R}^{r \times d_{\mathrm{model}}}$ has a rank $r$ and orthonormal rows, $\textbf{W} \in \mathbb{R}^{r \times d_{\mathrm{model}}}$, and $\mathbf{b} \in \mathbb{R}^r$. The output shift caused by ReFT is:
+
+$$
+& \Delta y_{\mathrm{ReFT}} = y_{\mathrm{ReFT}} - y = (\textbf{R}^\top \textbf{W} - \textbf{R}^\top\textbf{R})y + \textbf{R}^\top b \\
+& =  (\textbf{R}^\top \textbf{W} - \textbf{R}^\top\textbf{R})W_d m + \textbf{R}^\top b \\
+& = \delta W_d ^{\mathrm{eff}} m + \textbf{R}^\top \textbf{b}, \quad \quad \delta W_d ^{\mathrm{eff}} =  (\textbf{R}^\top \textbf{W} - \textbf{R}^\top\textbf{R})W_d
+$$
+
+Now, let's compare $\Delta y_{\mathrm{ReFT}}$ with the $\Delta y_{\mathrm{FT}}$ we have from before. ReFT can induce a $\delta W_d$-like update, but only within the subspace spanned by $\textbf{R}$. So its ability to mimic full finetuning depends on the nature of $\delta W_d$ update, whether it is low-rank enough to fit inside that subspace. 
+
+The second term ($\textbf{R}^\top\textbf{b}$) can only reproduce $\Delta y_{\mathrm{FT}}$'s $\delta W_u$ and $\delta W_g$ induced shift if it is approximately a linear function of the post-MLP output. This depends on how locally linear the mapping $h \mapsto y$ is.
+
+When these conditions hold, ReFT can approximate the effects of MLP weight updates reasonably well. However, as we discussed earlier, post-MLP edits still leave a significant portion of the block’s computation untouched.
+
+## How expressive can steering really be
+
+Now that we've seen that steering after the skip-connection provides us with the largest expressivity for steering, let's see how good it really can be! In fact, our goal will be to match SFT, so let's see how far we get.
+
+The simplest (and strongest) thing when given the SFT model would be to let the steering vectors be the oracle from above. Just to recall,
+
+$$\delta h_{\mathrm{oracle}} = h_{\mathrm{FT}} - h_{\mathrm{base}}$$
+
+so, quite literally,
+
+$$h_{\mathrm{steer}} = h_{\mathrm{base}} + \delta h_{\mathrm{oracle}} = h_{\mathrm{FT}}$$
+
+<p align="center">
+<img src="https://sprocketlab.github.io/images/blogposts/actvweight/post-block-oracle.svg">
+</p>
+
+
+Okay, that's a bit much. This is simply overwritting the hidden state of the base model with the hidden state of the fine-tuned model (see the picture below). However, this still provided a lot of insight into where to steer, and the properties of a desired steering method.
+
+Taking all of these different oracle steering vectors, their properties can be looked at for patterns to exploit. We quickly found that these vectors were close to low-rank (their covariance had a concentrated spectrum). But be careful! Just because the oracle steering vectors all almost exist in some low-dimension subspace, it does not mean the transformation from hidden states to steering vectors is linear! Sometimes it might be, sometimes is won't. 
+
+In fact, if we try and replace the oracle with the best linear approximation of the map between hidden states and steering vectors, we find that the oracle goes from perfect matching to similar-to-or-worse-than ReFT!
+
+<p align="center">
+<img src="https://sprocketlab.github.io/images/blogposts/actvweight/llama_sequential.png">
+</p>
