@@ -103,7 +103,7 @@ author_profile: true
     </div>
     <div class="info-container">
       <h3><a href="https://zhiqigao2001.github.io/">Zhiqi Gao</a></h3>
-      <p class="research-interests">Foundation Model Interpretability; Reasoning</p>
+      <p class="research-interests">Large Language Models, Foundation Model</p>
     </div>
   </div>
 
