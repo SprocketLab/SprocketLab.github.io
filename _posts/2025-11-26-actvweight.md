@@ -7,7 +7,7 @@ tags:
   - Activation steering
   - Finetuning
   - Model adaptation
-authors: "<a href='https://dyahadila.github.io/'>Dyah Adila</a>, John Cooper" 
+authors: "<a href='https://dyahadila.github.io/'>Dyah Adila</a>, <a href='https://jfcooper2.github.io/'>John Cooper</a>" 
 thumbnail: /images/blogposts/actvweight/actvweight_logo.png
 ---
 
