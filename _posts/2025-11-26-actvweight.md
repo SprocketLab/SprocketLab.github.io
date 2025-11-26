@@ -335,7 +335,53 @@ $$P(h + \mathrm{Attn}(h) + \mathrm{GLU}(h + \mathrm{Attn}(h))) = h + \mathrm{Att
 
 At this point, the equivalence is easy to see. If $A$ is the rank-$r$ linear projector for post-MLP steering, then $\delta h(h) = A P h$ as a post-block steer will match the post-MLP steering perfectly. It will also be rank-$r$ since $AP$ is a rank-$r$ (or less) matrix.
 
-
 <p align="center">
 <img src="https://sprocketlab.github.io/images/blogposts/actvweight/theory-expressiveness.svg">
 </p>
+
+Of course, this setting where these two vector spaces are completely separate is a bit extreme. Steering might need to be done in the same direction as the steered vector. At this point, a some probability needs to be involved since any projection will no longer be perfect. However, we save this for the paper.
+
+### Error Control
+
+One last thing to mention is that, since we have an oracle at each layer, it's now possible to measure how similar we are to that oracle. This is, of course, assuming that we have access to the fine-tuned model we want to mimic. Soon we will remove this and move towards a more oracle-free understanding, but for the moment, assume we have access to this oracle. We now, also, have fine-grained control about errors and how they grow through the model! At each layer, it's possible to develop and approximate steering vector $\delta h'$ to match that oracle $\delta h$ closely enough that no layer has an error between them of more than some $\epsilon$.
+
+Importantly, this gives us knowledge of how complex our adapters need to be. For example, if our update is nearly linear, we can take enough rank $r$ so that the approximation is within $\epsilon$ to ensure that that error does not grow out of control through the model. 
+
+The exact form of this required control is beyond the scope of this blog. However, there are a few key insights. 
+
+* The layer-norms help control the error significantly since in most models, their vector-wise standard deviation is somewhat large. 
+* Differences in hidden-states are amplified by the 2-norms of the matrices of each layer times $\sqrt{n}$, 
+where $n$ is the representation dimension. The difference in 2-norm between the matrices ends up with a factor of $n$ instead, so it is more important that steering is more expressive on layers where the different in matrices is larger (unsurprisingly so).
+
+We plan to further improve these bounds with nicer assumptions based on the behavior of real models soon!
+
+## Where this leaves us
+
+If you’ve made it this far—kudos! That's pretty much all we have to say (for now, *wink*). To conclude, here are some highlights of everything we unpacked:
+> - Pre-MLP vs. Post-MLP: They behave very differently, and post-MLP generally does a better job matching MLP weight updates.
+> - But Post-Block >> Post-MLP. **Steering the residual stream, not individual module outputs, is the real sweet spot—both theoretically and empirically.**
+> - With only 0.04% trainable parameters (compared to LoRA’s 0.45% using the same rank), our method gets remarkably close to SFT, which updates all parameters.
+
+---
+### Where do we go from here?
+
+Lowering the number of trainable parameters is more than an efficiency win. It buys us compute headroom for adapting larger models, running more expensive algorithms like RL, and we can do all of this **within realistic compute budgets.**
+
+Because our framework reasons about steering and weight updates in their most general form (arbitrary $\delta h$ and arbitrary $\delta W$), there’s nothing stopping those updates from being learned by far more expensive methods (e.g., GRPO or other RL-style objectives). So the natural next step is clear: test whether our steering can plug into these stronger algorithms and deliver the same performance with a fraction of the trainable parameters.
+
+And now that we know it’s possible to learn nearly as well in activation space as we can in weight space, an even more ambitious idea opens up:
+> **What happens if we optimize in both spaces together?**
+
+Perhaps, jointly optimizing them might help us break past the limitations or local minima that each space hits on its own?
+
+
+**Stay tuned to find out!**
+
+<p align="center">
+<img src="https://sprocketlab.github.io/images/blogposts/actvweight/fun.gif" width="500">
+</p>
+
+## References
+ [1] Wu, Z., Arora, A., Wang, Z., Geiger, A., Jurafsky, D., Manning, C., & Potts, C. (2024). ReFT: Representation Finetuning for Language Models. 
+ [2] Fangcong Yin, Xi Ye, & Greg Durrett (2024). LoFiT: Localized Fine-tuning on LLM Representations. In The Thirty-eighth Annual Conference on Neural Information Processing Systems.
+ [3] Lai, W., Fraser, A., & Titov, I. (2025). Joint Localization and Activation Editing for Low-Resource Fine-Tuning. arXiv preprint arXiv:2502.01179.
