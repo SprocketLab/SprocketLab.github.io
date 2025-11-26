@@ -91,5 +91,80 @@ $$\delta h_{\mathrm{oracle}} = h_{\mathrm{FT}} - h_{\mathrm{base}}$$
 With notation in place, we are now ready to begin our analysis!
 
 <p align="center">
-<img src="https://sprocketlab.github.io/images/blogposts/actvweight/stay-calm-panic.gif" width="200">
+<img src="https://sprocketlab.github.io/images/blogposts/actvweight/stay-calm-panic.gif" width="500">
 </p>
+
+## Where should we steer?
+
+Let's start with the main question that drives the rest of our analysis: 
+
+> **At which points in the network can steering match the effect of updating the weights in that same module?**
+
+We will examine pre-MLP (steering attention outputs, like LoFIT) and post-MLP (steering the MLP output before the skip connection, like ReFT) steering as they are the most common choice in the literature. These spots nicely *sandwich* the MLP, so the most immediate module affected by steering at these points is the MLP itself. Our first step is simple: compare the output changes caused by steering at these locations to the output changes caused by tuning the MLP weights.
+
+*Note:* Before we start, it will feel like there is a lot of math here, but we promise, everything in this section is linear algebra.
+
+<a href="https://imgflip.com/i/ad3bvp">
+  <img src="https://i.imgflip.com/ad3bvp.jpg" width="500"/>
+</a>
+
+### Fine-tuning
+Let the MLP output be
+
+$$ y(h)=W_d m(h), \quad m(h) = \sigma(a_g) \odot a_u, \quad a_g = W_g h, \quad a_u = W_u h $$
+
+Fine-tuning the weights gives us
+
+$$ W_g \mapsto W_g + \delta W_g, \quad W_u \mapsto W_u + \delta W_u, \quad W_d \mapsto W_d + \delta W_d. $$
+
+The updates $\delta W_g$ and $\delta W_u$ induce the following changes in their immediate outputs:
+
+$$ \delta a_g = (\delta W_g) h, \quad \delta a_u = (\delta W_u) h.$$ 
+
+A first order Taylor expansion of $m = \sigma(a_g) \odot a_u$ gives
+
+$$ \delta m = (\sigma'(a_g) \odot a_u) \odot \delta a_g + \sigma(a_g) \odot \delta a_u + \text{(higher order terms)}.$$
+
+Plugging in $\delta m$ into fine-tuning output gives us
+
+$$ y_{\mathrm{FT}} (h) = (W_d + \delta W_d)(m+\delta m) \approx W_d m + \delta W_d m + W_d \delta m. $$
+
+This yields the first-order shift caused by finetuning:
+
+$$\boxed{\Delta y_{\mathrm{FT}} \equiv y_{\mathrm{FT}}(h) - y(h) \approx (\delta W_d) m + W_d [ (\sigma'(a_g) \odot a_u) \odot ((\delta W_g) h) + \sigma(a_g) \odot ((\delta W_u) h) ].}$$
+
+Plugging $\delta m$ into $y = W_d m$ gives us
+
+$$\boxed{
+\Delta y_{\mathrm{pre}} \approx W_d [(\sigma'(a_g) \odot a_u) \odot (W_g \delta h) + \sigma (a_g) \odot (W_u \delta h)].
+}$$
+
+
+#### Let's compare the finetuning and pre-MLP steering output shifts side by side
+
+\begin{align*}
+& \Delta y_{\mathrm{FT}} \approx (\delta W_d) m + W_d [ (\sigma'(a_g) \odot a_u) \odot ((\delta W_g) h) + \sigma(a_g) \odot ((\delta W_u) h) \\
+& \Delta y_{\mathrm{pre}} \approx W_d [(\sigma'(a_g) \odot a_u) \odot (W_g \delta h) + \sigma (a_g) \odot (W_u \delta h)].
+\end{align*}
+
+Notice that **the 2nd term in $\Delta y_{\mathrm{FT}}$ is structurally similar to $\Delta y_{\mathrm{pre}}$**. What does this imply?
+> In principle, pre-MLP steering can match the shift caused by the updates $\delta W_u$ and $\delta W_g$, **if** there exist a $\delta h$ such that $W_g \delta h \approx (\delta W_g) h$ and $W_u \delta h \approx (\delta W_u) h$. 
+
+Wait, what about the first term $(\delta W_d) m$? For a $\delta h$ to match this term, $(\delta W_d) m$ must lie in a space reachable by pre-MLP steering. Let's factor out $\delta h$ to see what that space looks like:
+
+\begin{align*}
+& \Delta y_{\mathrm{pre}} \approx W_d [(\sigma'(a_g) \odot a_u) W_g + \sigma(a_g) W_u] \delta h.
+\end{align*}
+
+Define $J(h) = [(\sigma'(a_g) \odot a_u) W_g + \sigma(a_g) W_u] \delta h \quad$ and $\quad A(h) = W_d J(h)$
+
+We can rewrite $$\Delta y_{\mathrm{pre}} = A(h) \delta h.$$
+
+For pre-MLP steering to match fine-tuning MLP shift, we must have: $$(\delta W_d) m \in \text{col}(A(h)).$$ What does this mean?
+
+- Since $A(h) = W_d J(h) \subseteq \text{col}(W_d)$, any part of $(\delta W_d) m$ orthogonal to $\text{col}(W_d)$ is unreachable.
+- If finetuning pushes $\delta W_d$ to new directions not spanned by $A(h)$, pre-MLP steering cannot match it.
+- Note that as this condition must hold for *every token $h$*, this becomes really restrictive.
+
+#### Bottom line:
+> Pre-MLP steering can partially imitate MLP finetuning (the $\delta W_g$ and $\delta W_u$ effects), but matching the full update is generally very hard, if not impossible.
