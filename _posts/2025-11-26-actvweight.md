@@ -286,3 +286,56 @@ Now, we began learning this steering vectors *without* a guide. Low-rank steerin
 
 Here are the results we're currently seeing for 1B-parameter models:
 
+<p align="center">
+<img src="https://sprocketlab.github.io/images/blogposts/actvweight/table_1b.png">
+</p>
+
+Under the same parameter count, these new steering locations are doing really well! At least, better than ReFT with similar parameters, simply by shifting the location of the steering to be after the skip-connection rather than before it. The fairest comparison is between our linear model and ReFT, which clearly shows the improvement of steering here rather than post-MLP. 
+
+In a few cases, linear steering even outperforms LoRA (learning an adapter on every Linear module) with the same rank, and occasionally out-performs SFT using full rank! This shows there are situations where steering is a better choice than fine-tuning.
+
+What is surprising about these results is that linear steering is performing better than non-linear steering. Non-linear steering is not necessarially more expressive than linear steering (with the same rank), and for these tasks, it seems to be that the steering really is linear-like, validating the choice in ReFT. In this situation, it would be better to let the steering have more rank as a pure linear model rather than with some non-linearity messing with this structure.
+
+Now compare this to some larger, 4B-parameter models:
+
+[TODO @ Dyah: ADD 4B TABLE]
+
+The behavior is different! Now, non-linear steering typically performs better than linear steering (except notably in Winograde). This might be due to the closer-to-linear behavior in larger models after training leading to smaller rank updates, so non-linear steering can take advantage of the additional rank to improve accuracy with some non-linear terms.
+
+So, as scale increases, it might be worth looking for less-linear steering methods, not because large models are less-linear, but because they can take advantage of the non-linearity more easily.
+
+## Theory
+
+### Post-block is better than Post-MLP
+
+Now that we've seen how there is a clear difference between post-MLP and post-block steering, we now should ask why is there such a difference. What makes post-block steering better than post-MLP?
+
+This difference, already highlighted, is that a post-block steer can depend on outputs of the attention layer without passing through the GLU. To gain some simple intuition, let's take a 1-layer model, made of one Attention layer and one GLU: 
+
+$$y(x) = x + \mathrm{Attn}(x) + \mathrm{GLU}(x + \mathrm{Attn}(x))$$
+
+where $x$ is the input of the model.
+
+The two steerings we will be comparing are a post-MLP steer, that only depends on the outputs of the GLU, and a post-block steer, which steers the model after the skip-connection is added back into the model (which for this model, will just be another steer at the very end that depends on the original model outputs). Let's remind outselves of the structure of the GLU/MLP:
+
+$$y_{\mathrm{GLU}}(h) = W_d(\sigma(W_g h) \odot W_u h)$$
+
+Consider the (fairly extreme) case where $W_d = 0$. In this situation, the GLU will be identically 0, *so any input-dependant steering $\delta y_{MLP}$ will be a fixed vector*. Compare this to the post-block steering which can still depend on 
+$h + \mathrm{Attn}(h)$. 
+This also will extend to cases where $W_d$ is not full-rank, where the output of the steering cannot depend on the directions in the null-space, while post-block steering can.
+
+This tells us:
+
+> There are some things that post-MLP steering cannot do while post-block steering can. 
+
+Is it the case that post-block steering always can do what post-MLP steering can do? Unfortunately, no, not *always*. After adding back the skip-connection, it isn't necessarially true that this is invertible so that the skip-connection and GLU terms can be distinguished; their subspaces might overlap with each other. In the situation when this isn't true, we *can* match post-MLP steering perfectly.
+
+To gain some intuition, let's restrict ourselves to the linear case, where post-MLP steering is a steering in the style of ReFT. Now, to assure invertibility, assume that the subspace spanned by the skip-connection and the subspace spanned by the MLP outputs have trivial intersection. That is to say that there is a projection map $P$ such that
+$$P(h + \mathrm{Attn}(h) + \mathrm{GLU}(h + \mathrm{Attn}(h))) = h + \mathrm{Attn}(h)$$
+
+At this point, the equivalence is easy to see. If $A$ is the rank-$r$ linear projector for post-MLP steering, then $\delta h(h) = A P h$ as a post-block steer will match the post-MLP steering perfectly. It will also be rank-$r$ since $AP$ is a rank-$r$ (or less) matrix.
+
+
+<p align="center">
+<img src="https://sprocketlab.github.io/images/blogposts/actvweight/theory-expressiveness.svg">
+</p>
