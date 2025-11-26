@@ -8,7 +8,7 @@ tags:
   - Finetuning
   - Model adaptation
 authors: "<a href='https://dyahadila.github.io/'>Dyah Adila</a>, John Cooper" 
-thumbnail: /images/blogposts/actvweight/weight_v_act.svg
+thumbnail: /images/blogposts/actvweight/actvweight_logo.png
 ---
 
 <script type="text/javascript" id="MathJax-script" async
