@@ -193,7 +193,10 @@ Let’s look back at the structure of a Transformer block:
 </p>
 
 $$
-\text{TransformerLayer}(\text{I}) = \text{I}' + \underbrace{\text{MLP}(\text{Norm}^{\text{MLP}}(\text{I}'))}_{\text{covered by post-MLP}}, \\
+\text{TransformerLayer}(\text{I}) = \text{I}' + \underbrace{\text{MLP}(\text{Norm}^{\text{MLP}}(\text{I}'))}_{\text{covered by post-MLP}},
+$$
+
+$$
 \text{I}' = \text{I} + \text{MHA}(\text{Norm}^{\text{MHA}}(\text{I}))
 $$
 
