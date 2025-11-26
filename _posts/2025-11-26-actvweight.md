@@ -100,6 +100,10 @@ We will examine pre-MLP (steering attention outputs, like LoFIT) and post-MLP (s
 
 *Note:* Before we start, it will feel like there is a lot of math here, but we promise, everything in this section is linear algebra.
 
+<a href="https://imgflip.com/i/ad3bvp">
+  <img src="https://i.imgflip.com/ad3bvp.jpg" width="500"/>
+</a>
+
 ### Fine-tuning
 Let the MLP output be
 
