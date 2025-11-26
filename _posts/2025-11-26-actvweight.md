@@ -90,10 +90,6 @@ $$\delta h_{\mathrm{oracle}} = h_{\mathrm{FT}} - h_{\mathrm{base}}$$
  
 With notation in place, we are now ready to begin our analysis!
 
-<p align="center">
-<img src="https://sprocketlab.github.io/images/blogposts/actvweight/stay-calm-panic.gif" width="500">
-</p>
-
 ## Where should we steer?
 
 Let's start with the main question that drives the rest of our analysis: 
@@ -103,10 +99,6 @@ Let's start with the main question that drives the rest of our analysis:
 We will examine pre-MLP (steering attention outputs, like LoFIT) and post-MLP (steering the MLP output before the skip connection, like ReFT) steering as they are the most common choice in the literature. These spots nicely *sandwich* the MLP, so the most immediate module affected by steering at these points is the MLP itself. Our first step is simple: compare the output changes caused by steering at these locations to the output changes caused by tuning the MLP weights.
 
 *Note:* Before we start, it will feel like there is a lot of math here, but we promise, everything in this section is linear algebra.
-
-<a href="https://imgflip.com/i/ad3bvp">
-  <img src="https://i.imgflip.com/ad3bvp.jpg" width="500"/>
-</a>
 
 ### Fine-tuning
 Let the MLP output be
