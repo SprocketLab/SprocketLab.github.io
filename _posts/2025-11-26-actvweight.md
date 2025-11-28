@@ -311,7 +311,9 @@ Now compare this to some larger, 4B-parameter models:
 
 The behavior is different! Now, non-linear steering typically performs better than linear steering (except notably in Winograde). This might be due to the closer-to-linear behavior in larger models after training leading to smaller rank updates, so non-linear steering can take advantage of the additional rank to improve accuracy with some non-linear terms.
 
-So, as scale increases, it might be worth looking for less-linear steering methods, not because large models are less-linear, but because they can take advantage of the non-linearity more easily.
+Additionally, to understand why non-linear might not be as good as linear, consider a task that is performed very well by rank-4 linear steering. In this case, rank-4 linear steering will work (clearly) but rank-4 non-linear steering won't work! The non-linearity gets in the way. Now, compare this to rank-8 linear and non-linear steering. Rank-8 linear steering can't do better that the rank-4 version, so its performance will be almost the same. In contrast, rank-8 non-linear steering can represent rank-4 linear steering, so it's at least as expressive as rank-8 linear steering! 
+
+What matters here is how close to a low-rank linear update we are, and if it happens that we have more rank than the linear steering would be, adding a non-linearity helps. So, as scale increases, it might be worth looking for less-linear steering methods, not because large models are less-linear, but because they can take advantage of the non-linearity more easily.
 
 ## Theory
 
