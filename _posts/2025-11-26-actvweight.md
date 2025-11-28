@@ -391,6 +391,10 @@ Perhaps, jointly optimizing them might help us break past the limitations or loc
 <img src="https://sprocketlab.github.io/images/blogposts/actvweight/fun.gif" width="500">
 </p>
 
+## Try our code!
+
+Try our code here: https://github.com/SprocketLab/steerling 
+
 ## References
  [1] Wu, Z., Arora, A., Wang, Z., Geiger, A., Jurafsky, D., Manning, C., & Potts, C. (2024). ReFT: Representation Finetuning for Language Models. 
 
