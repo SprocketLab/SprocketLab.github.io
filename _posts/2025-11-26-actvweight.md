@@ -252,7 +252,7 @@ Now, let's compare $\Delta y_{\mathrm{ReFT}}$ with the $\Delta y_{\mathrm{FT}}$ 
 
 The second term ($\textbf{R}^\top\textbf{b}$) can only reproduce $\Delta y_{\mathrm{FT}}$'s $\delta W_u$ and $\delta W_g$ induced shift if it is approximately a linear function of the post-MLP output. This depends on how locally linear the mapping $h \mapsto y$ is. When these conditions hold, ReFT can approximate the effects of MLP weight updates reasonably well. 
 
-ReFT does well on datasets where the target update is relatively linear, often outperforming LoFIT and JoLA. But when the required update is more nonlinear, ReFT performs similarly to, if not worse than, its pre-MLP counterparts.
+This matches what we see in our experiments: ReFT does well on datasets where the target update is relatively linear, often outperforming LoFIT and JoLA. But when the required update is more nonlinear, ReFT performs similarly to, if not worse than, its pre-MLP counterparts.
 
  <!-- However, as we discussed earlier, post-MLP edits still leave a significant portion of the block’s computation untouched. -->
 
