@@ -166,7 +166,7 @@ For pre-MLP steering to match fine-tuning MLP shift, we must have: $$(\delta W_d
 - Note that as this condition must hold for *every token $h$*, this becomes really restrictive.
 
 ### Bottom line:
-> Pre-MLP steering can partially imitate MLP finetuning (the $\delta W_g$ and $\delta W_u$ effects), but matching the full update is generally very hard, if not impossible.
+> Pre-MLP steering can partially imitate MLP finetuning (the $\delta W_g$ and $\delta W_u$ effects), but matching the full MLP update is generally very hard, if not impossible.
 
 ### Post-MLP steering
 Post-MLP steering directly modifies the **output of the MLP** $y$.  
@@ -218,7 +218,7 @@ The rest remains untouched, meaning post-MLP steering cannot fully replicate the
 
 ### **Summary**
 
-- Post-MLP steering is **more expressive** than pre-MLP steering because it can match arbitrary MLP updates.  
+- Post-MLP steering is **better positioned** than pre-MLP steering when it comes to matching arbitrary MLP updates.  
 - **However**, it still misses all the changes happening through the skip-connection.  
 - Matching MLP behavior is not enough, we also need a way to account for the skip path.
 
@@ -250,9 +250,11 @@ $$
 
 Now, let's compare $\Delta y_{\mathrm{ReFT}}$ with the $\Delta y_{\mathrm{FT}}$ we have from before. ReFT can induce a $\delta W_d$-like update, but only within the subspace spanned by $\textbf{R}$. So its ability to mimic full finetuning depends on the nature of $\delta W_d$ update, whether it is low-rank enough to fit inside that subspace. 
 
-The second term ($\textbf{R}^\top\textbf{b}$) can only reproduce $\Delta y_{\mathrm{FT}}$'s $\delta W_u$ and $\delta W_g$ induced shift if it is approximately a linear function of the post-MLP output. This depends on how locally linear the mapping $h \mapsto y$ is.
+The second term ($\textbf{R}^\top\textbf{b}$) can only reproduce $\Delta y_{\mathrm{FT}}$'s $\delta W_u$ and $\delta W_g$ induced shift if it is approximately a linear function of the post-MLP output. This depends on how locally linear the mapping $h \mapsto y$ is. When these conditions hold, ReFT can approximate the effects of MLP weight updates reasonably well. 
 
-When these conditions hold, ReFT can approximate the effects of MLP weight updates reasonably well. However, as we discussed earlier, post-MLP edits still leave a significant portion of the block’s computation untouched.
+ReFT does well on datasets where the target update is relatively linear, often outperforming LoFIT and JoLA. But when the required update is more nonlinear, ReFT performs similarly to, if not worse than, its pre-MLP counterparts.
+
+ <!-- However, as we discussed earlier, post-MLP edits still leave a significant portion of the block’s computation untouched. -->
 
 ## How expressive can steering really be
 
