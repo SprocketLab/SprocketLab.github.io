@@ -392,8 +392,20 @@ Perhaps, jointly optimizing them might help us break past the limitations or loc
 </p>
 
 
+---
 
-## [Try our code here! :octocat: ](https://github.com/SprocketLab/steerling) 
+## 🧪 Want to try it yourself?
+
+We’ve packaged everything — activation adapters, post-block steering layers, training scripts — into a clean, lightweight library.
+
+<p align="center">
+  <a href="https://github.com/SprocketLab/steerling" style="font-size: 1.3rem; font-weight: bold;">
+    👉 **Try our code on GitHub** 🐙  
+  </a>
+</p>
+
+---
+
 
 ## References
  [1] Wu, Z., Arora, A., Wang, Z., Geiger, A., Jurafsky, D., Manning, C., & Potts, C. (2024). ReFT: Representation Finetuning for Language Models. 
