@@ -23,7 +23,7 @@ MathJax = {
 };
 </script>
 
-### **TL;DR**
+## **TL;DR**
 
 In this post, we take a step back and ask two simple questions:  
 **Where should we steer a model?** And **how expressive can steering actually be?**
