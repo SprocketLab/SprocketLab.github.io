@@ -313,7 +313,9 @@ What is surprising about these results is that linear steering is performing bet
 
 Now compare this to some larger, 4B-parameter models:
 
-[TODO @ Dyah: ADD 4B TABLE]
+<p align="center">
+<img src="https://sprocketlab.github.io/images/blogposts/actvweight/table_4b.png">
+</p>
 
 The behavior is different! Now, non-linear steering typically performs better than linear steering (except notably in Winograde). This shift is likely due to optimization effects of the different scales of model tested here. At the larger scale, the loss function typically ends up being smoother/flatter than smaller scale models. This could mean the larger models can learn the more-expressive non-linear adapter over the easier-to-learn linear adapter. 
 
