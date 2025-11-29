@@ -297,15 +297,15 @@ Here are the results we're currently seeing for 1B-parameter models:
 </p>
 
 For a fair comparison, we match the parameter counts of our adapters to the baselines.
-– For ReFT, we use rank-8 adapters for both ReFT and our method.
-– For LoFIT, we train fixed vectors (rather than adapters) per layer.
-– For JoLA, we train rank-1 adapters.
+- For ReFT, we use rank-8 adapters for both ReFT and our method.
+- For LoFIT, we train fixed vectors (rather than adapters) per layer.
+- For JoLA, we train rank-1 adapters.
 
 Across both Llama-1B and Gemma-1B, the trend is consistent: simply moving the steering location to post-block leads to a substantial boost in performance. Under identical parameter budgets, our linear post-block steering outperforms ReFT, and our fixed-vector and rank-1 variants outperform LoFIT and JoLA respectively.
 
 The fairest comparisons make this especially clear:
-– Linear (ours) vs. ReFT: ours reliably closes more of the gap to SFT despite using the same rank linear adapters.
-– Vector / rank-1 (ours) vs. LoFIT / JoLA: shifting the steering point alone provides sizable improvements, with no increase in parameters.
+- Linear (ours) vs. ReFT: ours reliably closes more of the gap to SFT despite using the same rank linear adapters.
+- Vector / rank-1 (ours) vs. LoFIT / JoLA: shifting the steering point alone provides sizable improvements, with no increase in parameters.
 
 In a few cases, linear steering even outperforms LoRA (learning an adapter on every Linear module) with the same rank, and occasionally out-performs SFT using full rank! This shows there are situations where steering is a better choice than fine-tuning.
 
