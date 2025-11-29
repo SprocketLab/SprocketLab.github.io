@@ -23,7 +23,7 @@ MathJax = {
 };
 </script>
 
-### The Paradigm: Activation Steering vs. Fine-Yuning
+### The Paradigm: Activation Steering vs. Fine-Tuning
 Activation steering has emerged as an alternative to parameter-efficient fine-tuning (PEFT). Instead of updating model weights, steering directly adjusts intermediate activations at inference time, drastically reducing the number of trainable parameters. For example, ReFT [1] can match LoRA-level performance while using 15×–65× fewer parameters. Existing steering methods mainly differ in where they apply these interventions: ReFT modifies MLP outputs, LoFIT [2] steers at attention heads, and JoLA [3] jointly learns both the steering vectors and the intervention locations.
 
 <p align="center">
