@@ -24,7 +24,7 @@ MathJax = {
 </script>
 
 ### The Paradigm: Activation Steering vs. Fine-Tuning
-Activation steering has emerged as an alternative to parameter-efficient fine-tuning (PEFT). Instead of updating model weights, steering directly adjusts intermediate activations at inference time, drastically reducing the number of trainable parameters. For example, ReFT [1] can match LoRA-level performance while using 15×–65× fewer parameters. Existing steering methods mainly differ in where they apply these interventions: ReFT modifies MLP outputs, LoFIT [2] steers at attention heads, and JoLA [3] jointly learns both the steering vectors and the intervention locations.
+Activation steering has emerged as an alternative to parameter-efficient fine-tuning (PEFT). Instead of updating model weights, steering directly adjusts intermediate activations at inference time, drastically reducing the number of trainable parameters. For example, ReFT [1] can match LoRA-level performance while using 15×–65× fewer parameters. Existing steering methods mainly differ in where they apply these interventions: ReFT modifies MLP outputs (post-MLP), LoFIT [2] steers at attention heads (pre-MLP), and JoLA [3] jointly learns both the steering vectors and the intervention locations.
 
 <p align="center">
 <img src="https://sprocketlab.github.io/images/blogposts/actvweight/weight_v_act.svg">
@@ -40,12 +40,12 @@ Despite empirical success, we still lack a clear understanding of why steering w
 This work investigates both questions.
 
 **First: Where should we steer?**
-We begin with a simple, linearized analysis of a GLU's output changes under weight updates compared to activation steering. This shows is that steering at different locations allows us to easily match the behavior of certain weight updates but not others. This gives us a principled way to identify which intervention points can, in principle, match weight updates. However, we notice that linear steering at either of these locations cannot completely capture the full behavior of weight updates.
+We begin with a simple, linearized analysis of a GLU's output changes under weight updates compared to activation steering. This shows us that steering at *some* locations can easily match the behavior of certain weight updates, but not others. However, we notice that linear steering at these locations cannot completely capture the full behavior of weight updates.
 
 **Then: How expressive can steering really be?**
 We then experiment with oracle steering, which, while not a practical method, provides a principled way to test which locations are best to steer at. With this tool, one pattern stands out: *the most expressive intervention point is the block output, after the skip connection*. Steering here can draw on both the skip-connection input and the transformed MLP output, instead of relying solely on either the MLP or attention pathway.
 
-Motivated by this, we introduce a new activation adapter placed at each block output. It retains a LoRA-like low-rank structure but incorporates a non-linearity after the down-projection. This allows it to capture some of the nonlinear effects characteristic of SFT, giving activation steering a more expressive update space.
+Motivated by this, we introduce a new activation adapter placed at each block output. It retains a LoRA-like low-rank structure but incorporates a non-linearity after the down-projection. This allows it to capture some of the nonlinear effects of SFT, giving activation steering a more expressive update space.
 
 **And finally: A bit of theory.**
 No matter what the steering adapter is, if the adapter is able enough to match the fine-tuned model at each layer, the steered model will be able to match the fine-tuned model. The question we ask here: how accurate must we be to match a fine-tuned model closely?
@@ -56,7 +56,7 @@ We also show that, at least in some settings relating to the geometry of these h
 
 Throughout this article, we will be looking at a number of different places to steer, along with different ways that we can steer. Even if some of these choices don't make sense at the moment, don't worry! A lot of this will be explained much more throughout this article. Use this section as a reference for any unclear notation/names as you read.
 
-We will use $\delta\cdot$ to represent small changes in our analysis, and $\Delta\cdot$ will represent our parameters, such as the fine-tuning updates to matrices $\Delta W$ or steering vector $\Delta h$.
+We will use $\delta\cdot$ to represent small induced changes in our analysis, and $\Delta\cdot$ will represent changes to parameters, such as the fine-tuning updates to matrices $\Delta W$ or steering vector $\Delta h$.
 
 First, a Transformer model is made transformer blocks. Each block contains an Attention module and an MLP module. Unless otherwise specified, the MLP modules will be specifically GLU layers, a popular variant of standard 1-layer MLPs. The inputs to each submodule of each layer will pass through a LayerNorm. Each layer will involve two skip-connections, one around each submodule. This all can be seen in the picture below. Everything thus far is standard nomenclature of standard transformer architectures.
 
@@ -68,7 +68,7 @@ As for steering, there are 3 main variants we consider. First, pre-MLP steering 
 
 $$y_{\mathrm{GLU}}(h) = W_d(\sigma(W_g h) \odot W_u h).$$
 
-The matrices $W_d, W_g, W_u$ are called the down-projection, gated, and ungated matrices respectively. When convenient, we will also write
+The matrices $W_d, W_g, W_u$ are called the down-projection, gated, and up-projection matrices respectively. When convenient, we will also write
 
 $$ y(h)=W_d m(h), \quad m(h) = \sigma(a_g) \odot a_u, \quad a_g = W_g h, \quad a_u = W_u h. $$
 
@@ -220,7 +220,7 @@ The rest remains untouched, meaning post-MLP steering on a block-specific level 
 ### **Summary**
 
 - Post-MLP steering is **better positioned** than pre-MLP steering when it comes to matching arbitrary MLP updates.  
-- **However**, it still it is now well-positioned for the changes happening through the skip-connection. 
+- **However**, it is not well-positioned for the changes happening through the skip-connection. 
 - Matching MLP behavior is not enough, we also need a way to account for the skip path.
 
 
@@ -229,21 +229,21 @@ Now that we've sorted out “where to steer” part of the story, the next piece
 ReFT does a post-MLP steering parameterized by
 
 $$
-\Delta y_{\mathrm{ReFT}} = \textbf{R}^\top (\textbf{W} y + \textbf{b} - \textbf{R}y).
+\delta y_{\mathrm{ReFT}} = \textbf{R}^\top (\textbf{W} y + \textbf{b} - \textbf{R}y).
 $$
 
-We use $\Delta y$ to indicate this is happening after the MLP rather than before. The parameters $\textbf{R}, \textbf{W}, \textbf{b}$ are parameters, where $\textbf{R} \in \mathbb{R}^{r \times d_{\mathrm{model}}}$  has a rank $r$ and orthonormal rows, $\textbf{W} \in \mathbb{R}^{r \times d_{\mathrm{model}}}$, and $\mathbf{b} \in \mathbb{R}^r$. 
+We use $\delta y$ to indicate this is happening after the MLP rather than before. The parameters $\textbf{R}, \textbf{W}, \textbf{b}$ are parameters, where $\textbf{R} \in \mathbb{R}^{r \times d_{\mathrm{model}}}$  has a rank $r$ and orthonormal rows, $\textbf{W} \in \mathbb{R}^{r \times d_{\mathrm{model}}}$, and $\mathbf{b} \in \mathbb{R}^r$. 
 
 Recall that the output of the MLP layer is $y = W_d m$, so we can write
 
 $$
 \begin{align*}
-\Delta y_{\mathrm{ReFT}} &= y_{\mathrm{ReFT}} - y = (\textbf{R}^\top \textbf{W} - \textbf{R}^\top\textbf{R})W_d m + \textbf{R}^\top b \\
-&= \delta W_d ^{\mathrm{eff}} m + \textbf{R}^\top \textbf{b}, \quad \quad \Delta W_d ^{\mathrm{eff}} =  (\textbf{R}^\top \textbf{W} - \textbf{R}^\top\textbf{R})W_d
+\delta y_{\mathrm{ReFT}} &= y_{\mathrm{ReFT}} - y = (\textbf{R}^\top \textbf{W} - \textbf{R}^\top\textbf{R})W_d m + \textbf{R}^\top b \\
+&= \Delta W_d ^{\mathrm{eff}} m + \textbf{R}^\top \textbf{b}, \quad \quad \Delta W_d ^{\mathrm{eff}} =  (\textbf{R}^\top \textbf{W} - \textbf{R}^\top\textbf{R})W_d
 \end{align*}
 $$
 
-Now, let's compare $\Delta y_{\mathrm{ReFT}}$ with the $\delta y_{\mathrm{FT}}$ we have from before. ReFT can induce a $\Delta W_d$-like update, but only within the subspace spanned by $\textbf{R}$. So its ability to mimic full fine-tuning depends on the nature of $\Delta W_d$ update, whether it is low-rank enough to fit inside that subspace. 
+Now, let's compare $\delta y_{\mathrm{ReFT}}$ with the $\delta y_{\mathrm{FT}}$ we have from before. ReFT can induce a $\Delta W_d$-like update, but only within the subspace spanned by $\textbf{R}$. So its ability to mimic full fine-tuning depends on the nature of $\Delta W_d$ update, whether it is low-rank enough to fit inside that subspace. 
 
 The second term ($\textbf{R}^\top\textbf{b}$) can only reproduce $\delta y_{\mathrm{FT}}$'s $\Delta W_u$ and $\Delta W_g$ induced shift if it is approximately a linear function of the post-MLP output. This depends on how locally linear the mapping $h \mapsto y$ is. When these conditions hold, ReFT can approximate the effects of MLP weight updates reasonably well. However, as we show in our experiments (Table 1 in the next section), there are many situations where this does *not* hold, with ReFT performing significantly below the SFT model. 
 
@@ -280,7 +280,7 @@ In fact, if we try and replace the oracle with the best linear approximation of 
 </p>
 
 
-Here, we are taking generations on some prompt and comparing the KL divergence between the fully fine-tuned model's output probabilities and those of the other models. The oracle often deviates further from the fine-tuned model than ReFT does, although not by much.
+Here, we are taking generations on some prompts and comparing the average KL divergence between the fully fine-tuned model's output probabilities and those of ReFT's and the linearized oracle's. The oracle often deviates further from the fine-tuned model than ReFT does, although not by much.
 
 The best way around this would be to learn a *low-rank, non-linear function* as the map between the hidden states and the steering vectors. What better than a small autoencoder! Its output space would be constrained by the column space of the up-projection, so it will still be low-rank. This isn't a new idea to steer post-skip-connection ([4] [5] for example), but the systematic justification presented here is: when steering block-by-block, post-block steering will be the most expressive.
 
@@ -288,7 +288,7 @@ At this point, it seemed like we understood what would likely work as a steering
 
 ### Post-Block Performance
 
-Now, we began learning these steering vectors *without* a guide. Low-rank steering modules were added at the end of each block and trained, similar to LoRA/PEFT except on a module never present in training. Following the above discussion, two major variants were tested: linear and non-linear. In the linear case, the steering was done by a low-rank matrix. In the non-linear case, a non-linearity was placed between the down- and up-projection, making this an autoencoder. This was inspired by possibly needed a non-linearity from above and from [4] and [5], but we still want to preserve that low-rank structure of the steering vectors.
+Now, we began learning these steering vectors *without* a guide. Low-rank steering modules were added at the end of each block and trained, similar to LoRA/PEFT except they are applied on the *activations* instead of the weights. Following the above discussion, two major variants were tested: linear and non-linear. In the linear case, the steering was done by a low-rank matrix. In the non-linear case, a non-linearity was placed between the down- and up-projection, making this an autoencoder. This was inspired by possibly needed a non-linearity from above and from [4] and [5], but we still want to preserve that low-rank structure of the steering vectors.
 
 Here are the results we're currently seeing for 1B-parameter models:
 
@@ -303,9 +303,9 @@ For a fair comparison, we match the parameter counts of our adapters to the base
 
 Across both Llama-1B and Gemma-1B, the trend is consistent: simply moving the steering location to post-block leads to a substantial boost in performance. Under identical parameter budgets, our linear post-block steering outperforms ReFT, and our fixed-vector and rank-1 variants outperform LoFIT and JoLA respectively.
 
-The fairest comparisons make this especially clear:
-- Linear (ours) vs. ReFT: ours reliably closes more of the gap to SFT despite using the same rank linear adapters.
-- Vector / rank-1 (ours) vs. LoFIT / JoLA: shifting the steering point alone provides sizable improvements, with no increase in parameters.
+<!-- The fairest comparisons make this especially clear:
+- Linear (ours) vs. ReFT: ours reliably closes more of the gap to SFT despite using same rank linear adapters.
+- Vector / rank-1 (ours) vs. LoFIT / JoLA: shifting the steering point alone provides sizable improvements, with no increase in parameters. -->
 
 In a few cases, linear steering even outperforms LoRA (learning an adapter on every Linear module) with the same rank, and occasionally out-performs SFT using full rank! This shows there are situations where steering is a better choice than fine-tuning.
 
@@ -320,6 +320,15 @@ Now compare this to some larger, 4B-parameter models:
 The behavior is different! Now, non-linear steering typically performs better than linear steering (except notably in Winograde). This shift is likely due to optimization effects of the different scales of model tested here. At the larger scale, the loss function typically ends up being smoother/flatter than smaller scale models. This could mean the larger models can learn the more-expressive non-linear adapter over the easier-to-learn linear adapter. 
 
 Additionally, this shift could mean something more fundamental to the best adapters as well. If the adapter is well-suited as a linear adapter with the correct rank, the non-linear adapter would have to work around its non-linearity with something like large scale parameters to match the linear adapter. So, it's possible that the smaller models need a small-rank linear adapter while the larger models need a large-rank non-linear adapter, but this is left to future work.
+
+---
+**Implementation details**:
+
+For all methods, we sweep across 5 learning rates and and keep other hyperparameters constant (batch size, scheduler, warmup ratio, weight decay). We keep the same learning rate sweep space for ours and ReFT, and slightly shift to smaller values for SFT and LoRA (since they train ubstantially more parameters). We also sweep across a slightly higher learning rates for LoFIT and JoLA (as they train less parameters).
+
+The ReFT paper also treats the tokens to steer as a hyperparameter. After selecting the best learning rate, we sweep over two locations: the last prompt token (the default value) and (prefix+7, suffix+7) (the best configuration reported for GSM8K). Our method does not require this sweep, it intervenes at all token positions (both prompt and generated).
+
+---
 
 ## Theory
 
