@@ -28,8 +28,7 @@ MathJax = {
 In this post, we take a step back and ask two simple questions:  
 **Where should we steer a model?** And **how expressive can steering actually be?**
 
-By comparing steering and finetuning through a first-order lens, we find a surprisingly clear answer:  
-the best place to steer is often **after the skip connection**, where attention and MLP outputs meet. Steering here is more expressive than steering inside modules, and it ends up looking a lot closer to what finetuning does.
+By comparing steering and finetuning through a first-order lens, we find a surprisingly clear answer: the best place to steer is often **after the skip connection**, where attention and MLP outputs meet. Steering here is more expressive than steering inside modules, and it ends up looking a lot closer to what finetuning does.
 
 Using this insight, we build lightweight post-block adapters that train only a fraction of the model’s parameters and achieve **remarkably close performance to SFT**.
 
