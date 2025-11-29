@@ -23,6 +23,18 @@ MathJax = {
 };
 </script>
 
+### **TL;DR**
+
+In this post, we take a step back and ask two simple questions:  
+**Where should we steer a model?** And **how expressive can steering actually be?**
+
+By comparing steering and finetuning through a first-order lens, we find a surprisingly clear answer:  
+the best place to steer is often **after the skip connection**, where attention and MLP outputs meet. Steering here is more expressive than steering inside modules—and it ends up looking a lot closer to what finetuning actually does.
+
+Using this insight, we build lightweight post-block adapters (both linear and nonlinear) that train only **0.04%** of the model’s parameters. Despite being tiny, they get **remarkably close to SFT**, and consistently beat activation steering baselines on the same parameter budget.
+
+If you’re curious about how far activation steering can really go, this post is for you 😊
+
 ### The Paradigm: Activation Steering vs. Fine-Tuning
 Activation steering has emerged as an alternative to parameter-efficient fine-tuning (PEFT). Instead of updating model weights, steering directly adjusts intermediate activations at inference time, drastically reducing the number of trainable parameters. For example, ReFT [1] can match LoRA-level performance while using 15×–65× fewer parameters. Existing steering methods mainly differ in where they apply these interventions: ReFT modifies MLP outputs (post-MLP), LoFIT [2] steers at attention heads (pre-MLP), and JoLA [3] jointly learns both the steering vectors and the intervention locations.
 
