@@ -56,6 +56,8 @@ We also show that, at least in some settings relating to the geometry of these h
 
 Throughout this article, we will be looking at a number of different places to steer, along with different ways that we can steer. Even if some of these choices don't make sense at the moment, don't worry! A lot of this will be explained much more throughout this article. Use this section as a reference for any unclear notation/names as you read.
 
+We will use $\delta\cdot$ to represent small changes in our analysis, and $\Delta\cdot$ will represent our parameters, such as the fine-tuning updates to matrices $\Delta W$ or steering vector $\Delta h$.
+
 First, a Transformer model is made transformer blocks. Each block contains an Attention module and an MLP module. Unless otherwise specified, the MLP modules will be specifically GLU layers, a popular variant of standard 1-layer MLPs. The inputs to each submodule of each layer will pass through a LayerNorm. Each layer will involve two skip-connections, one around each submodule. This all can be seen in the picture below. Everything thus far is standard nomenclature of standard transformer architectures.
 
 <p align="center">
@@ -70,23 +72,25 @@ The matrices $W_d, W_g, W_u$ are called the down-projection, gated, and ungated 
 
 $$ y(h)=W_d m(h), \quad m(h) = \sigma(a_g) \odot a_u, \quad a_g = W_g h, \quad a_u = W_u h $$
 
-For mathematical notation, the hidden state will be represented as a vector $h$ and steering will be represented as $\delta h$. So, steering works by replacing $h$ with $h + \delta h$. Note that $\delta h$, the steering vector, can depend on the input. Sometimes this is written explicitly, but other times it is omitted.
+For mathematical notation, the hidden state will be represented as a vector $h$ and steering will be represented as $\Delta h$. So, steering works by replacing $h$ with $h + \Delta h$. 
+
+*Note:* $\Delta h$, the steering vector, can depend on the input. Sometimes this is written explicitly as $\Delta h(h)$, but other times it is omitted.
 
 **Fixed-vector:** The simpliest form of steering is by adding a fixed vector $v$ to the hidden state:
 
-$$\delta h = v$$
+$$\Delta h_{\mathrm{vec}} = v$$
 
-**Linear/ReFT:** Linear steering involves some matrix $A$ and bias vector $b$, where the steering vector is a linear function of the hidden state. However, the matrix $A$ is usually replaced by a low-rank matrix (usually written as $W_1W_2^\top$ or $AB^\top$). The rank of this matrix is written as $r$ when necessary:
+**Linear/ReFT:** Linear steering involves some matrix $A$ and bias vector $b$, where the steering vector is a linear function of the hidden state. However, the matrix $A$ is usually replaced by a low-rank matrix (usually written as $W_uW_d^\top$ or $AB^\top$). The rank of this matrix is written as $r$ when necessary:
 
-$$\delta h(h) = W_1W_2^\top h + b$$
+$$\Delta h_{\mathrm{lin}}(h) = W_uW_d^\top h + b$$
 
-**Non-linear:** This steering is parameterized by a 1-layer MLP with matrices $W_d, W_u$ as the down- and up-projections with SiLU activation $\phi$:
+**Non-linear:** This steering is parameterized by a 1-layer MLP with matrices $W_u, W_d$ as the down- and up-projections with SiLU activation $\phi$:
 
-$$\delta h(h) = W_d\phi(W_u h)$$
+$$\Delta h_{\mathrm{non-lin}}(h) = W_u\phi(W_d h)$$
 
 **Freely parametrized/Oracle:** In this case, the steering vector has no explicit parameterization. It can depend on the hidden state $h$ in any way. The oracle specifically will be given by the difference between the hidden states of the base and fine-tuned model
 
-$$\delta h_{\mathrm{oracle}} = h_{\mathrm{FT}} - h_{\mathrm{base}}$$
+$$\Delta h_{\mathrm{oracle}} = h_{\mathrm{FT}} - h_{\mathrm{base}}$$
  
 With notation in place, we are now ready to begin our analysis!
 
@@ -111,11 +115,11 @@ $$ y(h)=W_d m(h), \quad m(h) = \sigma(a_g) \odot a_u, \quad a_g = W_g h, \quad a
 
 Fine-tuning the weights gives us
 
-$$ W_g \mapsto W_g + \delta W_g, \quad W_u \mapsto W_u + \delta W_u, \quad W_d \mapsto W_d + \delta W_d. $$
+$$ W_g \mapsto W_g + \Delta W_g, \quad W_u \mapsto W_u + \Delta W_u, \quad W_d \mapsto W_d + \Delta W_d. $$
 
-The updates $\delta W_g$ and $\delta W_u$ induce the following changes in their immediate outputs:
+The updates $\Delta W_g$ and $\Delta W_u$ induce the following changes in their immediate outputs:
 
-$$ \delta a_g = (\delta W_g) h, \quad \delta a_u = (\delta W_u) h.$$ 
+$$ \delta a_g = (\Delta W_g) h, \quad \Delta a_u = (\Delta W_u) h.$$ 
 
 A first order Taylor expansion of $m = \sigma(a_g) \odot a_u$ gives
 
@@ -123,57 +127,57 @@ $$ \delta m = (\sigma'(a_g) \odot a_u) \odot \delta a_g + \sigma(a_g) \odot \del
 
 Plugging in $\delta m$ into fine-tuning output gives us
 
-$$ y_{\mathrm{FT}} (h) = (W_d + \delta W_d)(m+\delta m) \approx W_d m + \delta W_d m + W_d \delta m. $$
+$$ y_{\mathrm{FT}} (h) = (W_d + \Delta W_d)(m+\delta m) \approx W_d m + \Delta W_d m + W_d \delta m. $$
 
 This yields the first-order shift caused by finetuning:
 
-$$\boxed{\Delta y_{\mathrm{FT}} \equiv y_{\mathrm{FT}}(h) - y(h) \approx (\delta W_d) m + W_d [ (\sigma'(a_g) \odot a_u) \odot ((\delta W_g) h) + \sigma(a_g) \odot ((\delta W_u) h) ].}$$
+$$\boxed{\delta y_{\mathrm{FT}} \equiv y_{\mathrm{FT}}(h) - y(h) \approx (\Delta W_d) m + W_d [ (\sigma'(a_g) \odot a_u) \odot ((\Delta W_g) h) + \sigma(a_g) \odot ((\Delta W_u) h) ].}$$
 
 Plugging $\delta m$ into $y = W_d m$ gives us
 
 $$\boxed{
-\Delta y_{\mathrm{pre}} \approx W_d [(\sigma'(a_g) \odot a_u) \odot (W_g \delta h) + \sigma (a_g) \odot (W_u \delta h)].
+\Delta y_{\mathrm{pre}} \approx W_d [(\sigma'(a_g) \odot a_u) \odot (W_g \Delta h) + \sigma (a_g) \odot (W_u \Delta h)].
 }$$
 
 
 ### Let's compare the finetuning and pre-MLP steering output shifts side by side
 
 $$
-\Delta y_{\mathrm{FT}} \approx (\delta W_d) m + W_d [ (\sigma'(a_g) \odot a_u) \odot ((\delta W_g) h) + \sigma(a_g) \odot ((\delta W_u) h)
+\delta y_{\mathrm{FT}} \approx (\Delta W_d) m + W_d [ (\sigma'(a_g) \odot a_u) \odot ((\Delta W_g) h) + \sigma(a_g) \odot ((\Delta W_u) h)
 $$
 
 $$
-\Delta y_{\mathrm{pre}} \approx W_d [(\sigma'(a_g) \odot a_u) \odot (W_g \delta h) + \sigma (a_g) \odot (W_u \delta h)].
+\delta y_{\mathrm{pre}} \approx W_d [(\sigma'(a_g) \odot a_u) \odot (W_g \Delta h) + \sigma (a_g) \odot (W_u \Delta h)].
 $$
 
-Notice that **the 2nd term in $\Delta y_{\mathrm{FT}}$ is structurally similar to $\Delta y_{\mathrm{pre}}$**. What does this imply?
-> In principle, pre-MLP steering can match the shift caused by the updates $\delta W_u$ and $\delta W_g$, **if** there exist a $\delta h$ such that $W_g \delta h \approx (\delta W_g) h$ and $W_u \delta h \approx (\delta W_u) h$. 
+Notice that **the 2nd term in $\delta y_{\mathrm{FT}}$ is structurally similar to $\delta y_{\mathrm{pre}}$**. What does this imply?
+> In principle, pre-MLP steering can match the shift caused by the updates $\Delta W_u$ and $\Delta W_g$, **if** there exist a $\Delta h$ such that $W_g \Delta h \approx (\Delta W_g) h$ and $W_u \Delta h \approx (\Delta W_u) h$. 
 
-Wait, what about the first term $(\delta W_d) m$? For a $\delta h$ to match this term, $(\delta W_d) m$ must lie in a space reachable by pre-MLP steering. Let's factor out $\delta h$ to see what that space looks like:
+Wait, what about the first term $(\Delta W_d) m$? For a $\Delta h$ to match this term, $(\Delta W_d) m$ must lie in a space reachable by pre-MLP steering. Let's factor out $\Delta h$ to see what that space looks like:
 
 $$
-\Delta y_{\mathrm{pre}} \approx W_d [(\sigma'(a_g) \odot a_u) W_g + \sigma(a_g) W_u] \delta h.
+\delta y_{\mathrm{pre}} \approx W_d [(\sigma'(a_g) \odot a_u) W_g + \sigma(a_g) W_u] \Delta h.
 $$
 
-Define $J(h) = [(\sigma'(a_g) \odot a_u) W_g + \sigma(a_g) W_u] \delta h \quad$ and $\quad A(h) = W_d J(h)$
+Define $J(h) = [(\sigma'(a_g) \odot a_u) W_g + \sigma(a_g) W_u] \Delta h \quad$ and $\quad A(h) = W_d J(h)$
 
-We can rewrite $$\Delta y_{\mathrm{pre}} = A(h) \delta h.$$
+We can rewrite $$\delta y_{\mathrm{pre}} = A(h) \Delta h.$$
 
-For pre-MLP steering to match fine-tuning MLP shift, we must have: $$(\delta W_d) m \in \text{col}(A(h)).$$ What does this mean?
+For pre-MLP steering to match fine-tuning MLP shift, we must have: $$(\Delta W_d) m \in \text{col}(A(h)).$$ What does this mean?
 
-- Since $A(h) = W_d J(h) \subseteq \text{col}(W_d)$, any part of $(\delta W_d) m$ orthogonal to $\text{col}(W_d)$ is unreachable.
-- If finetuning pushes $\delta W_d$ to new directions not spanned by $A(h)$, pre-MLP steering cannot match it.
+- Since $A(h) = W_d J(h) \subseteq \text{col}(W_d)$, any part of $(\Delta W_d) m$ orthogonal to $\text{col}(W_d)$ is unreachable.
+- If finetuning pushes $\Delta W_d$ to new directions not spanned by $A(h)$, pre-MLP steering cannot match it.
 - Note that as this condition must hold for *every token $h$*, this becomes really restrictive.
 
 ### Bottom line:
-> Pre-MLP steering can partially imitate MLP finetuning (the $\delta W_g$ and $\delta W_u$ effects), but matching the full MLP update is generally very hard, if not impossible.
+> Pre-MLP steering can partially imitate MLP finetuning (the $\Delta W_g$ and $\Delta W_u$ effects), but matching the full MLP update is generally very hard, if not impossible.
 
 ### Post-MLP steering
 Post-MLP steering directly modifies the **output of the MLP** $y$.  
 Because it acts *after* all the nonlinearities inside the MLP, a sufficiently expressive parameterization could, in principle, reproduce **any** change made by fine-tuning the MLP weights. For example, if we were allowed a fully flexible oracle vector,
 
 $$
-\delta y = y_{\mathrm{FT}} - y,
+\Delta y = y_{\mathrm{FT}} - y,
 $$
 
 then adding this vector would give us the exact fine-tuned model output.
@@ -237,7 +241,7 @@ $\textbf{W} \in \mathbb{R}^{r \times d_{\mathrm{model}}}$, and $\mathbf{b} \in \
 The output shift caused by ReFT is:
 
 $$
-\Delta y_{\mathrm{ReFT}} = y_{\mathrm{ReFT}} - y = (\textbf{R}^\top \textbf{W} - \textbf{R}^\top\textbf{R})y + \textbf{R}^\top b
+\delta y_{\mathrm{ReFT}} = y_{\mathrm{ReFT}} - y = (\textbf{R}^\top \textbf{W} - \textbf{R}^\top\textbf{R})y + \textbf{R}^\top b
 $$
 
 $$
@@ -245,12 +249,12 @@ $$
 $$
 
 $$
-= \delta W_d ^{\mathrm{eff}} m + \textbf{R}^\top \textbf{b}, \quad \quad \delta W_d ^{\mathrm{eff}} =  (\textbf{R}^\top \textbf{W} - \textbf{R}^\top\textbf{R})W_d
+= \delta W_d ^{\mathrm{eff}} m + \textbf{R}^\top \textbf{b}, \quad \quad \Delta W_d ^{\mathrm{eff}} =  (\textbf{R}^\top \textbf{W} - \textbf{R}^\top\textbf{R})W_d
 $$
 
-Now, let's compare $\Delta y_{\mathrm{ReFT}}$ with the $\Delta y_{\mathrm{FT}}$ we have from before. ReFT can induce a $\delta W_d$-like update, but only within the subspace spanned by $\textbf{R}$. So its ability to mimic full finetuning depends on the nature of $\delta W_d$ update, whether it is low-rank enough to fit inside that subspace. 
+Now, let's compare $\delta y_{\mathrm{ReFT}}$ with the $\delta y_{\mathrm{FT}}$ we have from before. ReFT can induce a $\Delta W_d$-like update, but only within the subspace spanned by $\textbf{R}$. So its ability to mimic full fine-tuning depends on the nature of $\Delta W_d$ update, whether it is low-rank enough to fit inside that subspace. 
 
-The second term ($\textbf{R}^\top\textbf{b}$) can only reproduce $\Delta y_{\mathrm{FT}}$'s $\delta W_u$ and $\delta W_g$ induced shift if it is approximately a linear function of the post-MLP output. This depends on how locally linear the mapping $h \mapsto y$ is. When these conditions hold, ReFT can approximate the effects of MLP weight updates reasonably well. However, as we show in our experiments (Table 1 in the next section), this happens only rarely. In practice, ReFT is usually outperformed by its pre-MLP counterparts, and only surpasses them on a single dataset.
+The second term ($\textbf{R}^\top\textbf{b}$) can only reproduce $\delta y_{\mathrm{FT}}$'s $\Delta W_u$ and $\Delta W_g$ induced shift if it is approximately a linear function of the post-MLP output. This depends on how locally linear the mapping $h \mapsto y$ is. When these conditions hold, ReFT can approximate the effects of MLP weight updates reasonably well. However, as we show in our experiments (Table 1 in the next section), this happens only rarely. In practice, ReFT is usually outperformed by its pre-MLP counterparts, and only surpasses them on a single dataset.
 <!-- This matches what we see in our experiments: ReFT outperforms LoFIT and JoLA on datasets where the target update is relatively linear. But when the required update is more nonlinear, ReFT performs similarly to, if not worse than its pre-MLP counterparts. -->
 
  <!-- However, as we discussed earlier, post-MLP edits still leave a significant portion of the block’s computation untouched. -->
@@ -261,11 +265,11 @@ Now that we've seen that steering after the skip-connection provides us with the
 
 The simplest (and strongest) thing when given the SFT model would be to let the steering vectors be the oracle from above. Just to recall,
 
-$$\delta h_{\mathrm{oracle}} = h_{\mathrm{FT}} - h_{\mathrm{base}}$$
+$$\Delta h_{\mathrm{oracle}} = h_{\mathrm{FT}} - h_{\mathrm{base}}$$
 
 so, quite literally,
 
-$$h_{\mathrm{steer}} = h_{\mathrm{base}} + \delta h_{\mathrm{oracle}} = h_{\mathrm{FT}}$$
+$$h_{\mathrm{steer}} = h_{\mathrm{base}} + \Delta h_{\mathrm{oracle}} = h_{\mathrm{FT}}$$
 
 <p align="center">
 <img src="https://sprocketlab.github.io/images/blogposts/actvweight/post-block-oracle.svg">
@@ -331,7 +335,7 @@ The two steerings we will be comparing are a post-MLP steer, that only depends o
 
 $$y_{\mathrm{GLU}}(h) = W_d(\sigma(W_g h) \odot W_u h)$$
 
-Consider the (fairly extreme) case where $W_d = 0$. In this situation, the GLU will be identically 0, *so any input-dependant steering $\delta y_{MLP}$ will be a fixed vector*. Compare this to the post-block steering which can still depend on 
+Consider the (fairly extreme) case where $W_d = 0$. In this situation, the GLU will be identically 0, *so any input-dependant steering $\Delta y_{MLP}$ will be a fixed vector*. Compare this to the post-block steering which can still depend on 
 $h + \mathrm{Attn}(h)$. 
 This also will extend to cases where $W_d$ is not full-rank, where the output of the steering cannot depend on the directions in the null-space, while post-block steering can.
 
@@ -345,7 +349,7 @@ To gain some intuition, let's restrict ourselves to the linear case, where post-
 
 $$P(h + \mathrm{Attn}(h) + \mathrm{GLU}(h + \mathrm{Attn}(h))) = h + \mathrm{Attn}(h)$$
 
-At this point, the equivalence is easy to see. If $A$ is the rank-$r$ linear projector for post-MLP steering, then $\delta h(h) = A P h$ as a post-block steer will match the post-MLP steering perfectly. It will also be rank-$r$ since $AP$ is a rank-$r$ (or less) matrix.
+At this point, the equivalence is easy to see. If $A$ is the rank-$r$ linear projector for post-MLP steering, then $\Delta h(h) = A P h$ as a post-block steer will match the post-MLP steering perfectly. It will also be rank-$r$ since $AP$ is a rank-$r$ (or less) matrix.
 
 <p align="center">
 <img src="https://sprocketlab.github.io/images/blogposts/actvweight/theory-expressiveness.svg">
@@ -355,7 +359,7 @@ Of course, this setting where these two vector spaces are completely separate is
 
 ### Error Control
 
-One last thing to mention is that, since we have an oracle at each layer, it's now possible to measure how similar we are to that oracle. This is, of course, assuming that we have access to the fine-tuned model we want to mimic. Soon we will remove this and move towards a more oracle-free understanding, but for the moment, assume we have access to this oracle. We now, also, have fine-grained control about errors and how they grow through the model! At each layer, it's possible to develop and approximate steering vector $\delta h'$ to match that oracle $\delta h$ closely enough that no layer has an error between them of more than some $\epsilon$.
+One last thing to mention is that, since we have an oracle at each layer, it's now possible to measure how similar we are to that oracle. This is, of course, assuming that we have access to the fine-tuned model we want to mimic. Soon we will remove this and move towards a more oracle-free understanding, but for the moment, assume we have access to this oracle. We now, also, have fine-grained control about errors and how they grow through the model! At each layer, it's possible to develop and approximate steering vector $\Delta h'$ to match that oracle $\Delta h$ closely enough that no layer has an error between them of more than some $\epsilon$.
 
 Importantly, this gives us knowledge of how complex our adapters need to be. For example, if our update is nearly linear, we can take enough rank $r$ so that the approximation is within $\epsilon$ to ensure that that error does not grow out of control through the model. 
 
@@ -379,7 +383,7 @@ If you’ve made it this far—kudos! That's pretty much all we have to say (for
 
 Lowering the number of trainable parameters is more than an efficiency win. It buys us compute headroom for adapting larger models, running more expensive algorithms like RL, and we can do all of this **within realistic compute budgets.**
 
-Because our framework reasons about steering and weight updates in their most general form (arbitrary $\delta h$ and arbitrary $\delta W$), there’s nothing stopping those updates from being learned by far more expensive methods (e.g., GRPO or other RL-style objectives). So the natural next step is clear: test whether our steering can plug into these stronger algorithms and deliver the same performance with a fraction of the trainable parameters.
+Because our framework reasons about steering and weight updates in their most general form (arbitrary $\Delta h$ and arbitrary $\Delta W$), there’s nothing stopping those updates from being learned by far more expensive methods (e.g., GRPO or other RL-style objectives). So the natural next step is clear: test whether our steering can plug into these stronger algorithms and deliver the same performance with a fraction of the trainable parameters.
 
 And now that we know it’s possible to learn nearly as well in activation space as we can in weight space, an even more ambitious idea opens up:
 > **What happens if we optimize in both spaces together?**
