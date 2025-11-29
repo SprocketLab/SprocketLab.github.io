@@ -385,7 +385,7 @@ We plan to further improve these bounds with nicer assumptions based on the beha
 
 If you’ve made it this far—kudos! That's pretty much all we have to say (for now, *wink*). To conclude, here are some highlights of everything we unpacked:
 > - Pre-MLP vs. Post-MLP: They behave very differently, and post-MLP generally does a better job matching MLP weight updates.
-> - But Post-Block >> Post-MLP. **Steering the residual stream, not individual module outputs, is the real sweet spot—both theoretically and empirically.**
+> - But Post-Block is generally better than Post-MLP. **Steering the residual stream, not individual module outputs, is the real sweet spot.**
 > - With only 0.04% trainable parameters (compared to LoRA’s 0.45% using the same rank), our method at this post-block location gets remarkably close to SFT, which updates all parameters.
 
 ---
