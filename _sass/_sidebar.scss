@@ -88,13 +88,14 @@
     img {
       border-radius: 0 !important; /* Remove the circular cropping */
       object-fit: contain !important; /* Show the whole image */
-      padding: 5px; /* Add some space around the logo */
-      /* Add these properties */
-      max-width: 100%;
+      display: block;
+      margin: 0 auto;
+      padding: 0; /* allow the logo to use the full width */
+      max-width: 220px;
+      width: 100% !important;
       height: auto !important;
-      width: auto !important;
-      max-height: 150px; /* Adjust as needed */
-  
+      max-height: 180px; /* keep an upper bound so the sidebar stays tidy */
+
       @include breakpoint($large) {
         padding: 5px;
         border: 1px solid $border-color;
