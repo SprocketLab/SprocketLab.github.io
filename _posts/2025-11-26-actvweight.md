@@ -178,8 +178,8 @@ For <span style="color:red">pre-MLP</span> steering to match fine-tuning MLP shi
 ### Bottom line:
 > Pre-MLP steering can partially imitate MLP fine-tuning (the $\Delta W_g$ and $\Delta W_u$ effects), but matching the full MLP update is generally very hard, if not impossible.
 
-### Post-MLP steering
-Post-MLP steering directly modifies the **output of the MLP** $y$.  
+### <span style="color:blue">Post-MLP</span> steering
+<span style="color:blue">Post-MLP</span> steering directly modifies the **output of the MLP** $y$.  
 Because it acts *after* all the non-linearities inside the MLP, a sufficiently expressive parameterization could, in principle, reproduce **any** change made by fine-tuning the MLP weights. For example, if we were allowed a fully flexible oracle vector,
 
 $$
@@ -206,7 +206,7 @@ $$
 \text{I}' = \text{I} + \text{MHA}(\text{Norm}^{\text{MHA}}(\text{I}))
 $$
 
-Post-MLP steering only modifies the **MLP term**.  
+<span style="color:blue">Post-MLP</span> steering only modifies the **MLP term**.  
 But the block output is the **sum** of:
 
 1. the MLP contribution (which we *can* steer), and  
@@ -228,7 +228,7 @@ The rest remains untouched, meaning <span style="color:blue">post-MLP</span> ste
 
 ### **Summary**
 
-- Post-MLP steering is **better positioned** than <span style="color:red">pre-MLP</span> steering when it comes to matching arbitrary MLP updates.  
+- <span style="color:blue">Post-MLP</span> steering is **better positioned** than <span style="color:red">pre-MLP</span> steering when it comes to matching arbitrary MLP updates.  
 - **However**, it is not well-positioned for the changes happening through the skip-connection. 
 - Matching MLP behavior is not enough, we also need a way to account for the skip path.
 
@@ -341,7 +341,7 @@ The ReFT paper also treats the tokens to steer as a hyperparameter. After select
 
 ## Theory
 
-### Post-block is better than Post-MLP
+### Post-block is better than <span style="color:blue">Post-MLP</span>
 
 Now that we've seen how there is a clear difference between <span style="color:blue">post-MLP</span> and post-block steering, we now should ask why is there such a difference. What makes post-block steering better than <span style="color:blue">post-MLP</span>?
 
@@ -393,8 +393,8 @@ We plan to further improve these bounds with nicer assumptions based on the beha
 ## Where this leaves us
 
 If you’ve made it this far—kudos! That's pretty much all we have to say (for now, *wink*). To conclude, here are some highlights of everything we unpacked:
-> - Pre-MLP vs. Post-MLP: They behave very differently, and <span style="color:blue">post-MLP</span> generally does a better job matching MLP weight updates.
-> - But Post-Block is generally better than Post-MLP. **Steering the residual stream, not individual module outputs, is the real sweet spot.**
+> - Pre-MLP vs. <span style="color:blue">Post-MLP</span>: They behave very differently, and <span style="color:blue">post-MLP</span> generally does a better job matching MLP weight updates.
+> - But Post-Block is generally better than <span style="color:blue">Post-MLP</span>. **Steering the residual stream, not individual module outputs, is the real sweet spot.**
 > - With only 0.04% trainable parameters (compared to LoRA’s 0.45% using the same rank), our method at this post-block location gets remarkably close to SFT, which updates all parameters.
 
 ---
