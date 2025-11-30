@@ -272,7 +272,7 @@ The second term ($\textbf{R}^\top\textbf{b}$) can only reproduce $\delta y_{\mat
 
 ## How expressive can steering really be
 
-Now that we've seen that steering after the skip-connection provides us with the largest expressivity for steering, let's see how good it really can be! In fact, our goal will be to match SFT, so let's see how far we get.
+Now that we've seen that steering after the skip-connection provides us with the largest expressivity for steering, let's see how good it can really be! In fact, our goal will be to match SFT, so let's see how far we get.
 
 The simplest (and strongest) thing when given the SFT model would be to let the steering vectors be the oracle from above. Just to recall,
 
@@ -306,7 +306,15 @@ At this point, it seemed like we understood what would likely work as a steering
 
 ### <span style="color:green">Post-Block</span> Performance
 
-Now, we began learning these steering vectors *without* a guide. Low-rank steering modules were added at the end of each block and trained, similar to LoRA/PEFT except they are applied on the *activations* instead of the weights. Following the above discussion, two major variants were tested: linear and non-linear. In the linear case, the steering was done by a low-rank matrix. In the non-linear case, a non-linearity was placed between the down- and up-projection, making this an autoencoder. This was inspired by possibly needed a non-linearity from above and from [4] and [5], but we still want to preserve that low-rank structure of the steering vectors.
+<!-- Now, we began learning these steering vectors *without* a guide. We train low-rank steering modules at the end of each block (similar to LoRA/PEFT); except they are applied on the *activations* instead of the weights. Following the above discussion, two major variants were tested: linear and non-linear. In the linear case, the steering was done by a low-rank matrix. In the non-linear case, a non-linearity was placed between the down- and up-projection, making this an autoencoder. This was inspired by the possible nonlinear transformation from hidden states to steering vectors we discussed above, and from [4] and [5], but we still want to preserve that low-rank structure of the steering vectors. -->
+
+Now we train these steering vectors *without* a guide. We add low-rank steering modules at the end of each block (similar in spirit to LoRA/PEFT), but applied to **activations** rather than weights. Based on the discussion above, we test two variants:
+
+- **Linear adapters:** a simple low-rank adapters.  
+- **Non-linear adapters:** a down-projection, followed by a nonlinearity, then an up-projection (essentially a tiny autoencoder).
+
+The nonlinear version is motivated by our earlier observation (and by [4] and [5]) that the map from hidden states to steering vectors may itself be nonlinear, while still being largely confined to a low-rank subspace.
+
 
 Here are the results we're currently seeing for 1B-parameter models:
 
