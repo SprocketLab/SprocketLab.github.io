@@ -327,7 +327,7 @@ For a fair comparison, we match the parameter counts of our adapters to the base
 - For LoFIT, we train fixed vectors (rather than adapters) per layer.
 - For JoLA, we train rank-1 adapters.
 
-Across both Llama-1B and Gemma-1B, the trend is consistent: simply moving the steering location to <span style="color:green">post-block</span> leads to a substantial boost in performance. Under identical parameter budgets, our linear <span style="color:green">post-block</span> steering outperforms ReFT, and our fixed-vector and rank-1 variants outperform LoFIT and JoLA respectively.
+Across both Llama-1B and Gemma-1B, the trend is consistent: **simply moving the steering location to <span style="color:green">post-block</span> leads to a substantial boost in performance**. Under identical parameter budgets, our linear <span style="color:green">post-block</span> steering outperforms ReFT, and our fixed-vector and rank-1 variants outperform LoFIT and JoLA respectively.
 
 <!-- The fairest comparisons make this especially clear:
 - Linear (ours) vs. ReFT: ours reliably closes more of the gap to SFT despite using same rank linear adapters.
