@@ -329,10 +329,6 @@ For a fair comparison, we match the parameter counts of our adapters to the base
 
 Across both Llama-1B and Gemma-1B, the trend is consistent: **simply moving the steering location to <span style="color:green">post-block</span> leads to a substantial boost in performance**. Under identical parameter budgets, our linear <span style="color:green">post-block</span> steering outperforms ReFT, and our fixed-vector and rank-1 variants outperform LoFIT and JoLA respectively.
 
-<!-- The fairest comparisons make this especially clear:
-- Linear (ours) vs. ReFT: ours reliably closes more of the gap to SFT despite using same rank linear adapters.
-- Vector / rank-1 (ours) vs. LoFIT / JoLA: shifting the steering point alone provides sizable improvements, with no increase in parameters. -->
-
 In a few cases, linear steering even outperforms LoRA (learning an adapter on every Linear module) with the same rank, and occasionally out-performs SFT using full rank! This shows there are situations where steering is a better choice than fine-tuning.
 
 What is surprising about these results is that linear steering is performing better than non-linear steering. Non-linear steering is not necessarily more expressive than linear steering (with the same rank), and for these tasks, it seems to be that the steering really is linear-like, validating the choice in ReFT. In this situation, it would be better to let the steering have more rank as a pure linear model rather than with some non-linearity messing with this structure.
@@ -346,15 +342,6 @@ Now compare this to some larger, 4B-parameter models:
 The behavior is different! Now, non-linear steering typically performs better than linear steering (except notably in Winograde). This shift is likely due to optimization effects of the different scales of model tested here. At the larger scale, the loss function typically ends up being smoother/flatter than smaller scale models. This could mean the larger models can learn the more-expressive non-linear adapter over the easier-to-learn linear adapter. 
 
 Additionally, this shift could mean something more fundamental to the best adapters as well. If the adapter is well-suited as a linear adapter with the correct rank, the non-linear adapter would have to work around its non-linearity with something like large scale parameters to match the linear adapter. So, it's possible that the smaller models need a small-rank linear adapter while the larger models need a large-rank non-linear adapter, but this is left to future work.
-
----
-**Implementation details**:
-
-For all methods, we sweep across 5 learning rates and and keep other hyperparameters constant (batch size, scheduler, warmup ratio, weight decay). We keep the same learning rate sweep space for ours and ReFT, and slightly shift to smaller values for SFT and LoRA (since they train ubstantially more parameters). We also sweep across a slightly higher learning rates for LoFIT and JoLA (as they train less parameters).
-
-The ReFT paper also treats the tokens to steer as a hyperparameter. After selecting the best learning rate, we sweep over two locations: the last prompt token (the default value) and (prefix+7, suffix+7) (the best configuration reported for GSM8K). Our method does not require this sweep, it intervenes at all token positions (both prompt and generated).
-
----
 
 ## Theory
 
@@ -459,3 +446,19 @@ We’ve packaged everything — activation adapters, <span style="color:green">p
  [4] Houlsby, N., Giurgiu, A., Jastrzebski, S., Morrone, B., De Laroussilhe, Q., Gesmundo, A., ... & Gelly, S. (2019). Parameter-efficient transfer learning for NLP. In *International conference on machine learning*.
 
  [5] Tomanek, K., Zayats, V., Padfield, D., Vaillancourt, K., & Biadsy, F. (2021). Residual adapters for parameter-efficient ASR adaptation to atypical and accented speech. In *Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing*.
+
+---
+## Appendix 
+
+**Implementation details**:
+
+For all methods, we sweep across 5 learning rates and and keep other hyperparameters constant (batch size, scheduler, warmup ratio, weight decay). We keep the same learning rate sweep space for ours, ReFT, JoLA, and LoFIT, and slightly shift to smaller values for SFT and LoRA (since they train ubstantially more parameters).
+
+The ReFT paper also treats the tokens to steer as a hyperparameter. After selecting the best learning rate, we sweep over two locations: the last prompt token (the default value) and (prefix+7, suffix+7) (the best configuration reported for GSM8K). Our method does not require this sweep, it intervenes at all token positions (both prompt and generated).
+
+- SFT sweep values: [5e-6, 1e-5, 2e-5, 5e-5, 1e-4]
+- LoRA sweep values: [5e-5, 1e-4, 3e-4, 7e-4, 1.5e-3]
+- Activation steering methods sweep values: [5e-4, 1e-3, 2e-3, 3e-3, 5e-3]
+
+
+---
