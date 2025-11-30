@@ -176,7 +176,7 @@ For <span style="color:red">pre-MLP</span> steering to match fine-tuning MLP shi
 - Note that as this condition must hold for *every token $h$*, this becomes really restrictive.
 
 ### Bottom line:
-> Pre-MLP steering can partially imitate MLP fine-tuning (the $\Delta W_g$ and $\Delta W_u$ effects), but matching the full MLP update is generally very hard, if not impossible.
+> <span style="color:red">Pre-MLP</span> steering can partially imitate MLP fine-tuning (the $\Delta W_g$ and $\Delta W_u$ effects), but matching the full MLP update is generally very hard, if not impossible.
 
 ### <span style="color:blue">Post-MLP</span> steering
 <span style="color:blue">Post-MLP</span> steering directly modifies the **output of the MLP** $y$.  
@@ -393,7 +393,7 @@ We plan to further improve these bounds with nicer assumptions based on the beha
 ## Where this leaves us
 
 If you’ve made it this far—kudos! That's pretty much all we have to say (for now, *wink*). To conclude, here are some highlights of everything we unpacked:
-> - Pre-MLP vs. <span style="color:blue">Post-MLP</span>: They behave very differently, and <span style="color:blue">post-MLP</span> generally does a better job matching MLP weight updates.
+> - <span style="color:red">Pre-MLP</span> vs. <span style="color:blue">Post-MLP</span>: They behave very differently, and <span style="color:blue">post-MLP</span> generally does a better job matching MLP weight updates.
 > - But Post-Block is generally better than <span style="color:blue">Post-MLP</span>. **Steering the residual stream, not individual module outputs, is the real sweet spot.**
 > - With only 0.04% trainable parameters (compared to LoRA’s 0.45% using the same rank), our method at this post-block location gets remarkably close to SFT, which updates all parameters.
 
