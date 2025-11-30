@@ -28,14 +28,12 @@ MathJax = {
 This post investigates the following questions: 
 **Where should we steer a model?** And **how expressive can steering actually be?**
 
-By comparing steering and finetuning through a first-order lens, we find that often the best place to steer is **after the skip connection**, where attention and MLP outputs meet. Steering here is more expressive than steering individual submodules, and it ends up looking a lot closer to what finetuning does.
-
-Using this insight, we build lightweight post-block adapters that train only a fraction of the model’s parameters and achieve **remarkably close performance to SFT**.
+By comparing steering and finetuning through a first-order lens, we find that often the best place to steer is **after the skip connection**, where attention and MLP outputs meet. Steering here is more expressive than steering individual submodules, and it ends up looking a lot closer to what finetuning does. Using this insight, we build lightweight post-block adapters that train only a fraction of the model’s parameters and achieve **remarkably close performance to SFT**.
 
 **Note**: This post is aimed at readers comfortable with transformers and some linear algebra. We’ll keep the math light but precise.
 
 ### The Paradigm: Activation Steering vs. Fine-Tuning
-Activation steering is an alternative to parameter-efficient fine-tuning (PEFT), where instead of updating model weights it directly adjusts intermediate activations at inference time, drastically reducing the number of trainable parameters. For example, ReFT [1] can match LoRA-level performance while using 15×–65× fewer parameters. Existing steering methods mainly differ in where they apply these interventions: ReFT modifies MLP outputs (post-MLP), LoFIT [2] steers at attention heads (<span style="color:red">pre-MLP</span>), and JoLA [3] jointly learns both the steering vectors and the intervention locations.
+Activation steering is an alternative to parameter-efficient fine-tuning (PEFT), where instead of updating model weights it directly adjusts intermediate activations at inference time, drastically reducing the number of trainable parameters. For example, ReFT [1] can match LoRA-level performance while using 15×–65× fewer parameters. Existing steering methods mainly differ in where they apply these interventions: ReFT modifies MLP outputs (<span style="color:blue">post-MLP</span>), LoFIT [2] steers at attention heads (<span style="color:red">pre-MLP</span>), and JoLA [3] jointly learns both the steering vectors and the intervention locations.
 
 <p align="center">
 <img src="https://sprocketlab.github.io/images/blogposts/actvweight/weight_v_act.svg">
@@ -61,7 +59,7 @@ Motivated by this, we introduce a new activation adapter placed at each block ou
 **And finally: A bit of theory.**
 No matter what the steering adapter is, if the adapter is able enough to match the fine-tuned model at each layer, the steered model will be able to match the fine-tuned model. So, how accurate must we be to match a fine-tuned model closely?
 
-We also show that, at least in some settings relating to the geometry of these hidden states and the residuals at each module, **post-block steering can replicate post-MLP steering**. Also, we show that under some (very specific) parameter settings, post-MLP steering cannot learn anything, while post-block steering still can. This can be evolved into a an approximation showing that, in broader, more applicable settings, post-MLP steering can get quite close to <span style="color:red">pre-MLP</span> steering.
+We also show that, at least in some settings relating to the geometry of these hidden states and the residuals at each module, **post-block steering can replicate <span style="color:blue">post-MLP</span> steering**. Also, we show that under some (very specific) parameter settings, <span style="color:blue">post-MLP</span> steering cannot learn anything, while post-block steering still can. This can be evolved into a an approximation showing that, in broader, more applicable settings, <span style="color:blue">post-MLP</span> steering can get quite close to <span style="color:red">pre-MLP</span> steering.
 
 ## Some notation/background
 
@@ -75,7 +73,7 @@ First, a Transformer model is made transformer blocks. Each block contains an At
 <img src="https://sprocketlab.github.io/images/blogposts/actvweight/base-model.svg">
 </p>
 
-As for steering, there are 3 main variants we consider. (1) <span style="color:red">pre-MLP</span> steering involves steering attention outputs; most commonly done by steering the output of individual attention heads, *before* skip-connection and normalization; (2) post-MLP steering involves steering the output of the MLP/GLU layer *before* it goes through the skip-connection; (3) post-block steering involves steering the output of each block, which can be seen as equivalently steering the output of the MLP/GLU layer *after* it goes through the skip connection. In our notation, a GLU is represented as 
+As for steering, there are 3 main variants we consider. (1) <span style="color:red">pre-MLP</span> steering involves steering attention outputs; most commonly done by steering the output of individual attention heads, *before* skip-connection and normalization; (2) <span style="color:blue">post-MLP</span> steering involves steering the output of the MLP/GLU layer *before* it goes through the skip-connection; (3) post-block steering involves steering the output of each block, which can be seen as equivalently steering the output of the MLP/GLU layer *after* it goes through the skip connection. In our notation, a GLU is represented as 
 
 $$y_{\mathrm{GLU}}(h) = W_d(\sigma(W_g h) \odot W_u h).$$
 
@@ -111,7 +109,7 @@ Let's start with the main question that drives the rest of our analysis:
 
 > **At which points in the network can steering match the effect of updating the weights in that same module?**
 
-We will examine <span style="color:red">pre-MLP</span> (steering attention outputs, like LoFIT) and post-MLP (steering the MLP output before the skip connection, like ReFT) steering as they are the most common choice in the literature. These spots nicely *sandwich* the MLP, so the most immediate module affected by steering at these points is the MLP itself. Our first step is simple: compare the output changes caused by steering at these locations to the output changes caused by tuning the MLP weights.
+We will examine <span style="color:red">pre-MLP</span> (steering attention outputs, like LoFIT) and <span style="color:blue">post-MLP</span> (steering the MLP output before the skip connection, like ReFT) steering as they are the most common choice in the literature. These spots nicely *sandwich* the MLP, so the most immediate module affected by steering at these points is the MLP itself. Our first step is simple: compare the output changes caused by steering at these locations to the output changes caused by tuning the MLP weights.
 
 *Note:* Before we start, it will feel like there is a lot of math here, but we promise, everything in this section is linear algebra.
 
@@ -190,7 +188,7 @@ $$
 
 then adding this vector would give us the exact fine-tuned model output.
 
-> This already puts post-MLP steering in a much better position than <span style="color:red">pre-MLP</span> steering when it comes to matching MLP weight updates. **So are we all set with post-MLP steering as the way to go? Not quite.**
+> This already puts <span style="color:blue">post-MLP</span> steering in a much better position than <span style="color:red">pre-MLP</span> steering when it comes to matching MLP weight updates. **So are we all set with <span style="color:blue">post-MLP</span> steering as the way to go? Not quite.**
 
 ### **The missing piece: the skip connection**
 
@@ -201,7 +199,7 @@ Let’s look back at the structure of a Transformer block:
 </p>
 
 $$
-\text{TransformerLayer}(\text{I}) = \text{I}' + \underbrace{\text{MLP}(\text{Norm}^{\text{MLP}}(\text{I}'))}_{\text{covered by post-MLP}},
+\text{TransformerLayer}(\text{I}) = \text{I}' + \underbrace{\text{MLP}(\text{Norm}^{\text{MLP}}(\text{I}'))}_{\text{covered by <span style="color:blue">post-MLP</span>}},
 $$
 
 $$
@@ -212,9 +210,9 @@ Post-MLP steering only modifies the **MLP term**.
 But the block output is the **sum** of:
 
 1. the MLP contribution (which we *can* steer), and  
-2. the skip-connected input \(I'\) (which remains **unchanged** under post-MLP steering).
+2. the skip-connected input \(I'\) (which remains **unchanged** under <span style="color:blue">post-MLP</span> steering).
 
-So even if post-MLP steering perfectly matches the MLP shift, it **will not modify the skip-connection term**, which would be needed to mimic a fine-tuned model. This is not to say that post-MLP cannot learn some more complex steering from linear layers to mimic the same effect, but that is, in a way, less natural. This 'naturality' shows itself in the experiments below.
+So even if <span style="color:blue">post-MLP</span> steering perfectly matches the MLP shift, it **will not modify the skip-connection term**, which would be needed to mimic a fine-tuned model. This is not to say that <span style="color:blue">post-MLP</span> cannot learn some more complex steering from linear layers to mimic the same effect, but that is, in a way, less natural. This 'naturality' shows itself in the experiments below.
 
 
 ### **How big is this mismatch?**
@@ -223,8 +221,8 @@ So even if post-MLP steering perfectly matches the MLP shift, it **will not modi
 <img src="https://sprocketlab.github.io/images/blogposts/actvweight/norm.svg">
 </p>
 
-Here's a look at the relative scale of the outputs of the MLP and the Attention models at different layers in an LLM. Across layers, post-MLP steering covers **at most ~70%** of the block output that fine-tuning changes, and in some layers, as little as **~40%**.  
-The rest remains untouched, meaning post-MLP steering on a block-specific level cannot fully replicate the effect of fine-tuning at that block.
+Here's a look at the relative scale of the outputs of the MLP and the Attention models at different layers in an LLM. Across layers, <span style="color:blue">post-MLP</span> steering covers **at most ~70%** of the block output that fine-tuning changes, and in some layers, as little as **~40%**.  
+The rest remains untouched, meaning <span style="color:blue">post-MLP</span> steering on a block-specific level cannot fully replicate the effect of fine-tuning at that block.
 
 ---
 
@@ -237,7 +235,7 @@ The rest remains untouched, meaning post-MLP steering on a block-specific level 
 
 Now that we've sorted out “where to steer” part of the story, the next piece of the puzzle is how much steering can actually do. In other words: how expressive can activation steering be? Since ReFT is the most widely used steering method today, and represents the strongest linear steering baseline, it’s the right place to begin.
 
-ReFT does a post-MLP steering parameterized by
+ReFT does a <span style="color:blue">post-MLP</span> steering parameterized by
 
 $$
 \delta y_{\mathrm{ReFT}} = \textbf{R}^\top (\textbf{W} y + \textbf{b} - \textbf{R}y).
@@ -256,12 +254,12 @@ $$
 
 Now, let's compare $\delta y_{\mathrm{ReFT}}$ with the $\delta y_{\mathrm{FT}}$ we have from before. ReFT can induce a $\Delta W_d$-like update, but only within the subspace spanned by $\textbf{R}$. So its ability to mimic full fine-tuning depends on the nature of $\Delta W_d$ update, whether it is low-rank enough to fit inside that subspace. 
 
-The second term ($\textbf{R}^\top\textbf{b}$) can only reproduce $\delta y_{\mathrm{FT}}$'s $\Delta W_u$ and $\Delta W_g$ induced shift if it is approximately a linear function of the post-MLP output. This depends on how locally linear the mapping $h \mapsto y$ is. When these conditions hold, ReFT can approximate the effects of MLP weight updates reasonably well. However, as we show in our experiments (Table 1 in the next section), there are many situations where this does *not* hold, with ReFT performing significantly below the SFT model. 
+The second term ($\textbf{R}^\top\textbf{b}$) can only reproduce $\delta y_{\mathrm{FT}}$'s $\Delta W_u$ and $\Delta W_g$ induced shift if it is approximately a linear function of the <span style="color:blue">post-MLP</span> output. This depends on how locally linear the mapping $h \mapsto y$ is. When these conditions hold, ReFT can approximate the effects of MLP weight updates reasonably well. However, as we show in our experiments (Table 1 in the next section), there are many situations where this does *not* hold, with ReFT performing significantly below the SFT model. 
 
 <!--In practice, ReFT is usually outperformed by its <span style="color:red">pre-MLP</span> counterparts, and only surpasses them on a single dataset. -->
 <!-- This matches what we see in our experiments: ReFT outperforms LoFIT and JoLA on datasets where the target update is relatively linear. But when the required update is more nonlinear, ReFT performs similarly to, if not worse than its <span style="color:red">pre-MLP</span> counterparts. -->
 
- <!-- However, as we discussed earlier, post-MLP edits still leave a significant portion of the block’s computation untouched. -->
+ <!-- However, as we discussed earlier, <span style="color:blue">post-MLP</span> edits still leave a significant portion of the block’s computation untouched. -->
 
 ## How expressive can steering really be
 
@@ -345,7 +343,7 @@ The ReFT paper also treats the tokens to steer as a hyperparameter. After select
 
 ### Post-block is better than Post-MLP
 
-Now that we've seen how there is a clear difference between post-MLP and post-block steering, we now should ask why is there such a difference. What makes post-block steering better than post-MLP?
+Now that we've seen how there is a clear difference between <span style="color:blue">post-MLP</span> and post-block steering, we now should ask why is there such a difference. What makes post-block steering better than <span style="color:blue">post-MLP</span>?
 
 This difference, already highlighted, is that a post-block steer can depend on outputs of the attention layer without passing through the GLU. To gain some simple intuition, let's take a 1-layer model, made of one Attention layer and one GLU: 
 
@@ -353,25 +351,25 @@ $$y(x) = x + \mathrm{Attn}(x) + \mathrm{GLU}(x + \mathrm{Attn}(x))$$
 
 where $x$ is the input of the model.
 
-The two steerings we will be comparing are a post-MLP steer, that only depends on the outputs of the GLU, and a post-block steer, which steers the model after the skip-connection is added back into the model (which for this model, will just be another steer at the very end that depends on the original model outputs). Let's remind ourselves of the structure of the GLU/MLP:
+The two steerings we will be comparing are a <span style="color:blue">post-MLP</span> steer, that only depends on the outputs of the GLU, and a post-block steer, which steers the model after the skip-connection is added back into the model (which for this model, will just be another steer at the very end that depends on the original model outputs). Let's remind ourselves of the structure of the GLU/MLP:
 
 $$y_{\mathrm{GLU}}(h) = W_d(\sigma(W_g h) \odot W_u h)$$
 
 Consider the (fairly extreme) case where $W_d = 0$. In this situation, the GLU will be identically 0, *so any input-dependent steering $\Delta y_{MLP}$ will be a fixed vector*. Compare this to the post-block steering which can still depend on 
 $h + \mathrm{Attn}(h)$. 
-This also will extend to cases where $W_d$ is not full-rank, where the output of the steering cannot depend on the directions in the null-space, since the only contributions of a <span style="color:red">pre-MLP</span> steer in the directions perpendicular to $\text{col}(W_d)$ will be a fixed-vector, while post-MLP steering does not have this restriction.
+This also will extend to cases where $W_d$ is not full-rank, where the output of the steering cannot depend on the directions in the null-space, since the only contributions of a <span style="color:red">pre-MLP</span> steer in the directions perpendicular to $\text{col}(W_d)$ will be a fixed-vector, while <span style="color:blue">post-MLP</span> steering does not have this restriction.
 
 This tells us:
 
-> There are some situations that post-MLP steering does not perform well while post-block steering does. 
+> There are some situations that <span style="color:blue">post-MLP</span> steering does not perform well while post-block steering does. 
 
-Is it the case that post-block steering always can do what post-MLP steering can do? Unfortunately, no, not *always*. After adding back the skip-connection, it isn't necessarily true that this is invertible so that the skip-connection and GLU terms can be distinguished; their subspaces might overlap with each other. In the situation when this isn't true, we *can* match post-MLP steering perfectly.
+Is it the case that post-block steering always can do what <span style="color:blue">post-MLP</span> steering can do? Unfortunately, no, not *always*. After adding back the skip-connection, it isn't necessarily true that this is invertible so that the skip-connection and GLU terms can be distinguished; their subspaces might overlap with each other. In the situation when this isn't true, we *can* match <span style="color:blue">post-MLP</span> steering perfectly.
 
-To gain some intuition, let's restrict ourselves to the linear case, where post-MLP steering is a steering in the style of ReFT. Now, to assure invertibility, assume that the subspace spanned by the skip-connection and the subspace spanned by the MLP outputs have trivial intersection. That is to say that there is a projection map $P$ such that
+To gain some intuition, let's restrict ourselves to the linear case, where <span style="color:blue">post-MLP</span> steering is a steering in the style of ReFT. Now, to assure invertibility, assume that the subspace spanned by the skip-connection and the subspace spanned by the MLP outputs have trivial intersection. That is to say that there is a projection map $P$ such that
 
 $$P(h + \mathrm{Attn}(h) + \mathrm{GLU}(h + \mathrm{Attn}(h))) = h + \mathrm{Attn}(h)$$
 
-At this point, the equivalence is easy to see. If $A$ is the rank-$r$ linear projector for post-MLP steering, then $\Delta h(h) = A P h$ as a post-block steer will match the post-MLP steering perfectly. It will also be rank-$r$ since $AP$ is a rank-$r$ (or less) matrix.
+At this point, the equivalence is easy to see. If $A$ is the rank-$r$ linear projector for <span style="color:blue">post-MLP</span> steering, then $\Delta h(h) = A P h$ as a post-block steer will match the <span style="color:blue">post-MLP</span> steering perfectly. It will also be rank-$r$ since $AP$ is a rank-$r$ (or less) matrix.
 
 <p align="center">
 <img src="https://sprocketlab.github.io/images/blogposts/actvweight/theory-expressiveness.svg">
@@ -395,7 +393,7 @@ We plan to further improve these bounds with nicer assumptions based on the beha
 ## Where this leaves us
 
 If you’ve made it this far—kudos! That's pretty much all we have to say (for now, *wink*). To conclude, here are some highlights of everything we unpacked:
-> - Pre-MLP vs. Post-MLP: They behave very differently, and post-MLP generally does a better job matching MLP weight updates.
+> - Pre-MLP vs. Post-MLP: They behave very differently, and <span style="color:blue">post-MLP</span> generally does a better job matching MLP weight updates.
 > - But Post-Block is generally better than Post-MLP. **Steering the residual stream, not individual module outputs, is the real sweet spot.**
 > - With only 0.04% trainable parameters (compared to LoRA’s 0.45% using the same rank), our method at this post-block location gets remarkably close to SFT, which updates all parameters.
 
