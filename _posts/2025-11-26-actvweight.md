@@ -85,19 +85,19 @@ For mathematical notation, the hidden state will be represented as a vector $h$ 
 
 *Note:* $\Delta h$, the steering vector, can depend on the input. Sometimes this is written explicitly as $\Delta h(h)$, but other times it is omitted.
 
-**Fixed-vector:** The simpliest form of steering is by adding a fixed vector $v$ to the hidden state:
+- **Fixed-vector:** The simpliest form of steering is by adding a fixed vector $v$ to the hidden state:
 
 $$\Delta h_{\mathrm{vec}} = v.$$
 
-**Linear/ReFT:** Linear steering involves some matrix $A$ and bias vector $b$, where the steering vector is a linear function of the hidden state. However, the matrix $A$ is usually replaced by a low-rank matrix (usually written as $W_uW_d^\top$ or $AB^\top$). The rank of this matrix is written as $r$ when necessary:
+- **Linear/ReFT:** Linear steering involves some matrix $A$ and bias vector $b$, where the steering vector is a linear function of the hidden state. However, the matrix $A$ is usually replaced by a low-rank matrix (usually written as $W_uW_d^\top$ or $AB^\top$). The rank of this matrix is written as $r$ when necessary:
 
 $$\Delta h_{\mathrm{lin}}(h) = W_uW_d^\top h + b.$$
 
-**Non-linear:** This steering is parameterized by a 1-layer MLP with matrices $W_u, W_d$ as the down- and up-projections with SiLU activation $\phi$:
+- **Non-linear:** This steering is parameterized by a 1-layer MLP with matrices $W_u, W_d$ as the down- and up-projections with SiLU activation $\phi$:
 
 $$\Delta h_{\mathrm{nonlin}}(h) = W_u\phi(W_d h).$$
 
-**Freely parametrized/Oracle:** In this case, the steering vector has no explicit parameterization. It can depend on the hidden state $h$ in any way. The oracle specifically will be given by the difference between the hidden states of the base and fine-tuned model
+- **Freely parametrized/Oracle:** In this case, the steering vector has no explicit parameterization. It can depend on the hidden state $h$ in any way. The oracle specifically will be given by the difference between the hidden states of the base and fine-tuned model
 
 $$\Delta h_{\mathrm{oracle}} = h_{\mathrm{FT}} - h_{\mathrm{base}}.$$
  
