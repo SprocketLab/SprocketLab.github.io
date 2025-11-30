@@ -25,17 +25,19 @@ MathJax = {
 
 ## **TL;DR**
 
-In this post, we ask two simple questions:  
+This post investigates the following questions: 
 **Where should we steer a model?** And **how expressive can steering actually be?**
 
 By comparing steering and finetuning through a first-order lens, we find that often the best place to steer is **after the skip connection**, where attention and MLP outputs meet. Steering here is more expressive than steering individual submodules, and it ends up looking a lot closer to what finetuning does.
 
 Using this insight, we build lightweight post-block adapters that train only a fraction of the model’s parameters and achieve **remarkably close performance to SFT**.
 
-If you’re curious about how far activation steering can really go, this post is for you 😊
+If you’re curious about how far activation steering can really go, this post is for you 😊.
+
+**Note**: This post is aimed at readers comfortable with transformers and some linear algebra. We’ll keep the math light but precise.
 
 ### The Paradigm: Activation Steering vs. Fine-Tuning
-Activation steering has emerged as an alternative to parameter-efficient fine-tuning (PEFT). Instead of updating model weights, steering directly adjusts intermediate activations at inference time, drastically reducing the number of trainable parameters. For example, ReFT [1] can match LoRA-level performance while using 15×–65× fewer parameters. Existing steering methods mainly differ in where they apply these interventions: ReFT modifies MLP outputs (post-MLP), LoFIT [2] steers at attention heads (pre-MLP), and JoLA [3] jointly learns both the steering vectors and the intervention locations.
+Activation steering is an alternative to parameter-efficient fine-tuning (PEFT), where instead of updating model weights it directly adjusts intermediate activations at inference time, drastically reducing the number of trainable parameters. For example, ReFT [1] can match LoRA-level performance while using 15×–65× fewer parameters. Existing steering methods mainly differ in where they apply these interventions: ReFT modifies MLP outputs (post-MLP), LoFIT [2] steers at attention heads (pre-MLP), and JoLA [3] jointly learns both the steering vectors and the intervention locations.
 
 <p align="center">
 <img src="https://sprocketlab.github.io/images/blogposts/actvweight/weight_v_act.svg">
@@ -51,17 +53,17 @@ Despite empirical success, we still lack a clear understanding of why steering w
 This work investigates both questions.
 
 **First: Where should we steer?**
-We begin with a simple, linearized analysis of a GLU's output changes under weight updates compared to activation steering. This shows us that steering at *some* locations can easily match the behavior of certain weight updates, but not others. However, we notice that linear steering at these locations cannot completely capture the full behavior of weight updates.
+We begin with a simple, linearized analysis of a GLU's output changes under weight updates compared to activation steering. This shows us that steering at *some* locations can easily match the behavior of certain weight updates, but not others. However, we notice that **linear steering at these locations cannot completely capture the full behavior of weight updates**.
 
 **Then: How expressive can steering really be?**
-We then experiment with oracle steering, which, while not a practical method, provides a principled way to test which locations are best to steer at. With this tool, one pattern stands out: *the most expressive intervention point is the block output, after the skip connection*. Steering here can draw on both the skip-connection input and the transformed MLP output, instead of relying solely on either the MLP or attention pathway.
+We then experiment with oracle steering, which, while not a practical method, provides a principled way to test which locations are best to steer at. With this tool, one pattern stands out: **the most expressive intervention point is the block output, after the skip connection**. Steering here can draw on both the skip-connection input and the transformed MLP output, instead of relying solely on either the MLP or attention pathway.
 
 Motivated by this, we introduce a new activation adapter placed at each block output. It retains a LoRA-like low-rank structure but incorporates a non-linearity after the down-projection. This allows it to capture some of the nonlinear effects of SFT, giving activation steering a more expressive update space.
 
 **And finally: A bit of theory.**
-No matter what the steering adapter is, if the adapter is able enough to match the fine-tuned model at each layer, the steered model will be able to match the fine-tuned model. The question we ask here: how accurate must we be to match a fine-tuned model closely?
+No matter what the steering adapter is, if the adapter is able enough to match the fine-tuned model at each layer, the steered model will be able to match the fine-tuned model. So, how accurate must we be to match a fine-tuned model closely?
 
-We also show that, at least in some settings relating to the geometry of these hidden states and the residuals at each module, post-block steering can replicate a post-MLP steering. Also, we show that under some (very specific) parameter settings, post-MLP steering cannot learn anything, while post-block steering still can. This can be evolved into a an approximation showing that, in broader, more applicable settings, post-MLP steering can get quite close to pre-MLP steering.
+We also show that, at least in some settings relating to the geometry of these hidden states and the residuals at each module, **post-block steering can replicate post-MLP steering**. Also, we show that under some (very specific) parameter settings, post-MLP steering cannot learn anything, while post-block steering still can. This can be evolved into a an approximation showing that, in broader, more applicable settings, post-MLP steering can get quite close to pre-MLP steering.
 
 ## Some notation/background
 
@@ -69,7 +71,7 @@ Throughout this article, we will be looking at a number of different places to s
 
 We will use $\delta\cdot$ to represent small induced changes in our analysis, and $\Delta\cdot$ will represent changes to parameters, such as the fine-tuning updates to matrices $\Delta W$ or steering vector $\Delta h$.
 
-First, a Transformer model is made transformer blocks. Each block contains an Attention module and an MLP module. Unless otherwise specified, the MLP modules will be specifically GLU layers, a popular variant of standard 1-layer MLPs. The inputs to each submodule of each layer will pass through a LayerNorm. Each layer will involve two skip-connections, one around each submodule. This all can be seen in the picture below. Everything thus far is standard nomenclature of standard transformer architectures.
+First, a Transformer model is made transformer blocks. Each block contains an Attention module and an MLP module. Unless otherwise specified, the MLP modules will be specifically GLU layers, a popular variant of standard 1-layer MLPs. The inputs to each submodule of each layer will pass through a LayerNorm. Each layer will involve two skip-connections, one around each submodule. This all can be seen in the picture below.
 
 <p align="center">
 <img src="https://sprocketlab.github.io/images/blogposts/actvweight/base-model.svg">
