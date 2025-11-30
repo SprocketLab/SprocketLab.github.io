@@ -295,7 +295,7 @@ The best way around this would be to learn a *low-rank, non-linear function* as 
 
 At this point, it seemed like we understood what would likely work as a steering vector, so we moved away from using the oracle as the gold-standard to match and now worked on training these adapters end-to-end.
 
-### Post-Block Performance
+### <span style="color:green">Post-Block</span> Performance
 
 Now, we began learning these steering vectors *without* a guide. Low-rank steering modules were added at the end of each block and trained, similar to LoRA/PEFT except they are applied on the *activations* instead of the weights. Following the above discussion, two major variants were tested: linear and non-linear. In the linear case, the steering was done by a low-rank matrix. In the non-linear case, a non-linearity was placed between the down- and up-projection, making this an autoencoder. This was inspired by possibly needed a non-linearity from above and from [4] and [5], but we still want to preserve that low-rank structure of the steering vectors.
 
@@ -394,7 +394,7 @@ We plan to further improve these bounds with nicer assumptions based on the beha
 
 If you’ve made it this far—kudos! That's pretty much all we have to say (for now, *wink*). To conclude, here are some highlights of everything we unpacked:
 > - <span style="color:red">Pre-MLP</span> vs. <span style="color:blue">Post-MLP</span>: They behave very differently, and <span style="color:blue">post-MLP</span> generally does a better job matching MLP weight updates.
-> - But Post-Block is generally better than <span style="color:blue">Post-MLP</span>. **Steering the residual stream, not individual module outputs, is the real sweet spot.**
+> - But <span style="color:green">Post-Block</span> is generally better than <span style="color:blue">Post-MLP</span>. **Steering the residual stream, not individual module outputs, is the real sweet spot.**
 > - With only 0.04% trainable parameters (compared to LoRA’s 0.45% using the same rank), our method at this <span style="color:green">post-block</span> location gets remarkably close to SFT, which updates all parameters.
 
 ---
