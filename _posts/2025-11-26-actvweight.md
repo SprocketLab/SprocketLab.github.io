@@ -113,9 +113,11 @@ We will examine <span style="color:red">pre-MLP</span> (steering attention outpu
 
 *Note:* Before we start, it will feel like there is a lot of math here, but we promise, everything in this section is linear algebra.
 
-<a href="https://imgflip.com/i/ad3bvp">
-  <img src="https://i.imgflip.com/ad3bvp.jpg" width="500"/>
-</a>
+<p align="center">
+  <a href="https://imgflip.com/i/ad3bvp">
+    <img src="https://i.imgflip.com/ad3bvp.jpg" width="500"/>
+  </a>
+</p>
 
 ### Fine-tuning
 Let the MLP output be
@@ -140,7 +142,14 @@ $$ y_{\mathrm{FT}} (h) = (W_d + \Delta W_d)(m+\delta m) \approx W_d m + \Delta W
 
 This yields the first-order shift caused by fine-tuning:
 
-$$\boxed{\delta y_{\mathrm{FT}} \equiv y_{\mathrm{FT}}(h) - y(h) \approx (\Delta W_d) m + W_d [ (\sigma'(a_g) \odot a_u) \odot ((\Delta W_g) h) + \sigma(a_g) \odot ((\Delta W_u) h) ].}$$
+$$
+\boxed{
+\begin{aligned}
+\delta y_{\mathrm{FT}} &\equiv y_{\mathrm{FT}}(h) - y(h) \\
+&\approx (\Delta W_d) m + W_d [ (\sigma'(a_g) \odot a_u) \odot ((\Delta W_g) h) + \sigma(a_g) \odot ((\Delta W_u) h) ].
+\end{aligned}
+}
+$$
 
 Plugging $\delta m$ into $y = W_d m$ gives us
 
