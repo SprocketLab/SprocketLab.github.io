@@ -32,8 +32,6 @@ By comparing steering and finetuning through a first-order lens, we find that of
 
 Using this insight, we build lightweight post-block adapters that train only a fraction of the model’s parameters and achieve **remarkably close performance to SFT**.
 
-If you’re curious about how far activation steering can really go, this post is for you 😊.
-
 **Note**: This post is aimed at readers comfortable with transformers and some linear algebra. We’ll keep the math light but precise.
 
 ### The Paradigm: Activation Steering vs. Fine-Tuning
