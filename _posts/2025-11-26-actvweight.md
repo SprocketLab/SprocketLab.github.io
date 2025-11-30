@@ -32,8 +32,10 @@ By comparing steering and finetuning through a first-order lens, we find that of
 
 **Note**: This post is aimed at readers comfortable with transformers and some linear algebra. We’ll keep the math light but precise.
 
-### The Paradigm: Activation Steering vs. Fine-Tuning
-Activation steering is an alternative to parameter-efficient fine-tuning (PEFT), where instead of updating model weights it directly adjusts intermediate activations at inference time, drastically reducing the number of trainable parameters. For example, ReFT [1] can match LoRA-level performance while using 15×–65× fewer parameters. Existing steering methods mainly differ in where they apply these interventions: ReFT modifies MLP outputs (<span style="color:blue">post-MLP</span>), LoFIT [2] steers at attention heads (<span style="color:red">pre-MLP</span>), and JoLA [3] jointly learns both the steering vectors and the intervention locations.
+### The Paradigm: Activation Steering vs. finetuning
+Activation steering is an alternative to parameter-efficient finetuning (PEFT). Instead of updating weights, it directly edits a model’s hidden activations at inference time, cutting the number of trainable parameters by an order of magnitude. ReFT [1], for example, reaches LoRA-level performance while using 15×–65× fewer parameters. If we can reliably match finetuning with so few parameters, that changes what’s feasible: we can adapt larger models, run more expensive training objectives, or simply get more done under the same compute budget.
+
+Existing steering methods mainly differ in where they apply these interventions: ReFT modifies MLP outputs (<span style="color:blue">post-MLP</span>), LoFIT [2] steers at attention heads (<span style="color:red">pre-MLP</span>), and JoLA [3] jointly learns both the steering vectors and the intervention locations.
 
 <p align="center">
 <img src="https://sprocketlab.github.io/images/blogposts/actvweight/weight_v_act.svg">
@@ -59,15 +61,15 @@ Motivated by this, we introduce a new activation adapter placed at each block ou
 **And finally: A bit of theory.**
 No matter what the steering adapter is, if the adapter is able enough to match the fine-tuned model at each layer, the steered model will be able to match the fine-tuned model. So, how accurate must we be to match a fine-tuned model closely?
 
-We also show that, at least in some settings relating to the geometry of these hidden states and the residuals at each module, **<span style="color:green">post-block</span> steering can replicate <span style="color:blue">post-MLP</span> steering**. Also, we show that under some (very specific) parameter settings, <span style="color:blue">post-MLP</span> steering cannot learn anything, while <span style="color:green">post-block</span> steering still can. This can be evolved into a an approximation showing that, in broader, more applicable settings, <span style="color:blue">post-MLP</span> steering can get quite close to <span style="color:red">pre-MLP</span> steering.
+We also show that, at least in some settings relating to the geometry of these hidden states and the residuals at each module, **<span style="color:green">post-block</span> steering can replicate <span style="color:blue">post-MLP</span> steering**. Also, we show that under some (very specific) parameter settings, <span style="color:blue">post-MLP</span> steering cannot learn anything, while <span style="color:green">post-block</span> steering still can. This can be evolved into an approximation showing that, in broader, more applicable settings, <span style="color:blue">post-MLP</span> steering can get quite close to <span style="color:red">pre-MLP</span> steering.
 
 ## Some notation/background
 
 Throughout this article, we will be looking at a number of different places to steer, along with different ways that we can steer. Even if some of these choices don't make sense at the moment, don't worry! A lot of this will be explained much more throughout this article. Use this section as a reference for any unclear notation/names as you read.
 
-We will use $\delta\cdot$ to represent small induced changes in our analysis, and $\Delta\cdot$ will represent changes to parameters, such as the fine-tuning updates to matrices $\Delta W$ or steering vector $\Delta h$.
+We will use $\delta\cdot$ to represent small induced changes in our analysis, and $\Delta\cdot$ will represent changes to parameters, such as the finetuning updates to matrices $\Delta W$ or steering vector $\Delta h$.
 
-First, a Transformer model is made transformer blocks. Each block contains an Attention module and an MLP module. Unless otherwise specified, the MLP modules will be specifically GLU layers, a popular variant of standard 1-layer MLPs. The inputs to each submodule of each layer will pass through a LayerNorm. Each layer will involve two skip-connections, one around each submodule. This all can be seen in the picture below.
+First, a Transformer model is built from transformer blocks. Each block contains an Attention module and an MLP module. Unless otherwise specified, the MLP modules will be specifically GLU layers, a popular variant of standard 1-layer MLPs. The inputs to each submodule of each layer will pass through a LayerNorm. Each layer will involve two skip-connections, one around each submodule. This all can be seen in the picture below.
 
 <p align="center">
 <img src="https://sprocketlab.github.io/images/blogposts/actvweight/base-model.svg">
@@ -85,7 +87,7 @@ For mathematical notation, the hidden state will be represented as a vector $h$ 
 
 *Note:* $\Delta h$, the steering vector, can depend on the input. Sometimes this is written explicitly as $\Delta h(h)$, but other times it is omitted.
 
-- **Fixed-vector:** The simpliest form of steering is by adding a fixed vector $v$ to the hidden state:
+- **Fixed-vector:** The simplest form of steering is by adding a fixed vector $v$ to the hidden state:
 
 $$\Delta h_{\mathrm{vec}} = v.$$
 
@@ -119,12 +121,12 @@ We will examine <span style="color:red">pre-MLP</span> (steering attention outpu
   </a>
 </p>
 
-### Fine-tuning
+### finetuning
 Let the MLP output be
 
 $$ y(h)=W_d m(h), \quad m(h) = \sigma(a_g) \odot a_u, \quad a_g = W_g h, \quad a_u = W_u h. $$
 
-Fine-tuning the weights gives us
+finetuning the weights gives us
 
 $$ W_g \mapsto W_g + \Delta W_g, \quad W_u \mapsto W_u + \Delta W_u, \quad W_d \mapsto W_d + \Delta W_d. $$
 
@@ -136,11 +138,11 @@ A first order Taylor expansion of $m = \sigma(a_g) \odot a_u$ gives
 
 $$ \delta m = (\sigma'(a_g) \odot a_u) \odot \delta a_g + \sigma(a_g) \odot \delta a_u + \text{(higher order terms)}.$$
 
-Plugging in $\delta m$ into fine-tuning output gives us
+Plugging in $\delta m$ into finetuning output gives us
 
 $$ y_{\mathrm{FT}} (h) = (W_d + \Delta W_d)(m+\delta m) \approx W_d m + \Delta W_d m + W_d \delta m. $$
 
-This yields the first-order shift caused by fine-tuning:
+This yields the first-order shift caused by finetuning:
 
 $$
 \boxed{
@@ -158,7 +160,7 @@ $$\boxed{
 }$$
 
 
-### Let's compare the fine-tuning and <span style="color:red">pre-MLP</span> steering output shifts side by side
+### Let's compare the finetuning and <span style="color:red">pre-MLP</span> steering output shifts side by side
 
 $$\begin{align*}\delta y_{\mathrm{FT}} &\approx (\Delta W_d) m + & W_d [ (\sigma'(a_g) \odot a_u) \odot &((\Delta W_g) h) + \sigma(a_g) \odot ((\Delta W_u) h), \\
 \delta y_{\mathrm{pre}} &\approx &W_d [(\sigma'(a_g) \odot a_u) \odot &(W_g \Delta h) + \sigma (a_g) \odot (W_u \Delta h)].
@@ -178,18 +180,18 @@ Define $J(h) = (\sigma'(a_g) \odot a_u) \odot W_g + \sigma(a_g) \odot W_u \quad$
 
 We can rewrite $$\delta y_{\mathrm{pre}} = A(h) \Delta h.$$
 
-For <span style="color:red">pre-MLP</span> steering to match fine-tuning MLP shift, we must have: $$(\Delta W_d) m \in \text{col}(A(h)).$$ What does this mean?
+For <span style="color:red">pre-MLP</span> steering to match finetuning MLP shift, we must have: $$(\Delta W_d) m \in \text{col}(A(h)).$$ What does this mean?
 
 - Since $A(h) = W_d J(h) \subseteq \text{col}(W_d)$, any part of $(\Delta W_d) m$ orthogonal to $\text{col}(W_d)$ is unreachable.
-- If fine-tuning pushes $\Delta W_d$ to new directions not spanned by $A(h)$, <span style="color:red">pre-MLP</span> steering cannot match it.
+- If finetuning pushes $\Delta W_d$ to new directions not spanned by $A(h)$, <span style="color:red">pre-MLP</span> steering cannot match it.
 - Note that as this condition must hold for *every token $h$*, this becomes really restrictive.
 
 ### Bottom line:
-> <span style="color:red">Pre-MLP</span> steering can partially imitate MLP fine-tuning (the $\Delta W_g$ and $\Delta W_u$ effects), but matching the full MLP update is generally very hard, if not impossible.
+> <span style="color:red">Pre-MLP</span> steering can partially imitate MLP finetuning (the $\Delta W_g$ and $\Delta W_u$ effects), but matching the full MLP update is generally very hard, if not impossible.
 
 ### <span style="color:blue">Post-MLP</span> steering
 <span style="color:blue">Post-MLP</span> steering directly modifies the **output of the MLP** $y$.  
-Because it acts *after* all the non-linearities inside the MLP, a sufficiently expressive parameterization could, in principle, reproduce **any** change made by fine-tuning the MLP weights. For example, if we were allowed a fully flexible oracle vector,
+Because it acts *after* all the non-linearities inside the MLP, a sufficiently expressive parameterization could, in principle, reproduce **any** change made by finetuning the MLP weights. For example, if we were allowed a fully flexible oracle vector,
 
 $$
 \Delta h = h_{\mathrm{FT}} - h_{\mathrm{base}},
@@ -230,8 +232,8 @@ So even if <span style="color:blue">post-MLP</span> steering perfectly matches t
 <img src="https://sprocketlab.github.io/images/blogposts/actvweight/norm.svg">
 </p>
 
-Here's a look at the relative scale of the outputs of the MLP and the Attention models at different layers in an LLM. Across layers, <span style="color:blue">post-MLP</span> steering covers **at most ~70%** of the block output that fine-tuning changes, and in some layers, as little as **~40%**.  
-The rest remains untouched, meaning <span style="color:blue">post-MLP</span> steering on a block-specific level cannot fully replicate the effect of fine-tuning at that block.
+Here's a look at the relative scale of the outputs of the MLP and the Attention models at different layers in an LLM. Across layers, <span style="color:blue">post-MLP</span> steering covers **at most ~70%** of the block output that finetuning changes, and in some layers, as little as **~40%**.  
+The rest remains untouched, meaning <span style="color:blue">post-MLP</span> steering on a block-specific level cannot fully replicate the effect of finetuning at that block.
 
 ---
 
@@ -261,7 +263,7 @@ $$
 \end{align*}
 $$
 
-Now, let's compare $\delta y_{\mathrm{ReFT}}$ with the $\delta y_{\mathrm{FT}}$ we have from before. ReFT can induce a $\Delta W_d$-like update, but only within the subspace spanned by $\textbf{R}$. So its ability to mimic full fine-tuning depends on the nature of $\Delta W_d$ update, whether it is low-rank enough to fit inside that subspace. 
+Now, let's compare $\delta y_{\mathrm{ReFT}}$ with the $\delta y_{\mathrm{FT}}$ we have from before. ReFT can induce a $\Delta W_d$-like update, but only within the subspace spanned by $\textbf{R}$. So its ability to mimic full finetuning depends on the nature of $\Delta W_d$ update, whether it is low-rank enough to fit inside that subspace. 
 
 The second term ($\textbf{R}^\top\textbf{b}$) can only reproduce $\delta y_{\mathrm{FT}}$'s $\Delta W_u$ and $\Delta W_g$ induced shift if it is approximately a linear function of the <span style="color:blue">post-MLP</span> output. This depends on how locally linear the mapping $h \mapsto y$ is. When these conditions hold, ReFT can approximate the effects of MLP weight updates reasonably well. However, as we show in our experiments (Table 1 in the next section), there are many situations where this does *not* hold, with ReFT performing significantly below the SFT model. 
 
@@ -287,7 +289,7 @@ $$h_{\mathrm{steer}} = h_{\mathrm{base}} + \Delta h_{\mathrm{oracle}} = h_{\math
 </p>
 
 
-Okay, that's a bit much. This is simply overwritting the hidden state of the base model with the hidden state of the fine-tuned model (see the picture below). However, this still provided a lot of insight into where to steer, and the properties of a desired steering method.
+Okay, that's a bit much. This is simply overwriting the hidden state of the base model with the hidden state of the fine-tuned model (see the picture below). However, this still provided a lot of insight into where to steer, and the properties of a desired steering method.
 
 Taking all of these different oracle steering vectors, their properties can be looked at for patterns to exploit. We quickly found that these vectors were close to low-rank (their covariance had a concentrated spectrum). But be careful! Just because the oracle steering vectors almost exist in some low-dimension subspace, it does not mean the transformation from hidden states to steering vectors is linear! Sometimes it might be, sometimes it won't. 
 
@@ -329,7 +331,7 @@ For a fair comparison, we match the parameter counts of our adapters to the base
 
 Across both Llama-1B and Gemma-1B, the trend is consistent: **simply moving the steering location to <span style="color:green">post-block</span> leads to a substantial boost in performance**. Under identical parameter budgets, our linear <span style="color:green">post-block</span> steering outperforms ReFT, and our fixed-vector and rank-1 variants outperform LoFIT and JoLA respectively.
 
-In a few cases, linear steering even outperforms LoRA (learning an adapter on every Linear module) with the same rank, and occasionally out-performs SFT using full rank! This shows there are situations where steering is a better choice than fine-tuning.
+In a few cases, linear steering even outperforms LoRA (learning an adapter on every Linear module) with the same rank, and occasionally out-performs SFT using full rank! This shows there are situations where steering is a better choice than finetuning.
 
 What is surprising about these results is that linear steering is performing better than non-linear steering. Non-linear steering is not necessarily more expressive than linear steering (with the same rank), and for these tasks, it seems to be that the steering really is linear-like, validating the choice in ReFT. In this situation, it would be better to let the steering have more rank as a pure linear model rather than with some non-linearity messing with this structure.
 
@@ -339,7 +341,7 @@ Now compare this to some larger, 4B-parameter models:
 <img src="https://sprocketlab.github.io/images/blogposts/actvweight/table_4b.png">
 </p>
 
-The behavior is different! Now, non-linear steering typically performs better than linear steering (except notably in Winograde). This shift is likely due to optimization effects of the different scales of model tested here. At the larger scale, the loss function typically ends up being smoother/flatter than smaller scale models. This could mean the larger models can learn the more-expressive non-linear adapter over the easier-to-learn linear adapter. 
+The behavior is different! Now, non-linear steering typically performs better than linear steering (except notably in Winogrande). This shift is likely due to optimization effects of the different scales of model tested here. At the larger scale, the loss function typically ends up being smoother/flatter than smaller scale models. This could mean the larger models can learn the more-expressive non-linear adapter over the easier-to-learn linear adapter. 
 
 Additionally, this shift could mean something more fundamental to the best adapters as well. If the adapter is well-suited as a linear adapter with the correct rank, the non-linear adapter would have to work around its non-linearity with something like large scale parameters to match the linear adapter. So, it's possible that the smaller models need a small-rank linear adapter while the larger models need a large-rank non-linear adapter, but this is left to future work.
 
@@ -390,9 +392,11 @@ Importantly, this gives us knowledge of how complex our adapters need to be. For
 The exact form of this required control is beyond the scope of this blog. However, there are a few key insights. 
 
 * The layer-norms help control the error significantly since in most models, their vector-wise standard deviation is somewhat large. 
-* Differences in hidden-states are amplified by the 2-norms of the matrices of each layer times $\sqrt{n}$, where $n$ is the representation dimension. The difference in 2-norm between the matrices ends up with a factor of $n$ instead, so it is more important that steering is more expressive on layers where the different in matrices is larger (unsurprisingly so).
+* Differences in hidden-states are amplified by the 2-norms of the matrices of each layer times $\sqrt{n}$, where $n$ is the representation dimension. The difference in 2-norm between the matrices ends up with a factor of $n$ instead, so it is more important that steering is more expressive on layers where the difference in matrices is larger (unsurprisingly so).
 
 We plan to further improve these bounds with nicer assumptions based on the behavior of real models soon!
+
+**Note:**: The model we analyze in this theory section is a drastically simplified stand-in for a real block, but the same geometry: *post-block can see both Attn and GLU, post-MLP only sees GLU*, persists in deeper models.
 
 ## Where this leaves us
 
@@ -439,9 +443,9 @@ We’ve packaged everything — activation adapters, <span style="color:green">p
 ## References
  [1] Wu, Z., Arora, A., Wang, Z., Geiger, A., Jurafsky, D., Manning, C., & Potts, C. (2024). ReFT: Representation Finetuning for Language Models. 
 
- [2] Fangcong Yin, Xi Ye, & Greg Durrett (2024). LoFiT: Localized Fine-tuning on LLM Representations. In *The Thirty-eighth Annual Conference on Neural Information Processing Systems*.
+ [2] Fangcong Yin, Xi Ye, & Greg Durrett (2024). LoFiT: Localized finetuning on LLM Representations. In *The Thirty-eighth Annual Conference on Neural Information Processing Systems*.
 
- [3] Lai, W., Fraser, A., & Titov, I. (2025). Joint Localization and Activation Editing for Low-Resource Fine-Tuning. *arXiv preprint arXiv:2502.01179*.
+ [3] Lai, W., Fraser, A., & Titov, I. (2025). Joint Localization and Activation Editing for Low-Resource finetuning. *arXiv preprint arXiv:2502.01179*.
 
  [4] Houlsby, N., Giurgiu, A., Jastrzebski, S., Morrone, B., De Laroussilhe, Q., Gesmundo, A., ... & Gelly, S. (2019). Parameter-efficient transfer learning for NLP. In *International conference on machine learning*.
 
@@ -452,7 +456,7 @@ We’ve packaged everything — activation adapters, <span style="color:green">p
 
 **Implementation details**:
 
-For all methods, we sweep across 5 learning rates and and keep other hyperparameters constant (batch size, scheduler, warmup ratio, weight decay). We keep the same learning rate sweep space for ours, ReFT, JoLA, and LoFIT, and slightly shift to smaller values for SFT and LoRA (since they train ubstantially more parameters).
+For all methods, we sweep across 5 learning rates and keep other hyperparameters constant (batch size, scheduler, warmup ratio, weight decay). We keep the same learning rate sweep space for ours, ReFT, JoLA, and LoFIT, and slightly shift to smaller values for SFT and LoRA (since they train substantially more parameters).
 
 The ReFT paper also treats the tokens to steer as a hyperparameter. After selecting the best learning rate, we sweep over two locations: the last prompt token (the default value) and (prefix+7, suffix+7) (the best configuration reported for GSM8K). Our method does not require this sweep, it intervenes at all token positions (both prompt and generated).
 
