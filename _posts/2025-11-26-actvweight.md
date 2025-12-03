@@ -210,7 +210,7 @@ Let’s look back at the structure of a Transformer block:
 </p>
 
 $$
-\text{TransformerLayer}(\text{I}) = \text{I}' + \underbrace{\text{MLP}(\text{Norm}^{\text{MLP}}(\text{I}'))}_{\text{covered by <span style="color:blue">post-MLP</span>}},
+\text{TransformerLayer}(\text{I}) = \text{I}' + \underbrace{\text{MLP}(\text{Norm}^{\text{MLP}}(\text{I}'))}_{\text{covered by post-MLP}},
 $$
 
 $$
@@ -289,7 +289,7 @@ $$h_{\mathrm{steer}} = h_{\mathrm{base}} + \Delta h_{\mathrm{oracle}} = h_{\math
 </p>
 
 
-Okay, that's a bit much. This is simply overwriting the hidden state of the base model with the hidden state of the fine-tuned model (see the picture below). However, this still provided a lot of insight into where to steer, and the properties of a desired steering method.
+Okay, that's a bit much. This is simply overwriting the hidden state of the base model with the hidden state of the fine-tuned model. However, this still provided a lot of insight into where to steer, and the properties of a desired steering method.
 
 Taking all of these different oracle steering vectors, their properties can be looked at for patterns to exploit. We quickly found that these vectors were close to low-rank (their covariance had a concentrated spectrum). But be careful! Just because the oracle steering vectors almost exist in some low-dimension subspace, it does not mean the transformation from hidden states to steering vectors is linear! Sometimes it might be, sometimes it won't. 
 
